@@ -1,0 +1,102 @@
+name: Update package-checker Formula
+
+on:
+  schedule:
+    # Exécute toutes les 12 heures
+    - cron: "0 */12 * * *"
+  workflow_dispatch: # Permet le déclenchement manuel
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest release info
+        id: get_release
+        run: |
+          # Récupère les informations de la dernière release
+          RELEASE_DATA=$(curl -s https://api.github.com/repos/maxgfr/package-checker.sh/releases/latest)
+
+          # Extrait la version (tag_name)
+          VERSION=$(echo "$RELEASE_DATA" | jq -r '.tag_name')
+
+          # Extrait l'URL du tarball
+          URL="https://github.com/maxgfr/package-checker.sh/archive/refs/tags/${VERSION}.tar.gz"
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "url=$URL" >> $GITHUB_OUTPUT
+
+          echo "Latest version: $VERSION"
+          echo "Tarball URL: $URL"
+
+      - name: Download and calculate SHA256
+        id: calculate_sha
+        run: |
+          # Télécharge le tarball
+          curl -L -o package.tar.gz "${{ steps.get_release.outputs.url }}"
+
+          # Calcule le SHA256
+          SHA256=$(sha256sum package.tar.gz | awk '{print $1}')
+
+          echo "sha256=$SHA256" >> $GITHUB_OUTPUT
+          echo "SHA256: $SHA256"
+
+          # Nettoie
+          rm package.tar.gz
+
+      - name: Check if update is needed
+        id: check_update
+        run: |
+          CURRENT_VERSION=$(grep 'version "' Formula/package-checker.rb | sed -E 's/.*version "([^"]+)".*/\1/')
+          NEW_VERSION="${{ steps.get_release.outputs.version }}"
+
+          echo "Current version: $CURRENT_VERSION"
+          echo "New version: $NEW_VERSION"
+
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+            echo "Update needed!"
+          else
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+            echo "Already up to date"
+          fi
+
+      - name: Update Formula
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          URL="${{ steps.get_release.outputs.url }}"
+          SHA256="${{ steps.calculate_sha.outputs.sha256 }}"
+
+          # Met à jour le fichier Formula/package-checker.rb
+          sed -i "s|url \".*\"|url \"$URL\"|g" Formula/package-checker.rb
+          sed -i "s|version \".*\"|version \"$VERSION\"|g" Formula/package-checker.rb
+          sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|g" Formula/package-checker.rb
+
+          echo "Formula updated successfully"
+
+      - name: Commit and push changes
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          git add Formula/package-checker.rb
+          git commit -m "chore: update package-checker to ${{ steps.get_release.outputs.version }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          echo "✅ Formula updated to version ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **URL**: ${{ steps.get_release.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **SHA256**: ${{ steps.calculate_sha.outputs.sha256 }}" >> $GITHUB_STEP_SUMMARY
