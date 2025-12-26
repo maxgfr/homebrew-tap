@@ -15,12 +15,13 @@ brew tap maxgfr/tap
 A flexible, lightweight shell script to detect vulnerable npm packages.
 
 ```bash
-brew install maxgfr/tap/package-checker
+brew install maxgfr/tap/package-checker # to install
+package-checker --help # to get started
+brew uninstall package-checker # to uninstall
 ```
 
 ## Uninstalling
 
 ```bash
-brew uninstall package-checker
 brew untap maxgfr/tap
 ```
