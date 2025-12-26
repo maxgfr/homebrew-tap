@@ -9,8 +9,8 @@ class PackageChecker < Formula
   def install
     bin.install "script.sh" => "package-checker"
     
-    # Install data files
-    (prefix/"data").install Dir["data/*.purl"] if Dir.exist?("data")
+    # Install data files to share/package-checker/data
+    (pkgshare/"data").install Dir["data/*.purl"] if Dir.exist?("data")
     
     # Install documentation
     doc.install "README.md", "LICENSE", "CHANGELOG.md", "CONTRIBUTING.md"
