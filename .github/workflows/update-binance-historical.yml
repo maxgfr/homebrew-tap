@@ -1,0 +1,143 @@
+name: Update binance-historical Formula
+
+on:
+  schedule:
+    # Run every 12 hours
+    - cron: "0 */12 * * *"
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest release info
+        id: get_release
+        run: |
+          # Get latest release information
+          RELEASE_DATA=$(curl -s https://api.github.com/repos/maxgfr/binance-historical/releases/latest)
+
+          # Extract version (tag_name)
+          VERSION=$(echo "$RELEASE_DATA" | jq -r '.tag_name')
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Latest version: $VERSION"
+
+      - name: Download binaries and calculate SHA256
+        id: calculate_sha
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          BASE_URL="https://github.com/maxgfr/binance-historical/releases/download/${VERSION}"
+
+          # Download macOS ARM64 binary
+          echo "Downloading macOS ARM64 binary..."
+          curl -L -o binance-macos-arm64 "${BASE_URL}/binance-historical-macos-arm64"
+          SHA_MACOS_ARM64=$(sha256sum binance-macos-arm64 | awk '{print $1}')
+          echo "sha_macos_arm64=$SHA_MACOS_ARM64" >> $GITHUB_OUTPUT
+          echo "macOS ARM64 SHA256: $SHA_MACOS_ARM64"
+
+          # Download macOS x64 binary
+          echo "Downloading macOS x64 binary..."
+          curl -L -o binance-macos-x64 "${BASE_URL}/binance-historical-macos-x64"
+          SHA_MACOS_X64=$(sha256sum binance-macos-x64 | awk '{print $1}')
+          echo "sha_macos_x64=$SHA_MACOS_X64" >> $GITHUB_OUTPUT
+          echo "macOS x64 SHA256: $SHA_MACOS_X64"
+
+          # Download Linux x64 binary
+          echo "Downloading Linux x64 binary..."
+          curl -L -o binance-linux-x64 "${BASE_URL}/binance-historical-linux-x64"
+          SHA_LINUX_X64=$(sha256sum binance-linux-x64 | awk '{print $1}')
+          echo "sha_linux_x64=$SHA_LINUX_X64" >> $GITHUB_OUTPUT
+          echo "Linux x64 SHA256: $SHA_LINUX_X64"
+
+          # Cleanup
+          rm binance-*
+
+      - name: Check if update is needed
+        id: check_update
+        run: |
+          CURRENT_VERSION=$(grep 'version "' Formula/binance-historical.rb | head -1 | sed -E 's/.*version "([^"]+)".*/\1/')
+          NEW_VERSION="${{ steps.get_release.outputs.version }}"
+
+          echo "Current version: $CURRENT_VERSION"
+          echo "New version: $NEW_VERSION"
+
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+            echo "Update needed!"
+          else
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+            echo "Already up to date"
+          fi
+
+      - name: Update Formula
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          SHA_MACOS_ARM64="${{ steps.calculate_sha.outputs.sha_macos_arm64 }}"
+          SHA_MACOS_X64="${{ steps.calculate_sha.outputs.sha_macos_x64 }}"
+          SHA_LINUX_X64="${{ steps.calculate_sha.outputs.sha_linux_x64 }}"
+
+          # Update version
+          sed -i "s|version \".*\"|version \"$VERSION\"|" Formula/binance-historical.rb
+
+          # Update URLs
+          sed -i "s|https://github.com/maxgfr/binance-historical/releases/download/v[^/]*/binance-historical-macos-arm64|https://github.com/maxgfr/binance-historical/releases/download/${VERSION}/binance-historical-macos-arm64|" Formula/binance-historical.rb
+          sed -i "s|https://github.com/maxgfr/binance-historical/releases/download/v[^/]*/binance-historical-macos-x64|https://github.com/maxgfr/binance-historical/releases/download/${VERSION}/binance-historical-macos-x64|" Formula/binance-historical.rb
+          sed -i "s|https://github.com/maxgfr/binance-historical/releases/download/v[^/]*/binance-historical-linux-x64|https://github.com/maxgfr/binance-historical/releases/download/${VERSION}/binance-historical-linux-x64|" Formula/binance-historical.rb
+
+          # Update SHA256 hashes using awk for more precise replacement
+          awk -v arm64="$SHA_MACOS_ARM64" -v x64="$SHA_MACOS_X64" -v linux="$SHA_LINUX_X64" '
+          {
+            if (/on_arm do/ && !done_arm) { in_arm=1 }
+            if (/on_intel do/ && in_arm && !done_arm) { in_arm=0; in_macos_intel=1 }
+            if (/on_linux do/) { in_arm=0; in_macos_intel=0; in_linux=1 }
+            if (/on_intel do/ && in_linux) { in_linux_intel=1 }
+
+            if (/sha256/ && in_arm && !done_arm) {
+              print "      sha256 \"" arm64 "\""
+              done_arm=1
+              next
+            }
+            if (/sha256/ && in_macos_intel && !done_macos_intel) {
+              print "      sha256 \"" x64 "\""
+              done_macos_intel=1
+              next
+            }
+            if (/sha256/ && in_linux_intel && !done_linux_intel) {
+              print "      sha256 \"" linux "\""
+              done_linux_intel=1
+              next
+            }
+            print
+          }' Formula/binance-historical.rb > Formula/binance-historical.rb.tmp
+          mv Formula/binance-historical.rb.tmp Formula/binance-historical.rb
+
+          echo "Formula updated successfully"
+
+      - name: Commit and push changes
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          git add Formula/binance-historical.rb
+          git commit -m "chore: update binance-historical to ${{ steps.get_release.outputs.version }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          echo "✅ Formula updated to version ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **macOS ARM64 SHA256**: ${{ steps.calculate_sha.outputs.sha_macos_arm64 }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **macOS x64 SHA256**: ${{ steps.calculate_sha.outputs.sha_macos_x64 }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Linux x64 SHA256**: ${{ steps.calculate_sha.outputs.sha_linux_x64 }}" >> $GITHUB_STEP_SUMMARY
