@@ -3,7 +3,7 @@ name: Update package-checker Formula
 on:
   schedule:
     # Exécute toutes les 12 heures
-    - cron: "0 */12 * * *"
+    - cron: "5 */12 * * *"
   workflow_dispatch: # Permet le déclenchement manuel
 
 jobs:
