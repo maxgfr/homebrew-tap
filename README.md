@@ -28,6 +28,15 @@ brew install maxgfr/tap/binance-historical
 binance-historical download --help
 ```
 
+### [copyable-pdf](https://github.com/maxgfr/copyable-pdf)
+
+Make your PDF text copyable by adding an OCR layer (using Tesseract).
+
+```bash
+brew install maxgfr/tap/copyable-pdf
+copyable-pdf --help
+```
+
 ## Uninstalling
 
 ```bash
