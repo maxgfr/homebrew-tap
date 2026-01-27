@@ -2,7 +2,7 @@ name: Update copyable-pdf Formula
 
 on:
   schedule:
-    - cron: "5 */12 * * *"
+    - cron: "15 */12 * * *"
   workflow_dispatch:
 
 jobs:
