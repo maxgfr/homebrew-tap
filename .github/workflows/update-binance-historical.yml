@@ -2,9 +2,8 @@ name: Update binance-historical Formula
 
 on:
   schedule:
-    # Run every 12 hours
     - cron: "10 */12 * * *"
-  workflow_dispatch: # Allow manual trigger
+  workflow_dispatch:
 
 jobs:
   update-formula:

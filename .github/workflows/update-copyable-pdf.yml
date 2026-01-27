@@ -1,4 +1,4 @@
-name: Update package-checker Formula
+name: Update copyable-pdf Formula
 
 on:
   schedule:
@@ -18,14 +18,19 @@ jobs:
       - name: Get latest release info
         id: get_release
         run: |
-          # Récupère les informations de la dernière release
-          RELEASE_DATA=$(curl -s https://api.github.com/repos/maxgfr/package-checker.sh/releases/latest)
+          # Get latest release info
+          RELEASE_DATA=$(curl -s https://api.github.com/repos/maxgfr/copyable-pdf/releases/latest)
 
-          # Extrait la version (tag_name)
+          # Extract version (tag_name)
           VERSION=$(echo "$RELEASE_DATA" | jq -r '.tag_name')
 
-          # Extrait l'URL du tarball
-          URL="https://github.com/maxgfr/package-checker.sh/archive/refs/tags/${VERSION}.tar.gz"
+          if [ "$VERSION" == "null" ]; then
+            echo "No release found"
+            exit 1
+          fi
+
+          # Extract tarball URL
+          URL="https://github.com/maxgfr/copyable-pdf/archive/refs/tags/${VERSION}.tar.gz"
 
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "url=$URL" >> $GITHUB_OUTPUT
@@ -36,22 +41,22 @@ jobs:
       - name: Download and calculate SHA256
         id: calculate_sha
         run: |
-          # Télécharge le tarball
+          # Download tarball
           curl -L -o package.tar.gz "${{ steps.get_release.outputs.url }}"
 
-          # Calcule le SHA256
+          # Calculate SHA256
           SHA256=$(sha256sum package.tar.gz | awk '{print $1}')
 
           echo "sha256=$SHA256" >> $GITHUB_OUTPUT
           echo "SHA256: $SHA256"
 
-          # Nettoie
+          # cleanup
           rm package.tar.gz
 
       - name: Check if update is needed
         id: check_update
         run: |
-          CURRENT_VERSION=$(grep 'version "' Formula/package-checker.rb | sed -E 's/.*version "([^"]+)".*/\1/')
+          CURRENT_VERSION=$(grep 'version "' Formula/copyable-pdf.rb | sed -E 's/.*version "([^"]+)".*/\1/')
           NEW_VERSION="${{ steps.get_release.outputs.version }}"
 
           echo "Current version: $CURRENT_VERSION"
@@ -72,10 +77,10 @@ jobs:
           URL="${{ steps.get_release.outputs.url }}"
           SHA256="${{ steps.calculate_sha.outputs.sha256 }}"
 
-          # Met à jour le fichier Formula/package-checker.rb
-          sed -i "s|url \".*\"|url \"$URL\"|g" Formula/package-checker.rb
-          sed -i "s|version \".*\"|version \"$VERSION\"|g" Formula/package-checker.rb
-          sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|g" Formula/package-checker.rb
+          # Update Formula/copyable-pdf.rb
+          sed -i "s|url \".*\"|url \"$URL\"|g" Formula/copyable-pdf.rb
+          sed -i "s|version \".*\"|version \"$VERSION\"|g" Formula/copyable-pdf.rb
+          sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|g" Formula/copyable-pdf.rb
 
           echo "Formula updated successfully"
 
@@ -85,8 +90,8 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
 
-          git add Formula/package-checker.rb
-          git commit -m "chore: update package-checker to ${{ steps.get_release.outputs.version }}"
+          git add Formula/copyable-pdf.rb
+          git commit -m "chore: update copyable-pdf to ${{ steps.get_release.outputs.version }}"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
