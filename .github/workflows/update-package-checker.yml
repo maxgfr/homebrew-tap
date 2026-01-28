@@ -2,7 +2,7 @@ name: Update package-checker Formula
 
 on:
   schedule:
-    - cron: "5 */12 * * *"
+    - cron: "0 2,14 * * *"
   workflow_dispatch:
 
 jobs:
