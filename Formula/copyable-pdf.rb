@@ -1,9 +1,9 @@
 class CopyablePdf < Formula
   desc "Convert PDF to images, OCR, and merge back to searchable PDF"
   homepage "https://github.com/maxgfr/copyable-pdf"
-  url "https://github.com/maxgfr/copyable-pdf/archive/refs/tags/v1.2.0.tar.gz"
-  version "v1.2.0"
-  sha256 "73cd2f0dae7eaf11763520a4b82eb55161ae1959606685123f8eac52ac7864d3"
+  url "https://github.com/maxgfr/copyable-pdf/archive/refs/tags/v1.2.1.tar.gz"
+  version "v1.2.1"
+  sha256 "7ae6d61e7d7c92eabfbd22cd4e0879eafdcb478dd60805e7505b560873447613"
   license "MIT"
 
   depends_on "tesseract"
