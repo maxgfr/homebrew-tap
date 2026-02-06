@@ -37,6 +37,15 @@ brew install maxgfr/tap/copyable-pdf
 copyable-pdf --help
 ```
 
+### [web-watcher](https://github.com/maxgfr/web-watcher)
+
+Watch APIs & websites for changes — get notified instantly from your terminal.
+
+```bash
+brew install maxgfr/tap/web-watcher
+web-watcher --help
+```
+
 ## Uninstalling
 
 ```bash
