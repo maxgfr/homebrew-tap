@@ -7,7 +7,7 @@ class WebWatcher < Formula
   license "MIT"
 
   depends_on "curl"
-  depends_on "jq" => :recommended
+  depends_on "jq"
 
   def install
     bin.install "script.sh" => "web-watcher"
