@@ -37,6 +37,15 @@ brew install maxgfr/tap/copyable-pdf
 copyable-pdf --help
 ```
 
+### [ratio-master](https://github.com/maxgfr/ratio-master)
+
+Educational tool that simulates tracker ratios locally, nothing is uploaded, nothing is downloaded.
+
+```bash
+brew install maxgfr/tap/ratio-master
+ratio-master --help
+```
+
 ### [web-watcher](https://github.com/maxgfr/web-watcher)
 
 Watch APIs & websites for changes — get notified instantly from your terminal.
