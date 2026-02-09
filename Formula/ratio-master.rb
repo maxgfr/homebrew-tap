@@ -1,5 +1,5 @@
 class RatioMaster < Formula
-  desc "Educational BitTorrent ratio simulator - understand upload ratios on torrent trackers"
+  desc "A torrent ratio tool that sends real HTTP announce requests to BitTorrent trackers."
   homepage "https://github.com/maxgfr/ratio-master"
   url "https://github.com/maxgfr/ratio-master/archive/refs/tags/v1.2.0.tar.gz"
   version "v1.2.0"
