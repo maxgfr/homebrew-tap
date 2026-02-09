@@ -39,7 +39,7 @@ copyable-pdf --help
 
 ### [ratio-master](https://github.com/maxgfr/ratio-master)
 
-Educational tool that simulates tracker ratios locally, nothing is uploaded, nothing is downloaded.
+A torrent ratio tool that sends real HTTP announce requests to BitTorrent trackers.
 
 ```bash
 brew install maxgfr/tap/ratio-master
