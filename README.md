@@ -55,6 +55,15 @@ brew install maxgfr/tap/snatch
 snatch --help
 ```
 
+### [subtool](https://github.com/maxgfr/subtool)
+
+All-in-one CLI for subtitle management: download, translate, convert, sync, clean, merge, fix, extract, and embed subtitles.
+
+```bash
+brew install maxgfr/tap/subtool
+subtool --help
+```
+
 ### [web-watcher](https://github.com/maxgfr/web-watcher)
 
 Watch APIs & websites for changes — get notified instantly from your terminal.

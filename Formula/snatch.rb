@@ -3,6 +3,7 @@ class Snatch < Formula
   homepage "https://github.com/maxgfr/snatch"
   url "https://github.com/maxgfr/snatch/archive/refs/tags/v0.0.0.tar.gz"
   version "v0.0.0"
+  sha256 ""
   license "MIT"
 
   depends_on "yt-dlp"
