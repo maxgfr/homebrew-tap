@@ -7,7 +7,6 @@ class Subtool < Formula
   license "MIT"
 
   depends_on "jq"
-  depends_on "python3"
   depends_on "ffmpeg" => :recommended
 
   def install
