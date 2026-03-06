@@ -11,7 +11,7 @@ class Subtool < Formula
   depends_on "ffmpeg" => :recommended
 
   def install
-    bin.install "subtool"
+    bin.install "subtool.sh" => "subtool"
   end
 
   test do
