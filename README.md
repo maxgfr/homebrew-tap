@@ -46,6 +46,15 @@ brew install maxgfr/tap/ratio-master
 ratio-master --help
 ```
 
+### [snatch](https://github.com/maxgfr/snatch)
+
+Universal video downloader - yt-dlp + CDP browser fallback.
+
+```bash
+brew install maxgfr/tap/snatch
+snatch --help
+```
+
 ### [web-watcher](https://github.com/maxgfr/web-watcher)
 
 Watch APIs & websites for changes — get notified instantly from your terminal.
