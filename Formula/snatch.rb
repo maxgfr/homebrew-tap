@@ -1,9 +1,9 @@
 class Snatch < Formula
   desc "Universal video downloader - yt-dlp + CDP browser fallback"
   homepage "https://github.com/maxgfr/snatch"
-  url "https://github.com/maxgfr/snatch/archive/refs/tags/v1.3.0.tar.gz"
-  version "v1.3.0"
-  sha256 "32cdd24de870cd8752ca67c6cb49b8fd2b6bf35cadab3b77d738aa44bbb096bc"
+  url "https://github.com/maxgfr/snatch/archive/refs/tags/v1.3.1.tar.gz"
+  version "v1.3.1"
+  sha256 "db04336b107149ca3aef9b6acc9bbe90c14d4eb1a0167dee6ef25fca30167b68"
   license "MIT"
 
   depends_on "yt-dlp"
