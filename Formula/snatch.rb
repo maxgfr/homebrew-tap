@@ -8,7 +8,6 @@ class Snatch < Formula
 
   depends_on "yt-dlp"
   depends_on "ffmpeg"
-  depends_on "fnm"
   depends_on "node"
 
   def install
