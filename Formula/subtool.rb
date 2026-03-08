@@ -8,6 +8,7 @@ class Subtool < Formula
 
   depends_on "curl"
   depends_on "jq"
+  depends_on "translate-shell"
   depends_on "uv" => :recommended
   depends_on "ffmpeg" => :recommended
 
@@ -19,10 +20,11 @@ class Subtool < Formula
     <<~EOS
       subtool works out of the box — no API keys needed.
       Subtitles are downloaded from OpenSubtitles.org and Podnapisi (free sources).
+      Translation uses Google Translate via translate-shell (default, fast, free).
       Recommended dependencies installed by default:
-        - uv for autosync via `uvx ffsubsync`
-        - ffmpeg for extract and embed commands
-      If you install with `--skip-recommended`, autosync/extract/embed require manual setup.
+        - uv for autosync via ffsubsync
+        - ffmpeg for auto-embed, extract, and embed commands
+      The `auto` command does everything: download + translate + sync + embed.
       Run `subtool check` to verify your setup.
     EOS
   end
