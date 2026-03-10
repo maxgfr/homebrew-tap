@@ -28,6 +28,15 @@ brew install maxgfr/tap/binance-historical
 binance-historical download --help
 ```
 
+### [git-pilot](https://github.com/maxgfr/git-pilot)
+
+AI-powered git automation: smart commits, conflict resolution, and auto-rebase.
+
+```bash
+brew install maxgfr/tap/git-pilot
+git-pilot --help
+```
+
 ### [copyable-pdf](https://github.com/maxgfr/copyable-pdf)
 
 Make your PDF text copyable by adding an OCR layer (using Tesseract).
