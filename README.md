@@ -28,6 +28,15 @@ brew install maxgfr/tap/binance-historical
 binance-historical download --help
 ```
 
+### [git-recap](https://github.com/maxgfr/git-recap)
+
+Monthly commit recap generator — AI-powered summaries, bullet points, and commit lists.
+
+```bash
+brew install maxgfr/tap/git-recap
+git-recap --help
+```
+
 ### [git-pilot](https://github.com/maxgfr/git-pilot)
 
 AI-powered git automation: smart commits, conflict resolution, and auto-rebase.
