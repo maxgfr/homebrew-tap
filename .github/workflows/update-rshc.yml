@@ -1,0 +1,144 @@
+name: Update rshc Formula
+
+on:
+  schedule:
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest release info
+        id: get_release
+        run: |
+          RELEASE_DATA=$(curl -s https://api.github.com/repos/maxgfr/rshc/releases/latest)
+          VERSION=$(echo "$RELEASE_DATA" | jq -r '.tag_name')
+
+          if [ "$VERSION" == "null" ]; then
+            echo "No release found"
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Latest version: $VERSION"
+
+      - name: Download binaries and calculate SHA256
+        id: calculate_sha
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          BASE_URL="https://github.com/maxgfr/rshc/releases/download/${VERSION}"
+
+          # Download macOS ARM64 binary
+          echo "Downloading macOS ARM64 binary..."
+          curl -L -o rshc-macos-arm64 "${BASE_URL}/rshc-macos-arm64"
+          SHA_MACOS_ARM64=$(sha256sum rshc-macos-arm64 | awk '{print $1}')
+          echo "sha_macos_arm64=$SHA_MACOS_ARM64" >> $GITHUB_OUTPUT
+          echo "macOS ARM64 SHA256: $SHA_MACOS_ARM64"
+
+          # Download macOS x64 binary
+          echo "Downloading macOS x64 binary..."
+          curl -L -o rshc-macos-x64 "${BASE_URL}/rshc-macos-x64"
+          SHA_MACOS_X64=$(sha256sum rshc-macos-x64 | awk '{print $1}')
+          echo "sha_macos_x64=$SHA_MACOS_X64" >> $GITHUB_OUTPUT
+          echo "macOS x64 SHA256: $SHA_MACOS_X64"
+
+          # Download Linux x64 binary
+          echo "Downloading Linux x64 binary..."
+          curl -L -o rshc-linux-x64 "${BASE_URL}/rshc-linux-x64"
+          SHA_LINUX_X64=$(sha256sum rshc-linux-x64 | awk '{print $1}')
+          echo "sha_linux_x64=$SHA_LINUX_X64" >> $GITHUB_OUTPUT
+          echo "Linux x64 SHA256: $SHA_LINUX_X64"
+
+          # Cleanup
+          rm rshc-*
+
+      - name: Check if update is needed
+        id: check_update
+        run: |
+          CURRENT_VERSION=$(grep 'version "' Formula/rshc.rb | head -1 | sed -E 's/.*version "([^"]+)".*/\1/')
+          NEW_VERSION="${{ steps.get_release.outputs.version }}"
+
+          echo "Current version: $CURRENT_VERSION"
+          echo "New version: $NEW_VERSION"
+
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+            echo "Update needed!"
+          else
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+            echo "Already up to date"
+          fi
+
+      - name: Update Formula
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          SHA_MACOS_ARM64="${{ steps.calculate_sha.outputs.sha_macos_arm64 }}"
+          SHA_MACOS_X64="${{ steps.calculate_sha.outputs.sha_macos_x64 }}"
+          SHA_LINUX_X64="${{ steps.calculate_sha.outputs.sha_linux_x64 }}"
+
+          # Update version
+          sed -i "s|version \".*\"|version \"$VERSION\"|" Formula/rshc.rb
+
+          # Update URLs
+          sed -i "s|https://github.com/maxgfr/rshc/releases/download/v[^/]*/rshc-macos-arm64|https://github.com/maxgfr/rshc/releases/download/${VERSION}/rshc-macos-arm64|" Formula/rshc.rb
+          sed -i "s|https://github.com/maxgfr/rshc/releases/download/v[^/]*/rshc-macos-x64|https://github.com/maxgfr/rshc/releases/download/${VERSION}/rshc-macos-x64|" Formula/rshc.rb
+          sed -i "s|https://github.com/maxgfr/rshc/releases/download/v[^/]*/rshc-linux-x64|https://github.com/maxgfr/rshc/releases/download/${VERSION}/rshc-linux-x64|" Formula/rshc.rb
+
+          # Update SHA256 hashes using awk for precise replacement
+          awk -v arm64="$SHA_MACOS_ARM64" -v x64="$SHA_MACOS_X64" -v linux="$SHA_LINUX_X64" '
+          {
+            if (/on_arm do/ && !done_arm) { in_arm=1 }
+            if (/on_intel do/ && in_arm && !done_arm) { in_arm=0; in_macos_intel=1 }
+            if (/on_linux do/) { in_arm=0; in_macos_intel=0; in_linux=1 }
+            if (/on_intel do/ && in_linux) { in_linux_intel=1 }
+
+            if (/sha256/ && in_arm && !done_arm) {
+              print "      sha256 \"" arm64 "\""
+              done_arm=1
+              next
+            }
+            if (/sha256/ && in_macos_intel && !done_macos_intel) {
+              print "      sha256 \"" x64 "\""
+              done_macos_intel=1
+              next
+            }
+            if (/sha256/ && in_linux_intel && !done_linux_intel) {
+              print "      sha256 \"" linux "\""
+              done_linux_intel=1
+              next
+            }
+            print
+          }' Formula/rshc.rb > Formula/rshc.rb.tmp
+          mv Formula/rshc.rb.tmp Formula/rshc.rb
+
+          echo "Formula updated successfully"
+
+      - name: Commit and push changes
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          git add Formula/rshc.rb
+          git commit -m "chore: update rshc to ${{ steps.get_release.outputs.version }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          echo "✅ Formula updated to version ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **macOS ARM64 SHA256**: ${{ steps.calculate_sha.outputs.sha_macos_arm64 }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **macOS x64 SHA256**: ${{ steps.calculate_sha.outputs.sha_macos_x64 }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Linux x64 SHA256**: ${{ steps.calculate_sha.outputs.sha_linux_x64 }}" >> $GITHUB_STEP_SUMMARY

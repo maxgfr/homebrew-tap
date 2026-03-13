@@ -82,6 +82,15 @@ brew install maxgfr/tap/subtool
 subtool --help
 ```
 
+### [rshc](https://github.com/maxgfr/rshc)
+
+Rust reimplementation of SHC — encrypts shell scripts into compiled binaries.
+
+```bash
+brew install maxgfr/tap/rshc
+rshc -f script.sh -o binary
+```
+
 ### [web-watcher](https://github.com/maxgfr/web-watcher)
 
 Watch APIs & websites for changes — get notified instantly from your terminal.
