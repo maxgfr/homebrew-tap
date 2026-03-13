@@ -88,7 +88,7 @@ Rust reimplementation of SHC — encrypts shell scripts into compiled binaries.
 
 ```bash
 brew install maxgfr/tap/rshc
-rshc -f script.sh -o binary
+rshc --help
 ```
 
 ### [web-watcher](https://github.com/maxgfr/web-watcher)
