@@ -17,9 +17,11 @@ jobs:
 
       - name: Get latest release info
         id: get_release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Get latest release info
-          RELEASE_DATA=$(curl -s https://api.github.com/repos/maxgfr/copyable-pdf/releases/latest)
+          RELEASE_DATA=$(curl -s -H "Authorization: token $GH_TOKEN" https://api.github.com/repos/maxgfr/copyable-pdf/releases/latest)
 
           # Extract version (tag_name)
           VERSION=$(echo "$RELEASE_DATA" | jq -r '.tag_name')

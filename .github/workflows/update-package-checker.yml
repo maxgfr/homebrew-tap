@@ -17,9 +17,11 @@ jobs:
 
       - name: Get latest release info
         id: get_release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Récupère les informations de la dernière release
-          RELEASE_DATA=$(curl -s https://api.github.com/repos/maxgfr/package-checker.sh/releases/latest)
+          RELEASE_DATA=$(curl -s -H "Authorization: token $GH_TOKEN" https://api.github.com/repos/maxgfr/package-checker.sh/releases/latest)
 
           # Extrait la version (tag_name)
           VERSION=$(echo "$RELEASE_DATA" | jq -r '.tag_name')
