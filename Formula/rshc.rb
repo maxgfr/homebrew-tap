@@ -23,8 +23,29 @@ class Rshc < Formula
     end
   end
 
+  resource "rshc-runner" do
+    on_macos do
+      on_arm do
+        url "https://github.com/maxgfr/rshc/releases/download/v1.3.0/rshc-runner-macos-arm64"
+        sha256 "PLACEHOLDER"
+      end
+
+      on_intel do
+        url "https://github.com/maxgfr/rshc/releases/download/v1.3.0/rshc-runner-macos-x64"
+        sha256 "PLACEHOLDER"
+      end
+    end
+
+    on_linux do
+      on_intel do
+        url "https://github.com/maxgfr/rshc/releases/download/v1.3.0/rshc-runner-linux-x64"
+        sha256 "PLACEHOLDER"
+      end
+    end
+  end
+
   def install
-    binary = Dir["rshc-*"].first
+    binary = Dir["rshc-*"].reject { |f| f.include?("runner") }.first
 
     if binary.nil?
       opoo "No rshc binary found"
@@ -33,6 +54,14 @@ class Rshc < Formula
 
     chmod 0755, binary
     bin.install binary => "rshc"
+
+    resource("rshc-runner").stage do
+      runner = Dir["rshc-runner-*"].first
+      if runner
+        chmod 0755, runner
+        bin.install runner => "rshc-runner"
+      end
+    end
   end
 
   test do
