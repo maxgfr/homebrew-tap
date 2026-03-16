@@ -16,19 +16,6 @@ class Subtool < Formula
     bin.install "subtool.sh" => "subtool"
   end
 
-  def caveats
-    <<~EOS
-      subtool works out of the box — no API keys needed.
-      Subtitles are downloaded from OpenSubtitles.org and Podnapisi (free sources).
-      Translation uses Google Translate via translate-shell (default, fast, free).
-      Recommended dependencies installed by default:
-        - uv for autosync via ffsubsync
-        - ffmpeg for auto-embed, extract, and embed commands
-      The `auto` command does everything: download + translate + sync + embed.
-      Run `subtool check` to verify your setup.
-    EOS
-  end
-
   test do
     system bin/"subtool", "--version"
   end
