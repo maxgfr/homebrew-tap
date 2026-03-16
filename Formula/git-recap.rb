@@ -13,15 +13,6 @@ class GitRecap < Formula
     bin.install "git-recap"
   end
 
-  def caveats
-    <<~EOS
-      git-recap requires gh to be authenticated: gh auth login
-      For AI summaries, install Claude Code CLI: npm install -g @anthropic-ai/claude-code
-      Usage: git-recap maxgfr/my-repo
-      Also works as: git recap maxgfr/my-repo
-    EOS
-  end
-
   test do
     system bin/"git-recap", "--version"
   end
