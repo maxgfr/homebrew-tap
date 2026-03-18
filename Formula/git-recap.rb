@@ -10,7 +10,7 @@ class GitRecap < Formula
   depends_on "git"
 
   def install
-    bin.install "git-recap"
+    bin.install "script.sh" => "git-recap"
   end
 
   test do
