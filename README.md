@@ -109,6 +109,15 @@ brew install maxgfr/tap/web-watcher
 web-watcher --help
 ```
 
+### [claude-code-switch](https://github.com/maxgfr/claude-code-switch)
+
+Minimal, zero-dependency provider switching for Claude Code — switch between Anthropic, OpenRouter, DeepSeek, Gemini, Mistral, OpenAI and custom endpoints.
+
+```bash
+brew install maxgfr/tap/claude-code-switch
+ccs --help
+```
+
 ## Uninstalling
 
 ```bash
