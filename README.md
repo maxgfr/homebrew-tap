@@ -91,13 +91,13 @@ brew install maxgfr/tap/rshc
 rshc --help
 ```
 
-### [db-schema](https://github.com/maxgfr/db-schema-viewer)
+### [db-schema-toolkit](https://github.com/maxgfr/db-schema-viewer)
 
 Parse, export, and analyze database schemas from the CLI. Supports SQL, Prisma, Drizzle, DBML, TypeORM, and more.
 
 ```bash
-brew install maxgfr/tap/db-schema
-db-schema help
+brew install maxgfr/tap/db-schema-toolkit
+db-schema-toolkit help
 ```
 
 ### [web-watcher](https://github.com/maxgfr/web-watcher)
