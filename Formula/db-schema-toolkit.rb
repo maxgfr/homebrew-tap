@@ -8,7 +8,7 @@ class DbSchemaToolkit < Formula
   depends_on "node"
 
   def install
-    system "npm", "install", *std_npm_args, "--no-optional"
+    system "npm", "install", *std_npm_args
     bin.install_symlink Dir["#{libexec}/bin/*"]
   end
 
