@@ -1,0 +1,108 @@
+name: Update claude-code-switch Formula
+
+on:
+  schedule:
+    - cron: "0 1 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest release info
+        id: get_release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get latest release info
+          RELEASE_DATA=$(curl -s -H "Authorization: token $GH_TOKEN" https://api.github.com/repos/maxgfr/claude-code-switch/releases/latest)
+
+          # Extract version (tag_name)
+          VERSION=$(echo "$RELEASE_DATA" | jq -r '.tag_name')
+
+          if [ "$VERSION" == "null" ]; then
+            echo "No release found"
+            exit 1
+          fi
+
+          # Extract tarball URL
+          URL="https://github.com/maxgfr/claude-code-switch/archive/refs/tags/${VERSION}.tar.gz"
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "url=$URL" >> $GITHUB_OUTPUT
+
+          echo "Latest version: $VERSION"
+          echo "Tarball URL: $URL"
+
+      - name: Download and calculate SHA256
+        id: calculate_sha
+        run: |
+          # Download tarball
+          curl -L -o package.tar.gz "${{ steps.get_release.outputs.url }}"
+
+          # Calculate SHA256
+          SHA256=$(sha256sum package.tar.gz | awk '{print $1}')
+
+          echo "sha256=$SHA256" >> $GITHUB_OUTPUT
+          echo "SHA256: $SHA256"
+
+          # cleanup
+          rm package.tar.gz
+
+      - name: Check if update is needed
+        id: check_update
+        run: |
+          CURRENT_VERSION=$(grep 'version "' Formula/claude-code-switch.rb | sed -E 's/.*version "([^"]+)".*/\1/')
+          NEW_VERSION="${{ steps.get_release.outputs.version }}"
+
+          echo "Current version: $CURRENT_VERSION"
+          echo "New version: $NEW_VERSION"
+
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+            echo "Update needed!"
+          else
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+            echo "Already up to date"
+          fi
+
+      - name: Update Formula
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          URL="${{ steps.get_release.outputs.url }}"
+          SHA256="${{ steps.calculate_sha.outputs.sha256 }}"
+
+          # Update Formula/claude-code-switch.rb
+          sed -i "s|url \".*\"|url \"$URL\"|g" Formula/claude-code-switch.rb
+          sed -i "s|version \".*\"|version \"$VERSION\"|g" Formula/claude-code-switch.rb
+          sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|g" Formula/claude-code-switch.rb
+
+          echo "Formula updated successfully"
+
+      - name: Commit and push changes
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          git add Formula/claude-code-switch.rb
+          git commit -m "chore: update claude-code-switch to ${{ steps.get_release.outputs.version }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          echo "✅ Formula updated to version ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **URL**: ${{ steps.get_release.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **SHA256**: ${{ steps.calculate_sha.outputs.sha256 }}" >> $GITHUB_STEP_SUMMARY
