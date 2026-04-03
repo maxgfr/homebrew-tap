@@ -56,7 +56,8 @@ jobs:
         run: |
           set -euo pipefail
 
-          CURRENT_VERSION=$(grep 'version "' Formula/db-schema-toolkit.rb | sed -E 's/.*version "([^"]+)".*/\1/')
+          # Extract current version from the URL in the formula (no explicit version line)
+          CURRENT_VERSION=$(grep 'url "' Formula/db-schema-toolkit.rb | sed -E 's/.*db-schema-toolkit-([0-9][^"]+)\.tgz.*/\1/')
           NEW_VERSION="${{ steps.get_release.outputs.version }}"
 
           echo "Current version: $CURRENT_VERSION"
@@ -75,12 +76,10 @@ jobs:
         run: |
           set -euo pipefail
 
-          VERSION="${{ steps.get_release.outputs.version }}"
           URL="${{ steps.get_release.outputs.url }}"
           SHA256="${{ steps.calculate_sha.outputs.sha256 }}"
 
           sed -i "s|url \".*\"|url \"$URL\"|g" Formula/db-schema-toolkit.rb
-          sed -i "s|version \".*\"|version \"$VERSION\"|g" Formula/db-schema-toolkit.rb
           sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|g" Formula/db-schema-toolkit.rb
 
           echo "Formula updated successfully"
