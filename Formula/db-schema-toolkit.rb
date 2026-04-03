@@ -8,8 +8,9 @@ class DbSchemaToolkit < Formula
   depends_on "node"
 
   def install
-    system "npm", "install", *std_npm_args
-    bin.install_symlink Dir["#{libexec}/bin/*"]
+    # cli.js is a self-contained bundle (all deps inlined by tsup)
+    # so we just need to copy it — no npm install required
+    bin.install "dist/cli.js" => "db-schema-toolkit"
   end
 
   test do
