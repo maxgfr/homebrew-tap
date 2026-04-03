@@ -3,7 +3,7 @@ class ClaudeCodeSwitch < Formula
   homepage "https://github.com/maxgfr/claude-code-switch"
   url "https://github.com/maxgfr/claude-code-switch/archive/refs/tags/v1.0.0.tar.gz"
   version "v1.0.0"
-  sha256 "064bf3da44ace9a06a540279700f2b0bb272abfedf6b30c5aaa318daed72fa74"
+  sha256 "b9c580e3ba589cb21e06e369617cb7c753dbbcc7a8eef659ef7c539f25af807e"
   license "MIT"
 
   def install
