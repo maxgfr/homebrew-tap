@@ -1,9 +1,9 @@
 class ClaudeCodeSwitch < Formula
   desc "Minimal, zero-dependency provider switching for Claude Code"
   homepage "https://github.com/maxgfr/claude-code-switch"
-  url "https://github.com/maxgfr/claude-code-switch/archive/refs/tags/v1.0.1.tar.gz"
-  version "1.0.1"
-  sha256 "1d6d076b14141afb4f07c7b606ed69e5cacf0d5eb8a4250d0033c663b5288f12"
+  url "https://github.com/maxgfr/claude-code-switch/archive/refs/tags/v1.0.2.tar.gz"
+  version "v1.0.2"
+  sha256 "c7d22bcc1ba2f16fbcf663c7a248f8d08cd576a55260622a58ba15d59dbe29bc"
   license "MIT"
 
   def install
