@@ -1,9 +1,9 @@
 class Subtool < Formula
   desc "CLI for downloading, translating, syncing, and fixing subtitles"
   homepage "https://github.com/maxgfr/subtool"
-  url "https://github.com/maxgfr/subtool/archive/refs/tags/v1.19.5.tar.gz"
-  version "v1.19.5"
-  sha256 "bcaf80cd058a9b6b89efd0330491d3b326161d03c72a48c51027ed7801fb2307"
+  url "https://github.com/maxgfr/subtool/archive/refs/tags/v1.19.7.tar.gz"
+  version "v1.19.7"
+  sha256 "65b2d7c4462d58355a5309025c665e94470d4f4b8abf5a1a0ac07fabab1cb5bc"
   license "MIT"
 
   depends_on "curl"
