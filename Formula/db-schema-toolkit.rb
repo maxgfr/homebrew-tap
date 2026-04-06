@@ -1,8 +1,8 @@
 class DbSchemaToolkit < Formula
   desc "Parse, export, and analyze database schemas from the CLI"
   homepage "https://github.com/maxgfr/db-schema-viewer"
-  url "https://registry.npmjs.org/db-schema-toolkit/-/db-schema-toolkit-1.1.5.tgz"
-  sha256 "4d441bc62f9746ead75cdae83f61bd2df6bddf10c06d9bb4032c50afb2360a29"
+  url "https://registry.npmjs.org/db-schema-toolkit/-/db-schema-toolkit-1.1.8.tgz"
+  sha256 "c02688ac8305082b8eef7c01a3fc49899a0a1d08f38b15b838b51a6033297a8d"
   license "MIT"
 
   depends_on "node"
