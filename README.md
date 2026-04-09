@@ -127,6 +127,15 @@ brew install maxgfr/tap/claude-code-switch
 ccs --help
 ```
 
+### [llm-models](https://github.com/maxgfr/llm-models)
+
+Fetch latest LLM models from OpenRouter and models.dev APIs — discover, compare, and estimate costs across providers.
+
+```bash
+brew install maxgfr/tap/llm-models
+llm-models find -C reasoning --sort cost_input -n 10
+```
+
 ## Uninstalling
 
 ```bash
