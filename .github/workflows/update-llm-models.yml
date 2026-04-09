@@ -1,0 +1,146 @@
+name: Update llm-models Formula
+
+on:
+  schedule:
+    - cron: "0 13 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest release info
+        id: get_release
+        env:
+          GH_TOKEN: ${{ secrets.GHTOKEN }}
+        run: |
+          set -euo pipefail
+          RELEASE_DATA=$(curl -s -H "Authorization: token $GH_TOKEN" \
+            https://api.github.com/repos/maxgfr/llm-models/releases/latest)
+          VERSION=$(echo "$RELEASE_DATA" | jq -r '.tag_name')
+          if [ "$VERSION" = "null" ] || [ -z "$VERSION" ]; then
+            echo "No release found"
+            exit 1
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Latest version: $VERSION"
+
+      - name: Download binaries and calculate SHA256
+        id: calculate_sha
+        run: |
+          set -euo pipefail
+          VERSION="${{ steps.get_release.outputs.version }}"
+          BASE_URL="https://github.com/maxgfr/llm-models/releases/download/${VERSION}"
+
+          for binary in llm-models-macos-arm64 llm-models-macos-x64 llm-models-linux-x64 llm-models-linux-arm64; do
+            echo "Downloading ${binary}..."
+            curl -L -o "${binary}" "${BASE_URL}/${binary}"
+            SHA=$(sha256sum "${binary}" | awk '{print $1}')
+            VAR_NAME="sha_$(echo "${binary}" | sed 's/llm-models-//;s/-/_/g')"
+            echo "${VAR_NAME}=${SHA}" >> $GITHUB_OUTPUT
+            echo "${VAR_NAME}: ${SHA}"
+            rm "${binary}"
+          done
+
+      - name: Check if update is needed
+        id: check_update
+        run: |
+          CURRENT_VERSION=$(grep 'version "' Formula/llm-models.rb | head -1 | sed -E 's/.*version "([^"]+)".*/\1/')
+          NEW_VERSION="${{ steps.get_release.outputs.version }}"
+          echo "Current: $CURRENT_VERSION -> New: $NEW_VERSION"
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+          else
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+            echo "Already up to date"
+          fi
+
+      - name: Update Formula
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          SHA_MACOS_ARM64="${{ steps.calculate_sha.outputs.sha_macos_arm64 }}"
+          SHA_MACOS_X64="${{ steps.calculate_sha.outputs.sha_macos_x64 }}"
+          SHA_LINUX_X64="${{ steps.calculate_sha.outputs.sha_linux_x64 }}"
+          SHA_LINUX_ARM64="${{ steps.calculate_sha.outputs.sha_linux_arm64 }}"
+
+          cat > Formula/llm-models.rb << FORMULA
+          class LlmModels < Formula
+            desc "Fetch latest LLM models from OpenRouter and models.dev APIs"
+            homepage "https://github.com/maxgfr/llm-models"
+            version "${VERSION}"
+            license "MIT"
+
+            on_macos do
+              on_arm do
+                url "https://github.com/maxgfr/llm-models/releases/download/${VERSION}/llm-models-macos-arm64"
+                sha256 "${SHA_MACOS_ARM64}"
+              end
+
+              on_intel do
+                url "https://github.com/maxgfr/llm-models/releases/download/${VERSION}/llm-models-macos-x64"
+                sha256 "${SHA_MACOS_X64}"
+              end
+            end
+
+            on_linux do
+              on_arm do
+                url "https://github.com/maxgfr/llm-models/releases/download/${VERSION}/llm-models-linux-arm64"
+                sha256 "${SHA_LINUX_ARM64}"
+              end
+
+              on_intel do
+                url "https://github.com/maxgfr/llm-models/releases/download/${VERSION}/llm-models-linux-x64"
+                sha256 "${SHA_LINUX_X64}"
+              end
+            end
+
+            def install
+              binary = Dir["llm-models-*"].first
+
+              if binary.nil?
+                opoo "No llm-models binary found"
+                return
+              end
+
+              chmod 0755, binary
+              bin.install binary => "llm-models"
+            end
+
+            test do
+              assert_match version.to_s, shell_output("#{bin}/llm-models --version")
+            end
+          end
+          FORMULA
+
+          # Fix indentation (remove leading spaces from heredoc)
+          sed -i 's/^          //' Formula/llm-models.rb
+
+      - name: Commit and push changes
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add Formula/llm-models.rb
+          git commit -m "chore: update llm-models to ${{ steps.get_release.outputs.version }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          echo "### llm-models updated to ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Binary | SHA256 |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| macos-arm64 | ${{ steps.calculate_sha.outputs.sha_macos_arm64 }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| macos-x64 | ${{ steps.calculate_sha.outputs.sha_macos_x64 }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| linux-x64 | ${{ steps.calculate_sha.outputs.sha_linux_x64 }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| linux-arm64 | ${{ steps.calculate_sha.outputs.sha_linux_arm64 }} |" >> $GITHUB_STEP_SUMMARY
