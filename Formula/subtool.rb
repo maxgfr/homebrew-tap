@@ -8,6 +8,7 @@ class Subtool < Formula
 
   depends_on "curl"
   depends_on "jq"
+  depends_on "python3"
   depends_on "translate-shell"
   depends_on "uv" => :recommended
   depends_on "ffmpeg" => :recommended
