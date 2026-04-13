@@ -138,7 +138,7 @@ llm-models find -C reasoning --sort cost_input -n 10
 
 ### [conforme](https://github.com/maxgfr/conforme)
 
-Universal AI coding agent config synchronization — treats AGENTS.md as source of truth, syncs to Claude Code, Codex, OpenCode, etc.
+Sync your AI coding config from Claude Code, Cursor, or any tool — rules, skills, agents, MCP servers
 
 ```bash
 brew install maxgfr/tap/conforme
