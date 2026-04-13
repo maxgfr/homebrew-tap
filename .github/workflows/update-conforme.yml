@@ -37,7 +37,7 @@ jobs:
           VERSION="${{ steps.get_release.outputs.version }}"
           BASE_URL="https://github.com/maxgfr/conforme/releases/download/${VERSION}"
 
-          for binary in conforme-macos-arm64 conforme-macos-x64 conforme-linux-x64; do
+          for binary in conforme-macos-arm64 conforme-macos-x64 conforme-linux-arm64 conforme-linux-x64; do
             echo "Downloading ${binary}..."
             curl -L -f -o "${binary}" "${BASE_URL}/${binary}" || { echo "Failed to download ${binary}"; exit 1; }
             SHA=$(sha256sum "${binary}" | awk '{print $1}')
@@ -71,11 +71,12 @@ jobs:
           VERSION="${{ steps.get_release.outputs.version }}"
           SHA_MACOS_ARM64="${{ steps.calculate_sha.outputs.sha_conforme_macos_arm64 }}"
           SHA_MACOS_X64="${{ steps.calculate_sha.outputs.sha_conforme_macos_x64 }}"
+          SHA_LINUX_ARM64="${{ steps.calculate_sha.outputs.sha_conforme_linux_arm64 }}"
           SHA_LINUX_X64="${{ steps.calculate_sha.outputs.sha_conforme_linux_x64 }}"
 
           cat > Formula/conforme.rb << EOF
           class Conforme < Formula
-            desc "Universal AI coding agent config synchronization — syncs AGENTS.md to all tools"
+            desc "Universal AI coding agent config synchronization — sync from any tool to all others"
             homepage "https://github.com/maxgfr/conforme"
             version "${VERSION}"
             license "MIT"
@@ -93,6 +94,11 @@ jobs:
             end
 
             on_linux do
+              on_arm do
+                url "https://github.com/maxgfr/conforme/releases/download/${VERSION}/conforme-linux-arm64"
+                sha256 "${SHA_LINUX_ARM64}"
+              end
+
               on_intel do
                 url "https://github.com/maxgfr/conforme/releases/download/${VERSION}/conforme-linux-x64"
                 sha256 "${SHA_LINUX_X64}"
@@ -139,4 +145,5 @@ jobs:
           echo "- **Version**: ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
           echo "- **macOS ARM64 SHA256**: ${{ steps.calculate_sha.outputs.sha_conforme_macos_arm64 }}" >> $GITHUB_STEP_SUMMARY
           echo "- **macOS x64 SHA256**: ${{ steps.calculate_sha.outputs.sha_conforme_macos_x64 }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Linux ARM64 SHA256**: ${{ steps.calculate_sha.outputs.sha_conforme_linux_arm64 }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Linux x64 SHA256**: ${{ steps.calculate_sha.outputs.sha_conforme_linux_x64 }}" >> $GITHUB_STEP_SUMMARY

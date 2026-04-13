@@ -17,6 +17,11 @@ class Conforme < Formula
   end
 
   on_linux do
+    on_arm do
+      url "https://github.com/maxgfr/conforme/releases/download/v0.1.0/conforme-linux-arm64"
+      sha256 "PLACEHOLDER"
+    end
+
     on_intel do
       url "https://github.com/maxgfr/conforme/releases/download/v1.6.0/conforme-linux-x64"
       sha256 "c4db98de7ffdcfa590fa422f7892d9efb48d533ddeb8e0e37f5b522daf58a785"
