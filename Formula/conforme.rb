@@ -1,5 +1,5 @@
 class Conforme < Formula
-  desc "Sync your AI coding config from Claude Code, Cursor, or any tool — rules, skills, agents, MCP servers"
+  desc "Universal AI coding agent config synchronization — sync from any tool to all others"
   homepage "https://github.com/maxgfr/conforme"
   version "v0.1.0"
   license "MIT"
