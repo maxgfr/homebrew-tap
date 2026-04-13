@@ -1,0 +1,142 @@
+name: Update conforme Formula
+
+on:
+  schedule:
+    - cron: "0 14 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest release info
+        id: get_release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          RELEASE_DATA=$(curl -s -H "Authorization: token $GH_TOKEN" https://api.github.com/repos/maxgfr/conforme/releases/latest)
+          VERSION=$(echo "$RELEASE_DATA" | jq -r '.tag_name')
+
+          if [ "$VERSION" == "null" ]; then
+            echo "No release found"
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Latest version: $VERSION"
+
+      - name: Download binaries and calculate SHA256
+        id: calculate_sha
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          BASE_URL="https://github.com/maxgfr/conforme/releases/download/${VERSION}"
+
+          for binary in conforme-macos-arm64 conforme-macos-x64 conforme-linux-x64; do
+            echo "Downloading ${binary}..."
+            curl -L -f -o "${binary}" "${BASE_URL}/${binary}" || { echo "Failed to download ${binary}"; exit 1; }
+            SHA=$(sha256sum "${binary}" | awk '{print $1}')
+            KEY=$(echo "${binary}" | tr '-' '_')
+            echo "sha_${KEY}=${SHA}" >> $GITHUB_OUTPUT
+            echo "${binary} SHA256: ${SHA}"
+          done
+
+          rm -f conforme-*
+
+      - name: Check if update is needed
+        id: check_update
+        run: |
+          CURRENT_VERSION=$(grep 'version "' Formula/conforme.rb | head -1 | sed -E 's/.*version "([^"]+)".*/\1/')
+          NEW_VERSION="${{ steps.get_release.outputs.version }}"
+
+          echo "Current version: $CURRENT_VERSION"
+          echo "New version: $NEW_VERSION"
+
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+            echo "Update needed!"
+          else
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+            echo "Already up to date"
+          fi
+
+      - name: Update Formula
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          SHA_MACOS_ARM64="${{ steps.calculate_sha.outputs.sha_conforme_macos_arm64 }}"
+          SHA_MACOS_X64="${{ steps.calculate_sha.outputs.sha_conforme_macos_x64 }}"
+          SHA_LINUX_X64="${{ steps.calculate_sha.outputs.sha_conforme_linux_x64 }}"
+
+          cat > Formula/conforme.rb << EOF
+          class Conforme < Formula
+            desc "Universal AI coding agent config synchronization — syncs AGENTS.md to all tools"
+            homepage "https://github.com/maxgfr/conforme"
+            version "${VERSION}"
+            license "MIT"
+
+            on_macos do
+              on_arm do
+                url "https://github.com/maxgfr/conforme/releases/download/${VERSION}/conforme-macos-arm64"
+                sha256 "${SHA_MACOS_ARM64}"
+              end
+
+              on_intel do
+                url "https://github.com/maxgfr/conforme/releases/download/${VERSION}/conforme-macos-x64"
+                sha256 "${SHA_MACOS_X64}"
+              end
+            end
+
+            on_linux do
+              on_intel do
+                url "https://github.com/maxgfr/conforme/releases/download/${VERSION}/conforme-linux-x64"
+                sha256 "${SHA_LINUX_X64}"
+              end
+            end
+
+            def install
+              binary = Dir["conforme-*"].first
+
+              if binary.nil?
+                opoo "No conforme binary found"
+                return
+              end
+
+              chmod 0755, binary
+              bin.install binary => "conforme"
+            end
+
+            test do
+              assert_match "conforme", shell_output("#{bin}/conforme --help 2>&1")
+            end
+          end
+          EOF
+
+          echo "Formula updated successfully"
+
+      - name: Commit and push changes
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          git add Formula/conforme.rb
+          git commit -m "chore: update conforme to ${{ steps.get_release.outputs.version }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          echo "✅ Formula updated to version ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **macOS ARM64 SHA256**: ${{ steps.calculate_sha.outputs.sha_conforme_macos_arm64 }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **macOS x64 SHA256**: ${{ steps.calculate_sha.outputs.sha_conforme_macos_x64 }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Linux x64 SHA256**: ${{ steps.calculate_sha.outputs.sha_conforme_linux_x64 }}" >> $GITHUB_STEP_SUMMARY

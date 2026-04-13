@@ -136,6 +136,15 @@ brew install maxgfr/tap/llm-models
 llm-models find -C reasoning --sort cost_input -n 10
 ```
 
+### [conforme](https://github.com/maxgfr/conforme)
+
+Universal AI coding agent config synchronization — treats AGENTS.md as source of truth, syncs to Claude Code, Cursor, Windsurf, Copilot.
+
+```bash
+brew install maxgfr/tap/conforme
+conforme --help
+```
+
 ## Uninstalling
 
 ```bash

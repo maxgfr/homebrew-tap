@@ -63,6 +63,7 @@ Add the new formula entry in alphabetical or logical order with:
 | 11 | claude-code-switch |
 | 12 | github-helpers |
 | 13 | llm-models |
+| 14 | conforme |
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`
