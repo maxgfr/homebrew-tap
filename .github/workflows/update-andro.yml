@@ -1,0 +1,135 @@
+name: Update andro Formula
+
+on:
+  schedule:
+    - cron: "0 15 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest release info
+        id: get_release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          RELEASE_DATA=$(curl -s -H "Authorization: token $GH_TOKEN" https://api.github.com/repos/maxgfr/andro/releases/latest)
+          VERSION=$(echo "$RELEASE_DATA" | jq -r '.tag_name')
+
+          if [ "$VERSION" == "null" ]; then
+            echo "No release found"
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Latest version: $VERSION"
+
+      - name: Download binaries and calculate SHA256
+        id: calculate_sha
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          BASE_URL="https://github.com/maxgfr/andro/releases/download/${VERSION}"
+
+          for binary in andro-macos-arm64 andro-macos-x64; do
+            echo "Downloading ${binary}..."
+            curl -L -f -o "${binary}" "${BASE_URL}/${binary}" || { echo "Failed to download ${binary}"; exit 1; }
+            SHA=$(sha256sum "${binary}" | awk '{print $1}')
+            KEY=$(echo "${binary}" | tr '-' '_')
+            echo "sha_${KEY}=${SHA}" >> $GITHUB_OUTPUT
+            echo "${binary} SHA256: ${SHA}"
+          done
+
+          rm -f andro-*
+
+      - name: Check if update is needed
+        id: check_update
+        run: |
+          CURRENT_VERSION=$(grep 'version "' Formula/andro.rb | head -1 | sed -E 's/.*version "([^"]+)".*/\1/')
+          NEW_VERSION="${{ steps.get_release.outputs.version }}"
+
+          echo "Current version: $CURRENT_VERSION"
+          echo "New version: $NEW_VERSION"
+
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+            echo "Update needed!"
+          else
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+            echo "Already up to date"
+          fi
+
+      - name: Update Formula
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          SHA_MACOS_ARM64="${{ steps.calculate_sha.outputs.sha_andro_macos_arm64 }}"
+          SHA_MACOS_X64="${{ steps.calculate_sha.outputs.sha_andro_macos_x64 }}"
+
+          cat > Formula/andro.rb << EOF
+          class Andro < Formula
+            desc "Run Android apps from the macOS CLI on a disposable native emulator"
+            homepage "https://github.com/maxgfr/andro"
+            version "${VERSION}"
+            license "MIT"
+
+            depends_on :macos
+
+            on_macos do
+              on_arm do
+                url "https://github.com/maxgfr/andro/releases/download/${VERSION}/andro-macos-arm64"
+                sha256 "${SHA_MACOS_ARM64}"
+              end
+
+              on_intel do
+                url "https://github.com/maxgfr/andro/releases/download/${VERSION}/andro-macos-x64"
+                sha256 "${SHA_MACOS_X64}"
+              end
+            end
+
+            def install
+              binary = Dir["andro-*"].first
+
+              if binary.nil?
+                opoo "No andro binary found"
+                return
+              end
+
+              chmod 0755, binary
+              bin.install binary => "andro"
+            end
+
+            test do
+              assert_match "andro", shell_output("#{bin}/andro --help 2>&1")
+            end
+          end
+          EOF
+
+          echo "Formula updated successfully"
+
+      - name: Commit and push changes
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          git add Formula/andro.rb
+          git commit -m "chore: update andro to ${{ steps.get_release.outputs.version }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          echo "✅ Formula updated to version ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **macOS ARM64 SHA256**: ${{ steps.calculate_sha.outputs.sha_andro_macos_arm64 }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **macOS x64 SHA256**: ${{ steps.calculate_sha.outputs.sha_andro_macos_x64 }}" >> $GITHUB_STEP_SUMMARY

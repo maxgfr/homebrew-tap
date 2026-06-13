@@ -10,6 +10,15 @@ brew tap maxgfr/tap
 
 ## Available Formulae
 
+### [andro](https://github.com/maxgfr/andro)
+
+Run Android apps — phone or smart TV — from your macOS CLI, on a fast, disposable, self-contained Android emulator (Apple Silicon, native HVF). macOS only.
+
+```bash
+brew install maxgfr/tap/andro
+andro run app.apk
+```
+
 ### [package-checker](https://github.com/maxgfr/package-checker.sh)
 
 A flexible, lightweight shell script to detect vulnerable npm packages.

@@ -64,6 +64,7 @@ Add the new formula entry in alphabetical or logical order with:
 | 12 | github-helpers |
 | 13 | llm-models |
 | 14 | conforme |
+| 15 | andro |
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`
