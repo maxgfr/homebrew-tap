@@ -1,20 +1,20 @@
 class Andro < Formula
   desc "Run Android apps from the macOS CLI on a disposable native emulator"
   homepage "https://github.com/maxgfr/andro"
-  version "v1.1.1"
+  version "v1.2.0"
   license "MIT"
 
   depends_on :macos
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/andro/releases/download/v1.1.1/andro-macos-arm64"
-      sha256 "a5305327b7320e3f513370bd3ae1fb67d4a1da1f6f5d192a68044ac6af9d9863"
+      url "https://github.com/maxgfr/andro/releases/download/v1.2.0/andro-macos-arm64"
+      sha256 "2972ab900cc33da59431ad392c6a1b779c8a4e4e7803a57cece3a7033075a5d1"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/andro/releases/download/v1.1.1/andro-macos-x64"
-      sha256 "5bd3ff38ce34a777fa5682d3cbdbe80328fe5601ccdba36d043ba3ca26754b94"
+      url "https://github.com/maxgfr/andro/releases/download/v1.2.0/andro-macos-x64"
+      sha256 "a6328afd204b5853e80e8a82ff0d6cfd004566ec1c0f22a6e71d48a01726425c"
     end
   end
 
