@@ -1,9 +1,9 @@
 class Codexfeine < Formula
   desc "Run OpenAI Codex caffeinated so your machine stays awake during the session"
   homepage "https://github.com/maxgfr/claudfeine"
-  url "https://github.com/maxgfr/claudfeine/archive/refs/tags/v1.0.0.tar.gz"
-  version "v1.0.0"
-  sha256 "0a3001304ed6c7ef0740d275bde1b7faa46e78a3e6b3de1fc629100a3440b4dd"
+  url "https://github.com/maxgfr/claudfeine/archive/refs/tags/v1.0.1.tar.gz"
+  version "v1.0.1"
+  sha256 "275922577394f392d1dd0efbe545321a9fdb127bc6a8e3094ca17b8c3c7a6a93"
   license "MIT"
 
   def install
