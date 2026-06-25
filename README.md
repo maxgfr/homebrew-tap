@@ -154,6 +154,24 @@ brew install maxgfr/tap/conforme
 conforme --help
 ```
 
+### [claudfeine](https://github.com/maxgfr/claudfeine)
+
+Run Claude Code caffeinated — keeps your machine awake for exactly the session, then restores normal sleep automatically. Transparent pass-through; zero dependencies.
+
+```bash
+brew install maxgfr/tap/claudfeine
+claudfeine --continue
+```
+
+### [codexfeine](https://github.com/maxgfr/claudfeine)
+
+Same as [claudfeine](https://github.com/maxgfr/claudfeine), but wraps OpenAI Codex — keeps your machine awake for exactly the session, then restores normal sleep automatically.
+
+```bash
+brew install maxgfr/tap/codexfeine
+codexfeine
+```
+
 ## Uninstalling
 
 ```bash
