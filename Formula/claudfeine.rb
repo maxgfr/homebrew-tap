@@ -1,9 +1,9 @@
 class Claudfeine < Formula
   desc "Run Claude Code caffeinated so your machine stays awake during the session"
   homepage "https://github.com/maxgfr/claudfeine"
-  url "https://github.com/maxgfr/claudfeine/archive/refs/tags/v1.0.1.tar.gz"
-  version "v1.0.1"
-  sha256 "275922577394f392d1dd0efbe545321a9fdb127bc6a8e3094ca17b8c3c7a6a93"
+  url "https://github.com/maxgfr/claudfeine/archive/refs/tags/v1.1.0.tar.gz"
+  version "v1.1.0"
+  sha256 "c262e460a1de3efe7289af053823f7f3d9ec7f1415b03615d6b6eaffa62f955b"
   license "MIT"
 
   def install
