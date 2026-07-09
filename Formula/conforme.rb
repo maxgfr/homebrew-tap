@@ -1,30 +1,30 @@
 class Conforme < Formula
   desc "Universal AI coding agent config synchronization — sync from any tool to all others"
   homepage "https://github.com/maxgfr/conforme"
-  version "v1.9.3"
+  version "v1.10.0"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/conforme/releases/download/v1.9.3/conforme-macos-arm64"
-      sha256 "e3c997c12fdbeec6a3f3367339710dfb85544652dc786d75304f803d79039af7"
+      url "https://github.com/maxgfr/conforme/releases/download/v1.10.0/conforme-macos-arm64"
+      sha256 "93034f6ecdee1edabb5799f6a45027d7e267ee405b8be66809d18e589be83411"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/conforme/releases/download/v1.9.3/conforme-macos-x64"
-      sha256 "4c5fef4c23c6bbb77cdaee1322c7cc3d14998400848a0cd19c9d77e205ddd368"
+      url "https://github.com/maxgfr/conforme/releases/download/v1.10.0/conforme-macos-x64"
+      sha256 "86a26cf7de7a4a26709f96f5674dd5b6264b191b89f3e2449aad4981df4dfcde"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/conforme/releases/download/v1.9.3/conforme-linux-arm64"
-      sha256 "ea60c14003c63f70c80f9e3374bd8a9d1b57b9714b0f6cdcf760244030d22e48"
+      url "https://github.com/maxgfr/conforme/releases/download/v1.10.0/conforme-linux-arm64"
+      sha256 "935cf7015ebab81a59dd6d8fdd41cea5c58475d64e9d91c9836f3867cc40e636"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/conforme/releases/download/v1.9.3/conforme-linux-x64"
-      sha256 "36e16b38274117c83f0c4ca92f21fd35593a4ec2e9d44af11aec38d954ead3a8"
+      url "https://github.com/maxgfr/conforme/releases/download/v1.10.0/conforme-linux-x64"
+      sha256 "415084937db3ecef00b71c4ad5a4ef615dc224c7b07f54ed21ebc64ee5afcca6"
     end
   end
 
