@@ -6,6 +6,9 @@ class ClaudeCodeSwitch < Formula
   sha256 "b111fa3719d4dc214e3f45ab2a7d73fa115078fba31b84c303f5d50056833c05"
   license "MIT"
 
+  # Only needed by `ccs notify` (desktop notifications); the core is zero-dependency
+  depends_on "jq"
+
   def install
     bin.install "ccs"
     bin.install_symlink bin/"ccs" => "claude-code-switch"
