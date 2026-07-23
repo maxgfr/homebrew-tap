@@ -4,6 +4,16 @@
 Personal Homebrew tap for maxgfr's CLI tools. Each formula distributes pre-compiled
 binaries or shell scripts from their respective GitHub repos.
 
+## RULE: docs stay in sync — every time
+
+Every formula change (add, rename, remove, or new pattern) MUST update, in the
+same commit:
+- `README.md` — the formula's entry (link, description, install + usage example)
+- this `CLAUDE.md` — the cron table and, if relevant, the Patterns section
+
+No exceptions. `codeindex` was added (v2.0.1) without its README entry and
+without updating this file — that gap is exactly what this rule prevents.
+
 ## How to add a new formula
 
 ### 1. Create the GitHub Actions workflow
@@ -24,12 +34,16 @@ Create `Formula/<name>.rb` with:
 - `install` method: find binary, chmod, `bin.install`
 - `test` block: verify `--version` or `--help`
 
-### 3. Update README.md
+### 3. Update README.md and CLAUDE.md (mandatory, same commit)
 
-Add the new formula entry in alphabetical or logical order with:
+Add the new formula entry to README.md in alphabetical or logical order with:
 - Link to source repo
 - One-line description
 - `brew install` and usage example
+
+Then update this CLAUDE.md: add the formula to the cron table (or to the
+"manually updated" list if it has no workflow) and to Patterns if it
+introduces a new one.
 
 ## Patterns
 
@@ -65,6 +79,13 @@ Add the new formula entry in alphabetical or logical order with:
 | 13 | llm-models |
 | 14 | conforme |
 | 15 | andro |
+| 16 | claudfeine |
+| 17 | codexfeine |
+
+Manually updated (no workflow): **codeindex** — source-tarball formula
+(`depends_on "node"`, installs prebuilt `engine.mjs`/`cli.mjs` + grammar
+sidecar); bump `url`/`sha256`/`version` on each release
+(`feat: bump codeindex to vX.Y.Z`).
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`

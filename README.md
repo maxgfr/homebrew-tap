@@ -172,6 +172,15 @@ brew install maxgfr/tap/codexfeine
 codexfeine
 ```
 
+### [codeindex](https://github.com/maxgfr/codeindex)
+
+Zero-dependency repo-indexing engine: symbols, imports, typed cross-file link-graph, callers, SCIP export — CLI + MCP server included. Also on [npm](https://www.npmjs.com/package/@maxgfr/codeindex).
+
+```bash
+brew install maxgfr/tap/codeindex
+codeindex index --repo . --out .codeindex
+```
+
 ## Uninstalling
 
 ```bash
