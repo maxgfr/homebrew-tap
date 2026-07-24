@@ -81,11 +81,13 @@ introduces a new one.
 | 15 | andro |
 | 16 | claudfeine |
 | 17 | codexfeine |
+| 18 | codeindex |
 
-Manually updated (no workflow): **codeindex** — source-tarball formula
-(`depends_on "node"`, installs prebuilt `engine.mjs`/`cli.mjs` + grammar
-sidecar); bump `url`/`sha256`/`version` on each release
-(`feat: bump codeindex to vX.Y.Z`).
+All formulas have an update workflow — never leave one manually updated
+(codeindex stayed frozen at v2.6.0 for 7 minor releases because of that).
+Note for codeindex: its update workflow must NOT use `releases/latest` — the
+repo also publishes the `embed-model-v1` asset release, which is not an
+engine tag; filter release tags on `^v[0-9]` instead.
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`

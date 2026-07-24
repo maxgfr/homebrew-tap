@@ -1,9 +1,9 @@
 class Codeindex < Formula
   desc "Zero-dependency repo-indexing engine: link-graph, symbols, callers, MCP server"
   homepage "https://github.com/maxgfr/codeindex"
-  url "https://github.com/maxgfr/codeindex/archive/refs/tags/v2.6.0.tar.gz"
-  sha256 "a9463615433dcb38a01dad8441411e389354df631a2db5ee2cb0cbe3f92b20a2"
-  version "2.6.0"
+  url "https://github.com/maxgfr/codeindex/archive/refs/tags/v2.13.0.tar.gz"
+  sha256 "578550f3c25a80293552938b08d96fd244ba2232614091d1b640ec0e3657f60f"
+  version "2.13.0"
   license "MIT"
 
   depends_on "node"
