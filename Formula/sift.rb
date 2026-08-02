@@ -1,35 +1,35 @@
 class Sift < Formula
   desc "Will this model fit and run fast on your machine? Answered before you download it"
   homepage "https://github.com/maxgfr/sift"
-  version "v0.2.0"
+  version "v0.3.0"
   license "MIT"
 
-  # homebrew/core ships an unrelated `sift`, a grep alternative. Both put a `sift` on
-  # PATH, so Homebrew must be told rather than left to fail at link time with nothing
-  # the user can act on.
+  # homebrew/core ships an unrelated `sift`, a grep alternative. Both put a
+  # `sift` on PATH, so Homebrew must be told rather than left to fail at link
+  # time with nothing the user can act on.
   conflicts_with "sift", because: "both install a `sift` binary"
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/sift/releases/download/v0.2.0/sift-macos-arm64"
-      sha256 "3bce1e04326e860637396a8ddfbeb17d8db81b98ef2a3259f87c379a99ea202c"
+      url "https://github.com/maxgfr/sift/releases/download/v0.3.0/sift-macos-arm64"
+      sha256 "b915c8e6f6931073025dde9d151bde1ff459dc496559ed6b58583a857c37d4ec"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/sift/releases/download/v0.2.0/sift-macos-x64"
-      sha256 "f119dd6f5a48d50125af9cafdc96fef231389e7a2e488faec071b0b3cf0b130d"
+      url "https://github.com/maxgfr/sift/releases/download/v0.3.0/sift-macos-x64"
+      sha256 "6fb84d50d3ce7c100e6326a20c22e32da154051a3046763c5247a703ce0dddaf"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/sift/releases/download/v0.2.0/sift-linux-arm64"
-      sha256 "071be37f3558fa898929fca26037eca858bbf22bfe9f110f686580382bec704e"
+      url "https://github.com/maxgfr/sift/releases/download/v0.3.0/sift-linux-arm64"
+      sha256 "debabaa04398f2e902ca63bbfae0f413b5b7025abb080ee934a18bd57716b5b5"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/sift/releases/download/v0.2.0/sift-linux-x64"
-      sha256 "84af5bc0aa8c8921bb72123e75e4cc63337de7128fb9380f51240f25ae9e5e6d"
+      url "https://github.com/maxgfr/sift/releases/download/v0.3.0/sift-linux-x64"
+      sha256 "5cf3ba2a580090281b9a62ad99e5cfac6a9b74b0df09a7f238c13c210879275d"
     end
   end
 
@@ -47,8 +47,8 @@ class Sift < Formula
 
   test do
     assert_match "sift", shell_output("#{bin}/sift --help 2>&1")
-    # `engines` needs no network and no model, so it is a real end-to-end check rather
-    # than a version string echo.
+    # `engines` needs no network and no model, so it is a real end-to-end check
+    # rather than a version string echo.
     assert_match "known engines", shell_output("#{bin}/sift engines 2>&1")
   end
 end
