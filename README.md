@@ -181,6 +181,17 @@ brew install maxgfr/tap/codeindex
 codeindex index --repo . --out .codeindex
 ```
 
+### [sift](https://github.com/maxgfr/sift)
+
+Will this LLM fit and run fast on your machine? Answered before you download it — reads a model's real GGUF header off HuggingFace over range requests, measures your hardware, and says which quantization to get and which engine should run it. No bundled model list.
+
+Note: `homebrew/core` ships an unrelated `sift` (a grep alternative), so install this one tap-qualified. The two cannot be linked at the same time.
+
+```bash
+brew install maxgfr/tap/sift
+sift fit unsloth/Qwen3-30B-A3B-GGUF
+```
+
 ## Uninstalling
 
 ```bash

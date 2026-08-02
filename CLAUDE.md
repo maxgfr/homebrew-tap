@@ -82,12 +82,19 @@ introduces a new one.
 | 16 | claudfeine |
 | 17 | codexfeine |
 | 18 | codeindex |
+| 19 | sift |
 
 All formulas have an update workflow — never leave one manually updated
 (codeindex stayed frozen at v2.6.0 for 7 minor releases because of that).
 Note for codeindex: its update workflow must NOT use `releases/latest` — the
 repo also publishes the `embed-model-v1` asset release, which is not an
 engine tag; filter release tags on `^v[0-9]` instead.
+
+Note for sift: `homebrew/core` ships an unrelated `sift` (a grep alternative),
+so the formula carries `conflicts_with "sift"`. Without it Homebrew fails at
+link time with nothing the user can act on. sift also publishes a Windows
+binary, which Homebrew does not install — the update workflow deliberately
+checksums only the four macOS/Linux artifacts.
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`
