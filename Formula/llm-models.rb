@@ -1,30 +1,30 @@
 class LlmModels < Formula
   desc "Fetch latest LLM models from OpenRouter and models.dev APIs"
   homepage "https://github.com/maxgfr/llm-models"
-  version "v1.2.6"
+  version "v1.2.7"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/llm-models/releases/download/v1.2.6/llm-models-macos-arm64"
-      sha256 "34263e2539f09e3545e635766c0f3a344fd9a9510d22b67781fbe9e496a3c8b9"
+      url "https://github.com/maxgfr/llm-models/releases/download/v1.2.7/llm-models-macos-arm64"
+      sha256 "e7d4b2fce5f4a4d27c11b762affe0e55f16728ab2f6cccb0a351525842fff853"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/llm-models/releases/download/v1.2.6/llm-models-macos-x64"
-      sha256 "3896704d8f8d21a66f0b769dd378ed6d03fb15f19ce5fd5cfc42a7155f42b5cc"
+      url "https://github.com/maxgfr/llm-models/releases/download/v1.2.7/llm-models-macos-x64"
+      sha256 "7a3e24fb302752cad8d4c9322251c112946035ee4397f826dc14dea2d84c0fcc"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/llm-models/releases/download/v1.2.6/llm-models-linux-arm64"
-      sha256 "400c2671cc201d656a9d34e8d0355baae407e5683ef451b3511a4d535d9dce51"
+      url "https://github.com/maxgfr/llm-models/releases/download/v1.2.7/llm-models-linux-arm64"
+      sha256 "e27184ea988ee3b203a00f72e57c51ec295fe1d86ef9c027032c558d320e8ca4"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/llm-models/releases/download/v1.2.6/llm-models-linux-x64"
-      sha256 "67d7bf1870b6fc8b3055016c9a779c70f643f698ed24886931caa9314b598712"
+      url "https://github.com/maxgfr/llm-models/releases/download/v1.2.7/llm-models-linux-x64"
+      sha256 "af80567c1674473faa004ef5a6d65ba21db5c5256f5666df556b6a9ea5a8fd73"
     end
   end
 
