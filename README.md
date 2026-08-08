@@ -181,6 +181,18 @@ brew install maxgfr/tap/codeindex
 codeindex index --repo . --out .codeindex
 ```
 
+### [webindex](https://github.com/maxgfr/webindex)
+
+The web-side companion to codeindex: turns a URL or a file into clean, citable text — HTML, PDFs through a six-rung ladder ending in OCR, and office documents — and serves that over MCP. Zero dependencies, no API key, every optional helper degrades to a note. The engine the `ultrasearch`, `ultradoc` and `construct` agent skills vendor.
+
+```bash
+brew install maxgfr/tap/webindex
+webindex fetch https://example.com
+webindex extract report.pdf
+webindex mcp                      # serve fetch/extract to an agent over stdio
+webindex doctor                   # which rungs and helpers are available here
+```
+
 ### [sift](https://github.com/maxgfr/sift)
 
 Will this LLM fit and run fast on your machine? Answered before you download it — reads a model's real GGUF header off HuggingFace over range requests, measures your hardware, and says which quantization to get and which engine should run it. No bundled model list.

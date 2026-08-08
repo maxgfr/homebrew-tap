@@ -1,0 +1,102 @@
+name: Update webindex Formula
+
+on:
+  schedule:
+    - cron: "0 20 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest release info
+        id: get_release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Filter to v* tags rather than trusting releases/latest, matching the
+          # codeindex workflow this was modelled on.
+          RELEASE_DATA=$(curl -s -H "Authorization: token $GH_TOKEN" https://api.github.com/repos/maxgfr/webindex/releases)
+          TAG=$(echo "$RELEASE_DATA" | jq -r '[.[] | select(.tag_name | test("^v[0-9]")) | .tag_name] | first')
+
+          if [ -z "$TAG" ] || [ "$TAG" == "null" ]; then
+            echo "No release found"
+            exit 1
+          fi
+
+          VERSION="${TAG#v}"
+          URL="https://github.com/maxgfr/webindex/archive/refs/tags/${TAG}.tar.gz"
+
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "url=$URL" >> $GITHUB_OUTPUT
+
+          echo "Latest tag: $TAG (version $VERSION)"
+          echo "Tarball URL: $URL"
+
+      - name: Check if update is needed
+        id: check_update
+        run: |
+          CURRENT_VERSION=$(grep 'version "' Formula/webindex.rb | sed -E 's/.*version "([^"]+)".*/\1/')
+          NEW_VERSION="${{ steps.get_release.outputs.version }}"
+
+          echo "Current version: $CURRENT_VERSION"
+          echo "New version: $NEW_VERSION"
+
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+            echo "Update needed!"
+          else
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+            echo "Already up to date"
+          fi
+
+      - name: Download and calculate SHA256
+        id: calculate_sha
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          curl -L -o package.tar.gz "${{ steps.get_release.outputs.url }}"
+          SHA256=$(sha256sum package.tar.gz | awk '{print $1}')
+          echo "sha256=$SHA256" >> $GITHUB_OUTPUT
+          echo "SHA256: $SHA256"
+          rm package.tar.gz
+
+      - name: Update Formula
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          URL="${{ steps.get_release.outputs.url }}"
+          SHA256="${{ steps.calculate_sha.outputs.sha256 }}"
+
+          sed -i "s|url \".*\"|url \"$URL\"|g" Formula/webindex.rb
+          sed -i "s|version \".*\"|version \"$VERSION\"|g" Formula/webindex.rb
+          sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|g" Formula/webindex.rb
+
+          echo "Formula updated successfully"
+
+      - name: Commit and push changes
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          git add Formula/webindex.rb
+          git commit -m "chore: update webindex to ${{ steps.get_release.outputs.version }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          echo "Formula updated to version ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **URL**: ${{ steps.get_release.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **SHA256**: ${{ steps.calculate_sha.outputs.sha256 }}" >> $GITHUB_STEP_SUMMARY

@@ -83,6 +83,7 @@ introduces a new one.
 | 17 | codexfeine |
 | 18 | codeindex |
 | 19 | sift |
+| 20 | webindex |
 
 All formulas have an update workflow — never leave one manually updated
 (codeindex stayed frozen at v2.6.0 for 7 minor releases because of that).
