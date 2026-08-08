@@ -1,9 +1,9 @@
 class Webindex < Formula
-  desc "Zero-dependency web-retrieval engine: URL to clean text (HTML, PDF, office), MCP server"
+  desc "Web-retrieval engine: URL to clean text (HTML, PDF, office), MCP server"
   homepage "https://github.com/maxgfr/webindex"
   url "https://github.com/maxgfr/webindex/archive/refs/tags/v1.7.1.tar.gz"
-  sha256 "5223330acd76c60aeffa17e6a7cc83f34b0b3b6acb57b29685fe5dce5238be7c"
   version "1.7.1"
+  sha256 "5223330acd76c60aeffa17e6a7cc83f34b0b3b6acb57b29685fe5dce5238be7c"
   license "MIT"
 
   depends_on "node"
@@ -23,7 +23,9 @@ class Webindex < Formula
     assert_match version.to_s, shell_output("#{bin}/webindex version")
 
     # Extraction, offline: an HTML file becomes readable text with no markup.
-    (testpath/"page.html").write("<html><body><article><h1>Rate limiting</h1><p>Token buckets smooth bursts.</p></article></body></html>")
+    html = "<html><body><article><h1>Rate limiting</h1>" \
+           "<p>Token buckets smooth bursts.</p></article></body></html>"
+    (testpath/"page.html").write(html)
     output = shell_output("#{bin}/webindex extract #{testpath}/page.html")
     assert_match "Rate limiting", output
     refute_match "<article>", output
