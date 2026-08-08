@@ -183,7 +183,7 @@ codeindex index --repo . --out .codeindex
 
 ### [webindex](https://github.com/maxgfr/webindex)
 
-The web-side companion to codeindex: turns a URL or a file into clean, citable text — HTML, PDFs through a six-rung ladder ending in OCR, and office documents — and serves that over MCP. Zero dependencies, no API key, every optional helper degrades to a note. The engine the `ultrasearch`, `ultradoc` and `construct` agent skills vendor.
+The web-side companion to codeindex: turns a URL or a file into clean, citable text — HTML, PDFs through a six-rung ladder ending in OCR, and office documents — and serves that over MCP. Zero dependencies, no API key, every optional helper degrades to a note.
 
 ```bash
 brew install maxgfr/tap/webindex
