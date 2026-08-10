@@ -1,9 +1,9 @@
 class Webindex < Formula
   desc "Web-retrieval engine: URL to clean text (HTML, PDF, office), MCP server"
   homepage "https://github.com/maxgfr/webindex"
-  url "https://github.com/maxgfr/webindex/archive/refs/tags/v1.14.0.tar.gz"
-  version "1.14.0"
-  sha256 "890a107efb3e46e6fbd2af49f94827dfbab179b7babc368cf3fc5f107e936f02"
+  url "https://github.com/maxgfr/webindex/archive/refs/tags/v1.18.1.tar.gz"
+  version "1.18.1"
+  sha256 "52794783b27a2e7aa32542de77ee11ae41b27a08ac46d79d73768659139c1171"
   license "MIT"
 
   depends_on "node"
