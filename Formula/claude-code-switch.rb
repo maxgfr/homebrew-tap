@@ -11,19 +11,19 @@ class ClaudeCodeSwitch < Formula
   # Supplies the real context window per model, so auto-compact stops assuming 200k
   depends_on "maxgfr/tap/llm-models"
 
+  def install
+    bin.install "ccs"
+    bin.install_symlink bin/"ccs" => "claude-code-switch"
+    pkgshare.install "config.template"
+    doc.install "README.md", "LICENSE", "CHANGELOG.md", "CONTRIBUTING.md"
+  end
+
   def caveats
     <<~EOS
       Context windows are sized automatically from llm-models. Run `ccs models`
       to see what each model tier resolves to, or pin a value with
       `context_tokens=` in ~/.claude-provider/config.
     EOS
-  end
-
-  def install
-    bin.install "ccs"
-    bin.install_symlink bin/"ccs" => "claude-code-switch"
-    pkgshare.install "config.template"
-    doc.install "README.md", "LICENSE", "CHANGELOG.md", "CONTRIBUTING.md"
   end
 
   test do
