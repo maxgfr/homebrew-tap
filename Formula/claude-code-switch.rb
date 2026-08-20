@@ -1,23 +1,21 @@
 class ClaudeCodeSwitch < Formula
-  desc "Minimal, zero-dependency provider switching for Claude Code"
+  desc "Minimal provider switching for Claude Code"
   homepage "https://github.com/maxgfr/claude-code-switch"
   url "https://github.com/maxgfr/claude-code-switch/archive/refs/tags/v1.3.1.tar.gz"
   version "v1.3.1"
   sha256 "6b703d7572354ebc6122967d83459b777cf95da68cc411d2d21a5b96cfe2fe7b"
   license "MIT"
 
-  # Only needed by `ccs notify` (desktop notifications); the core is zero-dependency
+  # Needed by `ccs notify` (desktop notifications)
   depends_on "jq"
+  # Supplies the real context window per model, so auto-compact stops assuming 200k
+  depends_on "maxgfr/tap/llm-models"
 
   def caveats
     <<~EOS
-      For automatic context-window sizing (so auto-compact stops assuming 200k on
-      a 1M model), also install:
-
-        brew install maxgfr/tap/llm-models
-
-      It is optional — ccs works without it. Run `ccs models` to see what each
-      model tier resolves to.
+      Context windows are sized automatically from llm-models. Run `ccs models`
+      to see what each model tier resolves to, or pin a value with
+      `context_tokens=` in ~/.claude-provider/config.
     EOS
   end
 
