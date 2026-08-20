@@ -9,6 +9,18 @@ class ClaudeCodeSwitch < Formula
   # Only needed by `ccs notify` (desktop notifications); the core is zero-dependency
   depends_on "jq"
 
+  def caveats
+    <<~EOS
+      For automatic context-window sizing (so auto-compact stops assuming 200k on
+      a 1M model), also install:
+
+        brew install maxgfr/tap/llm-models
+
+      It is optional — ccs works without it. Run `ccs models` to see what each
+      model tier resolves to.
+    EOS
+  end
+
   def install
     bin.install "ccs"
     bin.install_symlink bin/"ccs" => "claude-code-switch"
