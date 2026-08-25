@@ -52,7 +52,8 @@ jobs:
       - name: Check if update is needed
         id: check_update
         run: |
-          CURRENT_VERSION=$(grep 'version "' Formula/codexify.rb | head -1 | sed -E 's/.*version "([^"]+)".*/\1/')
+          CURRENT_TAG=$(grep 'releases/download/' Formula/codexify.rb | head -1 | sed -E 's|.*/download/([^/]+)/.*|\1|')
+          CURRENT_VERSION="${CURRENT_TAG#v}"
           NEW_VERSION="${{ steps.get_release.outputs.version }}"
 
           if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
@@ -65,14 +66,12 @@ jobs:
       - name: Update Formula
         if: steps.check_update.outputs.needs_update == 'true'
         run: |
-          VERSION="${{ steps.get_release.outputs.version }}"
           TAG="${{ steps.get_release.outputs.tag }}"
           SHA_MACOS_ARM64="${{ steps.calculate_sha.outputs.sha_codexify_macos_arm64 }}"
           SHA_MACOS_X64="${{ steps.calculate_sha.outputs.sha_codexify_macos_x64 }}"
           SHA_LINUX_ARM64="${{ steps.calculate_sha.outputs.sha_codexify_linux_arm64 }}"
           SHA_LINUX_X64="${{ steps.calculate_sha.outputs.sha_codexify_linux_x64 }}"
 
-          sed -i -E "s/version \"[^\"]+\"/version \"${VERSION}\"/" Formula/codexify.rb
           sed -i -E "s|releases/download/[^/]+/codexify-|releases/download/${TAG}/codexify-|g" Formula/codexify.rb
           sed -i "/codexify-macos-arm64/{n;s/sha256 \"[^\"]*\"/sha256 \"${SHA_MACOS_ARM64}\"/;}" Formula/codexify.rb
           sed -i "/codexify-macos-x64/{n;s/sha256 \"[^\"]*\"/sha256 \"${SHA_MACOS_X64}\"/;}" Formula/codexify.rb

@@ -1,7 +1,6 @@
 class Codexify < Formula
   desc "Codex toolbelt for profiles, notifications, backup, and keep-awake"
   homepage "https://github.com/maxgfr/codexify"
-  version "0.1.0"
   license "MIT"
 
   depends_on "maxgfr/tap/conforme"
