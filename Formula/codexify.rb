@@ -42,6 +42,6 @@ class Codexify < Formula
   end
 
   test do
-    assert_match "codexify 0.1.0", shell_output("#{bin}/codexify --version")
+    assert_match "codexify 0.2.0", shell_output("#{bin}/codexify --version")
   end
 end
