@@ -174,7 +174,7 @@ codexfeine
 
 ### [codexify](https://github.com/maxgfr/codexify)
 
-A practical Codex CLI toolbelt — model profiles, reliable Action Required notifications, global config backup, keep-awake sessions, diagnostics, and project sync through Conforme.
+A practical Codex CLI toolbelt — model profiles, Ghostty tab attention plus desktop notifications for completed turns and approvals, global config backup, keep-awake sessions, diagnostics, and project sync through Conforme.
 
 ```bash
 brew install maxgfr/tap/codexify
