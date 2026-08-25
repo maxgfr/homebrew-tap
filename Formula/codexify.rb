@@ -7,25 +7,25 @@ class Codexify < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/codexify/releases/download/v0.2.0/codexify-macos-arm64"
-      sha256 "9d3b84436b150a807cc77cb3f73331ccf88e332ef32bd549f6481de07c5a9d97"
+      url "https://github.com/maxgfr/codexify/releases/download/v0.2.1/codexify-macos-arm64"
+      sha256 "f25b4111425323dc85e20642b22ce27a4834d544370b991e4458724ffc9d3894"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/codexify/releases/download/v0.2.0/codexify-macos-x64"
-      sha256 "22c47b7a772e692cfa00d2196af8eed399fe4e084828ef284278beaae03eede3"
+      url "https://github.com/maxgfr/codexify/releases/download/v0.2.1/codexify-macos-x64"
+      sha256 "6ff84e9bfea24557a849fc8edf8f4be69edb95f11d1eb8f72a0ee67cf9254e6f"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/codexify/releases/download/v0.2.0/codexify-linux-arm64"
-      sha256 "40a018dc1984144bcbb8fdff3aaaff2965d4b5507d7304967fe7ea7fb1f28574"
+      url "https://github.com/maxgfr/codexify/releases/download/v0.2.1/codexify-linux-arm64"
+      sha256 "cb419896be7f92b417d908143b9a5f1fda87e0cfba516253f91cf44435b9b3e5"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/codexify/releases/download/v0.2.0/codexify-linux-x64"
-      sha256 "f03df8e622d72c572c6513e676647a710d8d51840a5d9b1c5519176f20d6778c"
+      url "https://github.com/maxgfr/codexify/releases/download/v0.2.1/codexify-linux-x64"
+      sha256 "bfbc749a0ad6ef13fbcb8b77a34a21f58a4d489abbfb189e5d91c3b663a668a6"
     end
   end
 
@@ -42,6 +42,6 @@ class Codexify < Formula
   end
 
   test do
-    assert_match "codexify 0.2.0", shell_output("#{bin}/codexify --version")
+    assert_match "codexify 0.2.1", shell_output("#{bin}/codexify --version")
   end
 end
