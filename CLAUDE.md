@@ -47,7 +47,7 @@ introduces a new one.
 
 ## Patterns
 
-### Binary formulas (binance-historical, rshc, llm-models)
+### Binary formulas (binance-historical, rshc, llm-models, codexify)
 - Download pre-compiled binaries per platform from GitHub Releases
 - Platform detection: `on_macos do / on_arm do`, `on_intel do`, `on_linux do`
 
@@ -84,6 +84,7 @@ introduces a new one.
 | 18 | codeindex |
 | 19 | sift |
 | 20 | webindex |
+| 21 | codexify |
 
 All formulas have an update workflow — never leave one manually updated
 (codeindex stayed frozen at v2.6.0 for 7 minor releases because of that).

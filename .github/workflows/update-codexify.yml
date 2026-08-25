@@ -1,0 +1,96 @@
+name: Update codexify Formula
+
+on:
+  schedule:
+    - cron: "0 21 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Get latest release info
+        id: get_release
+        env:
+          GH_TOKEN: ${{ secrets.GHTOKEN }}
+        run: |
+          RELEASE_DATA=$(curl -fsSL -H "Authorization: Bearer $GH_TOKEN" https://api.github.com/repos/maxgfr/codexify/releases/latest)
+          TAG=$(echo "$RELEASE_DATA" | jq -r '.tag_name')
+
+          if [ -z "$TAG" ] || [ "$TAG" = "null" ]; then
+            echo "No release found"
+            exit 1
+          fi
+
+          VERSION="${TAG#v}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Latest release: $TAG"
+
+      - name: Download binaries and calculate SHA256
+        id: calculate_sha
+        run: |
+          TAG="${{ steps.get_release.outputs.tag }}"
+          BASE_URL="https://github.com/maxgfr/codexify/releases/download/${TAG}"
+
+          for binary in codexify-macos-arm64 codexify-macos-x64 codexify-linux-arm64 codexify-linux-x64; do
+            echo "Downloading ${binary}..."
+            curl -fsSL -o "${binary}" "${BASE_URL}/${binary}"
+            SHA=$(sha256sum "${binary}" | awk '{print $1}')
+            KEY=$(echo "${binary}" | tr '-' '_')
+            echo "sha_${KEY}=${SHA}" >> "$GITHUB_OUTPUT"
+          done
+
+          rm -f codexify-*
+
+      - name: Check if update is needed
+        id: check_update
+        run: |
+          CURRENT_VERSION=$(grep 'version "' Formula/codexify.rb | head -1 | sed -E 's/.*version "([^"]+)".*/\1/')
+          NEW_VERSION="${{ steps.get_release.outputs.version }}"
+
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+            echo "needs_update=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "needs_update=false" >> "$GITHUB_OUTPUT"
+            echo "Already up to date"
+          fi
+
+      - name: Update Formula
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          TAG="${{ steps.get_release.outputs.tag }}"
+          SHA_MACOS_ARM64="${{ steps.calculate_sha.outputs.sha_codexify_macos_arm64 }}"
+          SHA_MACOS_X64="${{ steps.calculate_sha.outputs.sha_codexify_macos_x64 }}"
+          SHA_LINUX_ARM64="${{ steps.calculate_sha.outputs.sha_codexify_linux_arm64 }}"
+          SHA_LINUX_X64="${{ steps.calculate_sha.outputs.sha_codexify_linux_x64 }}"
+
+          sed -i -E "s/version \"[^\"]+\"/version \"${VERSION}\"/" Formula/codexify.rb
+          sed -i -E "s|releases/download/[^/]+/codexify-|releases/download/${TAG}/codexify-|g" Formula/codexify.rb
+          sed -i "/codexify-macos-arm64/{n;s/sha256 \"[^\"]*\"/sha256 \"${SHA_MACOS_ARM64}\"/;}" Formula/codexify.rb
+          sed -i "/codexify-macos-x64/{n;s/sha256 \"[^\"]*\"/sha256 \"${SHA_MACOS_X64}\"/;}" Formula/codexify.rb
+          sed -i "/codexify-linux-arm64/{n;s/sha256 \"[^\"]*\"/sha256 \"${SHA_LINUX_ARM64}\"/;}" Formula/codexify.rb
+          sed -i "/codexify-linux-x64/{n;s/sha256 \"[^\"]*\"/sha256 \"${SHA_LINUX_X64}\"/;}" Formula/codexify.rb
+
+      - name: Commit and push changes
+        if: steps.check_update.outputs.needs_update == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add Formula/codexify.rb
+          git commit -m "chore: update codexify to ${{ steps.get_release.outputs.version }}"
+          git push
+
+      - name: Summary
+        run: |
+          echo "Codexify release checked: ${{ steps.get_release.outputs.version }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Formula update required: ${{ steps.check_update.outputs.needs_update }}" >> "$GITHUB_STEP_SUMMARY"

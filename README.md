@@ -172,6 +172,16 @@ brew install maxgfr/tap/codexfeine
 codexfeine
 ```
 
+### [codexify](https://github.com/maxgfr/codexify)
+
+A practical Codex CLI toolbelt — model profiles, reliable Action Required notifications, global config backup, keep-awake sessions, diagnostics, and project sync through Conforme.
+
+```bash
+brew install maxgfr/tap/codexify
+codexify doctor
+codexify notify on
+```
+
 ### [codeindex](https://github.com/maxgfr/codeindex)
 
 Zero-dependency repo-indexing engine: symbols, imports, typed cross-file link-graph, callers, SCIP export — CLI + MCP server included. Also on [npm](https://www.npmjs.com/package/@maxgfr/codeindex).
