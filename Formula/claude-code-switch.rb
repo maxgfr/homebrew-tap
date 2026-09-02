@@ -1,9 +1,9 @@
 class ClaudeCodeSwitch < Formula
   desc "Minimal provider switching for Claude Code"
   homepage "https://github.com/maxgfr/claude-code-switch"
-  url "https://github.com/maxgfr/claude-code-switch/archive/refs/tags/v1.7.0.tar.gz"
-  version "v1.7.0"
-  sha256 "5a5e5bde957cc6d58b7feadec99b2e94751e49753670a689ee04fbedf83589d8"
+  url "https://github.com/maxgfr/claude-code-switch/archive/refs/tags/v1.8.2.tar.gz"
+  version "v1.8.2"
+  sha256 "a3b399b22bbfa81cd91e2988f25adae23c7e5d1aa4a571c4c62f0c4bd06d4f15"
   license "MIT"
 
   # Needed by `ccs notify` (desktop notifications)
