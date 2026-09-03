@@ -1,9 +1,9 @@
 class GitPilot < Formula
   desc "AI-powered git automation: smart commits, conflict resolution, and auto-rebase"
   homepage "https://github.com/maxgfr/git-pilot"
-  url "https://github.com/maxgfr/git-pilot/archive/refs/tags/v1.12.9.tar.gz"
-  version "v1.12.9"
-  sha256 "7f49b97783efaf5a1d6b601b0004c946c4b60cdcb2109e47973fcf6e0bb23359"
+  url "https://github.com/maxgfr/git-pilot/archive/refs/tags/v1.12.10.tar.gz"
+  version "v1.12.10"
+  sha256 "04d060acc750b0125e93cf5bd61f4144d6fb297fffbe2a7b62e8bfcf2d862e48"
   license "MIT"
 
   depends_on "curl"
