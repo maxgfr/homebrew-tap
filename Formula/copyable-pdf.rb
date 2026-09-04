@@ -6,8 +6,9 @@ class CopyablePdf < Formula
   sha256 "103a9cc776ea127f741f927d96a4179877a315523eb13e41176f40cdb58ac2fd"
   license "MIT"
 
-  depends_on "tesseract"
   depends_on "poppler"
+  depends_on "qpdf"
+  depends_on "tesseract"
 
   def install
     bin.install "script.sh" => "copyable-pdf"
