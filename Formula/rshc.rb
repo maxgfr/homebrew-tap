@@ -1,45 +1,45 @@
 class Rshc < Formula
   desc "Rust reimplementation of SHC — encrypts shell scripts into compiled binaries"
   homepage "https://github.com/maxgfr/rshc"
-  version "v1.5.1"
+  version "v1.6.2"
   license "GPL-3.0"
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/rshc/releases/download/v1.5.1/rshc-macos-arm64"
-      sha256 "f237c36f8895b3c42bd297d67422beed503f29a151bcb483dd61407742bb99a7"
+      url "https://github.com/maxgfr/rshc/releases/download/v1.6.2/rshc-macos-arm64"
+      sha256 "484f81b4d3cf2ec714f73ae366ee305f4ef6f2a371f6f99dc360b1114d504c74"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/rshc/releases/download/v1.5.1/rshc-macos-x64"
-      sha256 "6aae837c8bf6d793faecd46ede3d779bd38d7e46e8adc1155e3bef7e87445063"
+      url "https://github.com/maxgfr/rshc/releases/download/v1.6.2/rshc-macos-x64"
+      sha256 "e2814a5b333e5120f971bb7c09f6ecd87b174bc82ac3c331ffd0aa7495a55954"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/maxgfr/rshc/releases/download/v1.5.1/rshc-linux-x64"
-      sha256 "0d8f36bb7b86d92fb73c7516a3f2e64d6a2ef8a06c170af9a04a44df07578ce8"
+      url "https://github.com/maxgfr/rshc/releases/download/v1.6.2/rshc-linux-x64"
+      sha256 "9f5c0c5784d8c358287fc220be71432df0dad017128587acb2d90c43f8eca514"
     end
   end
 
   resource "rshc-runner" do
     on_macos do
       on_arm do
-        url "https://github.com/maxgfr/rshc/releases/download/v1.5.1/rshc-runner-macos-arm64"
-        sha256 "71f42ecf2053c04b4076848c1d316a2f969a883415940ceb1ad9992050b8473e"
+        url "https://github.com/maxgfr/rshc/releases/download/v1.6.2/rshc-runner-macos-arm64"
+        sha256 "db0d0b072227757f221036674a512693a560fd4aca33b7c620e6c23f3ef8cca4"
       end
 
       on_intel do
-        url "https://github.com/maxgfr/rshc/releases/download/v1.5.1/rshc-runner-macos-x64"
-        sha256 "bebd6e2b408d179afaf597640bd6677c26f029e545bd0ff858b34e5c3b820eab"
+        url "https://github.com/maxgfr/rshc/releases/download/v1.6.2/rshc-runner-macos-x64"
+        sha256 "f98373b2497cc35db8d83558931a24760859bb998842c18519ff6701c3dd0337"
       end
     end
 
     on_linux do
       on_intel do
-        url "https://github.com/maxgfr/rshc/releases/download/v1.5.1/rshc-runner-linux-x64"
-        sha256 "77f8789eb8a9f50f8c75c11841965e430ba2a31d590d381d015ac452d677b1c0"
+        url "https://github.com/maxgfr/rshc/releases/download/v1.6.2/rshc-runner-linux-x64"
+        sha256 "ddf287028b727427b962cfd9df177616f84887d97f854ed74964d357e45a90fc"
       end
     end
   end
