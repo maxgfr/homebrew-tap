@@ -1,25 +1,25 @@
 class BinanceHistorical < Formula
   desc "Download historical klines from Binance API"
   homepage "https://github.com/maxgfr/binance-historical"
-  version "v2.0.1"
+  version "v2.0.3"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/binance-historical/releases/download/v2.0.1/binance-historical-macos-arm64"
-      sha256 "128d66b487681893c1528387e23908cdfa840d64c597b823a2ed267f017e1284"
+      url "https://github.com/maxgfr/binance-historical/releases/download/v2.0.3/binance-historical-macos-arm64"
+      sha256 "36ef2dc6adc34fae0ab19f60ea330c0f061bf781a956110110918684ae537df6"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/binance-historical/releases/download/v2.0.1/binance-historical-macos-x64"
+      url "https://github.com/maxgfr/binance-historical/releases/download/v2.0.3/binance-historical-macos-x64"
       sha256 "ac3184845502a80fe0bf04918dae1ee103d4749323eefe23ced5475914b25b43"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/maxgfr/binance-historical/releases/download/v2.0.1/binance-historical-linux-x64"
-      sha256 "d096443a5c7434ef3197e2eafc785b0315a37ec2c22c33d9f73c59d8a8b8afed"
+      url "https://github.com/maxgfr/binance-historical/releases/download/v2.0.3/binance-historical-linux-x64"
+      sha256 "9c4743dc0a22d965d2f4057b0fff6635fb93bb0e8cb6ddb52b6612cae6d89698"
     end
   end
 
