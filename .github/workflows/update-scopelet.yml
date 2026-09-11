@@ -1,0 +1,177 @@
+name: Update scopelet Formula
+
+on:
+  schedule:
+    - cron: "0 22 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest release info
+        id: get_release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          RELEASE_DATA=$(curl -s -H "Authorization: token $GH_TOKEN" https://api.github.com/repos/maxgfr/scopelet/releases/latest)
+          VERSION=$(echo "$RELEASE_DATA" | jq -r '.tag_name')
+
+          if [ "$VERSION" == "null" ]; then
+            echo "No release found"
+            exit 1
+          fi
+
+          # Tags are v-prefixed but Homebrew rejects a leading `v` in `version`,
+          # so the formula stores the bare number and the URLs keep the tag.
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "number=${VERSION#v}" >> $GITHUB_OUTPUT
+          echo "Latest version: $VERSION"
+
+      - name: Download binaries and calculate SHA256
+        id: calculate_sha
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          BASE_URL="https://github.com/maxgfr/scopelet/releases/download/${VERSION}"
+
+          # The release also carries scopelet.skill and SHA256SUMS. Neither is a
+          # Homebrew artifact, so neither is checksummed here. Scopelet names its
+          # binaries by Rust target triple, not by the tap's usual
+          # <name>-<platform>-<arch>.
+          for binary in scopelet-aarch64-apple-darwin scopelet-x86_64-apple-darwin scopelet-aarch64-unknown-linux-gnu scopelet-x86_64-unknown-linux-gnu; do
+            echo "Downloading ${binary}..."
+            curl -L -f -o "${binary}" "${BASE_URL}/${binary}" || { echo "Failed to download ${binary}"; exit 1; }
+            SHA=$(sha256sum "${binary}" | awk '{print $1}')
+            KEY=$(echo "${binary}" | tr '-' '_')
+            echo "sha_${KEY}=${SHA}" >> $GITHUB_OUTPUT
+            echo "${binary} SHA256: ${SHA}"
+          done
+
+          rm -f scopelet-*
+
+      - name: Check if update is needed
+        id: check_update
+        run: |
+          CURRENT_VERSION=$(grep 'version "' Formula/scopelet.rb | head -1 | sed -E 's/.*version "([^"]+)".*/\1/')
+          NEW_VERSION="${{ steps.get_release.outputs.number }}"
+
+          echo "Current version: $CURRENT_VERSION"
+          echo "New version: $NEW_VERSION"
+
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+            echo "Update needed!"
+          else
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+            echo "Already up to date"
+          fi
+
+      - name: Update Formula
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          NUMBER="${{ steps.get_release.outputs.number }}"
+          SHA_MACOS_ARM64="${{ steps.calculate_sha.outputs.sha_scopelet_aarch64_apple_darwin }}"
+          SHA_MACOS_X64="${{ steps.calculate_sha.outputs.sha_scopelet_x86_64_apple_darwin }}"
+          SHA_LINUX_ARM64="${{ steps.calculate_sha.outputs.sha_scopelet_aarch64_unknown_linux_gnu }}"
+          SHA_LINUX_X64="${{ steps.calculate_sha.outputs.sha_scopelet_x86_64_unknown_linux_gnu }}"
+
+          cat > Formula/scopelet.rb << EOF
+          class Scopelet < Formula
+            desc "Compute before you send: local, recoverable evidence queries for agents"
+            homepage "https://github.com/maxgfr/scopelet"
+            version "${NUMBER}"
+            license "MIT"
+
+            on_macos do
+              on_arm do
+                url "https://github.com/maxgfr/scopelet/releases/download/${VERSION}/scopelet-aarch64-apple-darwin"
+                sha256 "${SHA_MACOS_ARM64}"
+              end
+
+              on_intel do
+                url "https://github.com/maxgfr/scopelet/releases/download/${VERSION}/scopelet-x86_64-apple-darwin"
+                sha256 "${SHA_MACOS_X64}"
+              end
+            end
+
+            on_linux do
+              on_arm do
+                url "https://github.com/maxgfr/scopelet/releases/download/${VERSION}/scopelet-aarch64-unknown-linux-gnu"
+                sha256 "${SHA_LINUX_ARM64}"
+              end
+
+              on_intel do
+                url "https://github.com/maxgfr/scopelet/releases/download/${VERSION}/scopelet-x86_64-unknown-linux-gnu"
+                sha256 "${SHA_LINUX_X64}"
+              end
+            end
+
+            def install
+              binary = Dir["scopelet-*"].first
+
+              if binary.nil?
+                opoo "No scopelet binary found"
+                return
+              end
+
+              chmod 0755, binary
+              bin.install binary => "scopelet"
+            end
+
+            def caveats
+              <<~EOS
+                The binary compresses nothing on its own. Install the agent hooks with:
+
+                  scopelet install --agent all
+
+                That copies this binary to ~/.config/scopelet/bin/scopelet and points the
+                Claude Code, Codex and OpenCode hooks at the copy, so re-run it after every
+                brew upgrade scopelet. Check the result with: scopelet doctor
+
+                The model-invocable skill is a separate install:
+                  npx skills add maxgfr/scopelet --skill scopelet --global -a codex claude-code opencode -y
+              EOS
+            end
+
+            test do
+              assert_match version.to_s, shell_output("#{bin}/scopelet --version")
+              # Under the threshold nothing is substituted, so the bytes must come back
+              # exactly. A real end-to-end run of the compressor, with no network, no model
+              # call and its own cache, rather than a version string echo.
+              assert_equal "hello world\n",
+                           pipe_output("#{bin}/scopelet compress --cache-dir #{testpath}/cache", "hello world\n")
+            end
+          end
+          EOF
+
+          echo "Formula updated successfully"
+
+      - name: Commit and push changes
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          git add Formula/scopelet.rb
+          git commit -m "chore: update scopelet to ${{ steps.get_release.outputs.version }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          echo "✅ Formula updated to version ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **macOS ARM64 SHA256**: ${{ steps.calculate_sha.outputs.sha_scopelet_aarch64_apple_darwin }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **macOS x64 SHA256**: ${{ steps.calculate_sha.outputs.sha_scopelet_x86_64_apple_darwin }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Linux ARM64 SHA256**: ${{ steps.calculate_sha.outputs.sha_scopelet_aarch64_unknown_linux_gnu }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Linux x64 SHA256**: ${{ steps.calculate_sha.outputs.sha_scopelet_x86_64_unknown_linux_gnu }}" >> $GITHUB_STEP_SUMMARY

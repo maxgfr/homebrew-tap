@@ -214,6 +214,18 @@ brew install maxgfr/tap/sift
 sift fit unsloth/Qwen3-30B-A3B-GGUF
 ```
 
+### [scopelet](https://github.com/maxgfr/scopelet)
+
+Compute before you send — replaces an oversized command output with a bounded view before the agent reads it, keeps the exact original bytes in a local store, and puts the recovery command on the first line. No second model call, no API key, no proxy.
+
+Note: Homebrew installs the binary only. `scopelet install` copies it to `~/.config/scopelet/bin` and points the hooks at that copy, so re-run it after `brew upgrade scopelet`. The model-invocable skill is a separate install: `npx skills add maxgfr/scopelet --skill scopelet --global -a codex claude-code opencode -y`.
+
+```bash
+brew install maxgfr/tap/scopelet
+scopelet install --agent all   # hooks for Claude Code, Codex and OpenCode
+scopelet doctor                # binary, mode and hooks_configured per host
+```
+
 ## Uninstalling
 
 ```bash

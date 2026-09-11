@@ -47,7 +47,7 @@ introduces a new one.
 
 ## Patterns
 
-### Binary formulas (binance-historical, rshc, llm-models, codexify)
+### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet)
 - Download pre-compiled binaries per platform from GitHub Releases
 - Platform detection: `on_macos do / on_arm do`, `on_intel do`, `on_linux do`
 
@@ -85,6 +85,7 @@ introduces a new one.
 | 19 | sift |
 | 20 | webindex |
 | 21 | codexify |
+| 22 | scopelet |
 
 All formulas have an update workflow — never leave one manually updated
 (codeindex stayed frozen at v2.6.0 for 7 minor releases because of that).
@@ -97,6 +98,16 @@ so the formula carries `conflicts_with "sift"`. Without it Homebrew fails at
 link time with nothing the user can act on. sift also publishes a Windows
 binary, which Homebrew does not install — the update workflow deliberately
 checksums only the four macOS/Linux artifacts.
+
+Note for scopelet: it breaks two tap conventions on purpose. Its release assets
+are named by Rust target triple (`scopelet-aarch64-apple-darwin`), not
+`<name>-<platform>-<arch>`, and its formula stores the bare `0.5.4` while the
+URLs keep the `v0.5.4` tag — `brew style` rejects a leading `v`, so the update
+workflow carries both `version` (tag, for URLs) and `number` (bare, for the
+formula and the up-to-date check). Comparing the bare version against the tag
+would rewrite and commit the formula on every run. The release also publishes
+`scopelet.skill` and `SHA256SUMS`, which are not Homebrew artifacts and are not
+checksummed.
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`
