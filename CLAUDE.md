@@ -59,6 +59,11 @@ introduces a new one.
 - Download from npmjs.org registry
 - Require `node` dependency
 
+### Formulas depending on another formula of this tap (web-watcher → webindex)
+- Declare it as `depends_on "maxgfr/tap/<name>"` (fully qualified, next to the system deps)
+- The update workflow only rewrites `url`/`sha256` (web-watcher has no `version` line: brew audit flags it as redundant with the URL, and the workflow reads the current tag from `url`), so the `depends_on` line survives bumps
+- Bump the dependency's own formula first when the dependent needs a newer version of it
+
 ## Cron schedule (UTC)
 
 | Hour | Formula |

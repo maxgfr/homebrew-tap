@@ -112,10 +112,13 @@ db-schema-toolkit help
 ### [web-watcher](https://github.com/maxgfr/web-watcher)
 
 Watch APIs & websites for changes — get notified instantly from your terminal.
+Depends on `webindex` (installed automatically), which website mode uses as its HTML-to-text extractor.
 
 ```bash
 brew install maxgfr/tap/web-watcher
 web-watcher --help
+# Watch a page, ignoring the lines that always move
+web-watcher --once -m website --ignore 'ago|points' --baseline-file /tmp/hn.txt https://news.ycombinator.com/
 ```
 
 ### [github-helpers](https://github.com/maxgfr/github-helpers)

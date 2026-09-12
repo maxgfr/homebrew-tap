@@ -65,7 +65,9 @@ jobs:
         run: |
           set -euo pipefail
 
-          CURRENT_VERSION=$(grep 'version "' Formula/web-watcher.rb | sed -E 's/.*version "([^"]+)".*/\1/')
+          # The formula has no `version` line (brew audit: redundant with the
+          # URL); the current tag is the one in the url.
+          CURRENT_VERSION=$(grep 'url "' Formula/web-watcher.rb | sed -E 's|.*/tags/([^/]+)\.tar\.gz.*|\1|')
           NEW_VERSION="${{ steps.get_release.outputs.version }}"
 
           echo "Current version: $CURRENT_VERSION"
@@ -89,7 +91,6 @@ jobs:
           SHA256="${{ steps.calculate_sha.outputs.sha256 }}"
 
           sed -i "s|url \".*\"|url \"$URL\"|g" Formula/web-watcher.rb
-          sed -i "s|version \".*\"|version \"$VERSION\"|g" Formula/web-watcher.rb
           sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|g" Formula/web-watcher.rb
 
           echo "Formula updated successfully"
