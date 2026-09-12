@@ -1,9 +1,9 @@
 class WebWatcher < Formula
   desc "Watch APIs & websites for changes — get notified instantly from your terminal"
   homepage "https://github.com/maxgfr/web-watcher"
-  url "https://github.com/maxgfr/web-watcher/archive/refs/tags/v1.1.2.tar.gz"
-  version "v1.1.2"
-  sha256 "09b1573f4bcdefa6d17208ba9f820693400349088373aca557258b1e80438d28"
+  url "https://github.com/maxgfr/web-watcher/archive/refs/tags/v1.2.0.tar.gz"
+  version "v1.2.0"
+  sha256 "e81461abadb30828350c9fd2a43359e0f79d9c4f85b06d7843fa806256beae8d"
   license "MIT"
 
   depends_on "curl"
