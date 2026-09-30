@@ -1,9 +1,9 @@
 class GithubHelpers < Formula
   desc "GitHub maintenance toolkit: bulk unstar, org clone, and more"
   homepage "https://github.com/maxgfr/github-helpers"
-  url "https://github.com/maxgfr/github-helpers/archive/refs/tags/v1.4.0.tar.gz"
-  version "v1.4.0"
-  sha256 "917a2db045f92109f60a53978305cc3f03f0142b5a885316d7afb5a5eda23d2e"
+  url "https://github.com/maxgfr/github-helpers/archive/refs/tags/v1.5.0.tar.gz"
+  version "v1.5.0"
+  sha256 "755e6c4c457439e090f8b3c85d0150e26f9e9806a221ce0f381275cf96592548"
   license "MIT"
 
   depends_on "gh"
