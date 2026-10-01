@@ -47,7 +47,7 @@ introduces a new one.
 
 ## Patterns
 
-### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet)
+### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate)
 - Download pre-compiled binaries per platform from GitHub Releases
 - Platform detection: `on_macos do / on_arm do`, `on_intel do`, `on_linux do`
 
@@ -91,6 +91,7 @@ introduces a new one.
 | 20 | webindex |
 | 21 | codexify |
 | 22 | scopelet |
+| 23 | secretgate |
 
 All formulas have an update workflow — never leave one manually updated
 (codeindex stayed frozen at v2.6.0 for 7 minor releases because of that).
@@ -113,6 +114,13 @@ formula and the up-to-date check). Comparing the bare version against the tag
 would rewrite and commit the formula on every run. The release also publishes
 `scopelet.skill` and `SHA256SUMS`, which are not Homebrew artifacts and are not
 checksummed.
+
+Note for secretgate: the binaries are Bun-compiled (`bun build --compile`),
+so they are large (60–80 MB) and need no Node. The release also publishes
+`secretgate.mjs` (the skill's Node bundle) and `SHA256SUMS`, which are not
+Homebrew artifacts and are not checksummed. `secretgate init` pins a copy of
+the binary under `~/.secretgate/bin`, so the formula's `caveats` tell users to
+re-run it after `brew upgrade`.
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`

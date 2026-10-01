@@ -229,6 +229,18 @@ scopelet install --agent all   # hooks for Claude Code, Codex and OpenCode
 scopelet doctor                # binary, mode and hooks_configured per host
 ```
 
+### [secretgate](https://github.com/maxgfr/secretgate)
+
+Local secrets firewall for coding agents: detects credentials in prompts, file reads and tool output before they reach the model, redacts them to stable placeholders and restores the real values when the agent writes them back. Claude Code, Codex and OpenCode; 100% local, no Node needed.
+
+Note: `secretgate init` copies the binary to `~/.secretgate/bin` and points the hooks at that copy, so re-run it after `brew upgrade secretgate`. The skill is a separate install: `npx skills add maxgfr/secretgate -g`.
+
+```bash
+brew install maxgfr/tap/secretgate
+secretgate init                # detect the agents, wire their hooks, self-test them
+secretgate scan .              # exit 1 on findings
+```
+
 ## Uninstalling
 
 ```bash
