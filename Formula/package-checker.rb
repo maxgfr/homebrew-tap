@@ -1,9 +1,9 @@
 class PackageChecker < Formula
   desc "Flexible, lightweight shell script to detect vulnerable npm packages"
   homepage "https://github.com/maxgfr/package-checker.sh"
-  url "https://github.com/maxgfr/package-checker.sh/archive/refs/tags/v1.11.61.tar.gz"
-  version "v1.11.61"
-  sha256 "512b7b9d7ae9e25d1e685ec9c3069009f772ff75277acbc60de6ae3067369042"
+  url "https://github.com/maxgfr/package-checker.sh/archive/refs/tags/v1.11.63.tar.gz"
+  version "v1.11.63"
+  sha256 "4a5b21cc09e58087683912447069d1e0b2f4c1ff18c1938c84db6886da32d844"
   license "MIT"
 
   def install
