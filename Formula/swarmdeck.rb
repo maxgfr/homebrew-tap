@@ -1,8 +1,8 @@
 class Swarmdeck < Formula
   desc "Drive a Swarmdeck torrent server, and make and edit .torrent files (CLI + MCP)"
   homepage "https://github.com/maxgfr/swarmdeck"
-  url "https://github.com/maxgfr/swarmdeck/archive/refs/tags/v1.0.1.tar.gz"
-  sha256 "c0c02ee06f034fb557ff1a09327c40ae40013a0141ec874d1f82e42e06c0bf92"
+  url "https://github.com/maxgfr/swarmdeck/archive/refs/tags/v1.1.0.tar.gz"
+  sha256 "1fce7ccbb497897e2ab38291c9973248a7d4038992faaa6322a907215140666f"
 
   depends_on "node"
 
