@@ -51,7 +51,7 @@ introduces a new one.
 - Download pre-compiled binaries per platform from GitHub Releases
 - Platform detection: `on_macos do / on_arm do`, `on_intel do`, `on_linux do`
 
-### Source/script formulas (git-recap, snatch, subtool, etc.)
+### Source/script formulas (git-recap, snatch, subtool, swarmdeck, etc.)
 - Download source tarball from GitHub Releases
 - Install scripts directly with `bin.install`
 
@@ -92,6 +92,7 @@ introduces a new one.
 | 21 | codexify |
 | 22 | scopelet |
 | 23 | secretgate |
+| 0:30 | swarmdeck |
 
 All formulas have an update workflow — never leave one manually updated
 (codeindex stayed frozen at v2.6.0 for 7 minor releases because of that).
@@ -121,6 +122,16 @@ so they are large (60–80 MB) and need no Node. The release also publishes
 Homebrew artifacts and are not checksummed. `secretgate init` pins a copy of
 the binary under `~/.secretgate/bin`, so the formula's `caveats` tell users to
 re-run it after `brew upgrade`.
+
+Note for swarmdeck: every hour slot was taken, so it runs at 00:30. It is a
+source formula like snatch: the release's source tarball, with `cli/`, `lib/`,
+`mcp/` and `package*.json` installed into `libexec` and `npm ci --omit=dev
+--ignore-scripts` run there (only the MCP server has dependencies; the dev ones
+are the site's tests). Two commands are written with `write_env_script` so they
+run on Homebrew's node: `swarmdeck` and `swarmdeck-mcp`. Like web-watcher it has
+no `version` line, and the workflow reads the current tag from `url`. It has no
+`license` line because the swarmdeck repo declares none yet; add `license "MIT"`
+once it does.
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`

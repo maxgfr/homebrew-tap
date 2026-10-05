@@ -241,6 +241,18 @@ secretgate init                # detect the agents, wire their hooks, self-test 
 secretgate scan .              # exit 1 on findings
 ```
 
+### [swarmdeck](https://github.com/maxgfr/swarmdeck)
+
+Drive a Swarmdeck torrent server from a terminal or an AI: add a magnet or a `.torrent`, pause, choose the files, wait, copy, link and remove its transfers; and inspect, edit, create and check `.torrent` files with no server at all. `swarmdeck-mcp` is the same as an MCP server.
+
+Note: the server itself is not installed here. Run it with `npm run local` in a checkout of the repo, or as its Docker image, and point `SWARMDECK_URL` (default `http://127.0.0.1:8080`) and `SWARMDECK_TOKEN` at it.
+
+```bash
+brew install maxgfr/tap/swarmdeck
+swarmdeck add 'magnet:?xt=urn:btih:…' && swarmdeck list
+claude mcp add swarmdeck -- swarmdeck-mcp
+```
+
 ## Uninstalling
 
 ```bash
