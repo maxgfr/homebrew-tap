@@ -129,9 +129,10 @@ source formula like snatch: the release's source tarball, with `cli/`, `lib/`,
 --ignore-scripts` run there (only the MCP server has dependencies; the dev ones
 are the site's tests). Two commands are written with `write_env_script` so they
 run on Homebrew's node: `swarmdeck` and `swarmdeck-mcp`. Like web-watcher it has
-no `version` line, and the workflow reads the current tag from `url`. It has no
-`license` line because the swarmdeck repo declares none yet; add `license "MIT"`
-once it does.
+no `version` line, and the workflow reads the current tag from `url`. swarmdeck
+releases by semantic-release (a release for every feat or fix on its main, with
+package.json bumped in the tagged commit), so the formula test's `--version` check
+matches the tag.
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`

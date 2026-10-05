@@ -3,6 +3,7 @@ class Swarmdeck < Formula
   homepage "https://github.com/maxgfr/swarmdeck"
   url "https://github.com/maxgfr/swarmdeck/archive/refs/tags/v1.1.0.tar.gz"
   sha256 "1fce7ccbb497897e2ab38291c9973248a7d4038992faaa6322a907215140666f"
+  license "MIT"
 
   depends_on "node"
 
