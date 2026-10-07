@@ -137,9 +137,9 @@ matches the tag.
 
 Note for troupe: like secretgate its binaries are Bun-compiled (60–80 MB, no
 Node), the x64 ones on Bun's baseline runtime, the macOS ones re-signed ad
-hoc. Like scopelet the formula stores the bare `0.4.0` while the URLs keep the
-`v0.4.0` tag, so the workflow carries both `version` (tag) and `number`
-(bare). troupe releases by semantic-release (a release for every feat or fix
+hoc. Like web-watcher it has no `version` line (brew audit flags it as
+redundant with the URLs' `v0.4.0`), and the workflow reads the current tag
+from the first `url`. troupe releases by semantic-release (a release for every feat or fix
 on its main, the version injected at build time), so the formula test's
 `--version` check matches the tag. Its release workflow attaches the binaries
 a few minutes after the GitHub Release is published: a run in between fails

@@ -29,17 +29,16 @@ jobs:
             exit 1
           fi
 
-          # The tag (v0.4.0) is in the URLs, the bare number (0.4.0) in the formula.
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "number=${VERSION#v}" >> $GITHUB_OUTPUT
           echo "Latest version: $VERSION"
 
       - name: Check if update is needed
         id: check_update
         run: |
           set -euo pipefail
-          CURRENT_VERSION=$(grep 'version "' Formula/troupe.rb | head -1 | sed -E 's/.*version "([^"]+)".*/\1/')
-          NEW_VERSION="${{ steps.get_release.outputs.number }}"
+          # No version line in the formula (brew reads it from the URLs): the current tag is read from the first URL.
+          CURRENT_VERSION=$(grep -m1 'url "' Formula/troupe.rb | sed -E 's|.*/releases/download/([^/]+)/.*|\1|')
+          NEW_VERSION="${{ steps.get_release.outputs.version }}"
 
           echo "Current version: $CURRENT_VERSION"
           echo "New version: $NEW_VERSION"
@@ -74,7 +73,6 @@ jobs:
           set -euo pipefail
           VERSION="${{ steps.get_release.outputs.version }}"
 
-          sed -i "s|version \".*\"|version \"${{ steps.get_release.outputs.number }}\"|" Formula/troupe.rb
           sed -i -E "s|releases/download/v[^/]+/troupe-|releases/download/${VERSION}/troupe-|" Formula/troupe.rb
 
           # Each sha256 follows its binary's url line.

@@ -1,7 +1,6 @@
 class Troupe < Formula
   desc "Drive a self-hosted Troupe studio (AI actor videos) from the terminal"
   homepage "https://github.com/maxgfr/troupe"
-  version "0.4.0"
   license "MIT"
 
   on_macos do
