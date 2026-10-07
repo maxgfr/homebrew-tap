@@ -47,7 +47,7 @@ introduces a new one.
 
 ## Patterns
 
-### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate)
+### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe)
 - Download pre-compiled binaries per platform from GitHub Releases
 - Platform detection: `on_macos do / on_arm do`, `on_intel do`, `on_linux do`
 
@@ -58,11 +58,6 @@ introduces a new one.
 ### NPM package formulas (db-schema-toolkit)
 - Download from npmjs.org registry
 - Require `node` dependency
-
-### Single-file Node bundle formulas (troupe)
-- Download one `.mjs` release asset (not a tarball), `depends_on "node"`
-- Install it into `libexec` and write a `bin/` wrapper that runs it on `formula_opt_bin("node")/"node"`
-- No `version` line: brew reads it from the asset name, the workflow reads the current tag from `url`
 
 ### Formulas depending on another formula of this tap (web-watcher → webindex)
 - Declare it as `depends_on "maxgfr/tap/<name>"` (fully qualified, next to the system deps)
@@ -140,13 +135,18 @@ releases by semantic-release (a release for every feat or fix on its main, with
 package.json bumped in the tagged commit), so the formula test's `--version` check
 matches the tag.
 
-Note for troupe: the release asset is the CLI in one file,
-`troupe-cli-<bare version>.mjs`, under the `v<version>` tag; the workflow
-builds that URL from the tag. troupe releases by semantic-release (a release
-for every feat or fix on its main, the version injected at build time), so
-the formula test's `--version` check matches the tag. Its other assets (the
-browser edition zip, `SHA256SUMS`) are not Homebrew artifacts. The studio
-itself runs with Docker; the formula's `caveats` say so.
+Note for troupe: like secretgate its binaries are Bun-compiled (60–80 MB, no
+Node), the x64 ones on Bun's baseline runtime, the macOS ones re-signed ad
+hoc. Like scopelet the formula stores the bare `0.4.0` while the URLs keep the
+`v0.4.0` tag, so the workflow carries both `version` (tag) and `number`
+(bare). troupe releases by semantic-release (a release for every feat or fix
+on its main, the version injected at build time), so the formula test's
+`--version` check matches the tag. Its release workflow attaches the binaries
+a few minutes after the GitHub Release is published: a run in between fails
+its download and the next run updates. The release's other assets
+(`troupe-cli-<version>.mjs`, the browser edition zip, `SHA256SUMS`) are not
+Homebrew artifacts. The studio itself runs with Docker; the formula's
+`caveats` say so.
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`

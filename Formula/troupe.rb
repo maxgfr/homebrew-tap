@@ -1,18 +1,39 @@
 class Troupe < Formula
   desc "Drive a self-hosted Troupe studio (AI actor videos) from the terminal"
   homepage "https://github.com/maxgfr/troupe"
-  url "https://github.com/maxgfr/troupe/releases/download/v0.3.0/troupe-cli-0.3.0.mjs"
-  sha256 "4f64210561e13a5a6e805aa5351f71d1aec687977c921548455f05834e0f681f"
+  version "0.0.0"
   license "MIT"
 
-  depends_on "node"
+  on_macos do
+    on_arm do
+      url "https://github.com/maxgfr/troupe/releases/download/v0.0.0/troupe-macos-arm64"
+      sha256 "0000000000000000000000000000000000000000000000000000000000000000"
+    end
+
+    on_intel do
+      url "https://github.com/maxgfr/troupe/releases/download/v0.0.0/troupe-macos-x64"
+      sha256 "0000000000000000000000000000000000000000000000000000000000000000"
+    end
+  end
+
+  on_linux do
+    on_arm do
+      url "https://github.com/maxgfr/troupe/releases/download/v0.0.0/troupe-linux-arm64"
+      sha256 "0000000000000000000000000000000000000000000000000000000000000000"
+    end
+
+    on_intel do
+      url "https://github.com/maxgfr/troupe/releases/download/v0.0.0/troupe-linux-x64"
+      sha256 "0000000000000000000000000000000000000000000000000000000000000000"
+    end
+  end
 
   def install
-    libexec.install "troupe-cli-#{version}.mjs" => "troupe.mjs"
-    (bin/"troupe").write <<~EOS
-      #!/bin/bash
-      exec "#{formula_opt_bin("node")}/node" "#{libexec}/troupe.mjs" "$@"
-    EOS
+    binary = Dir["troupe-*"].first
+    odie "No troupe binary found" if binary.nil?
+
+    chmod 0755, binary
+    bin.install binary => "troupe"
   end
 
   def caveats

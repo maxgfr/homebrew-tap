@@ -29,22 +29,17 @@ jobs:
             exit 1
           fi
 
-          # The CLI in one file, named by the bare version: troupe-cli-0.3.0.mjs.
-          URL="https://github.com/maxgfr/troupe/releases/download/${VERSION}/troupe-cli-${VERSION#v}.mjs"
-
+          # The tag (v0.4.0) is in the URLs, the bare number (0.4.0) in the formula.
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "url=$URL" >> $GITHUB_OUTPUT
-
+          echo "number=${VERSION#v}" >> $GITHUB_OUTPUT
           echo "Latest version: $VERSION"
-          echo "CLI URL: $URL"
 
       - name: Check if update is needed
         id: check_update
         run: |
           set -euo pipefail
-          # No version line in the formula (brew infers it from the URL): the current tag is read from the URL.
-          CURRENT_VERSION=$(grep 'url "' Formula/troupe.rb | sed -E 's|.*/releases/download/([^/]+)/.*|\1|')
-          NEW_VERSION="${{ steps.get_release.outputs.version }}"
+          CURRENT_VERSION=$(grep 'version "' Formula/troupe.rb | head -1 | sed -E 's/.*version "([^"]+)".*/\1/')
+          NEW_VERSION="${{ steps.get_release.outputs.number }}"
 
           echo "Current version: $CURRENT_VERSION"
           echo "New version: $NEW_VERSION"
@@ -57,26 +52,45 @@ jobs:
             echo "Already up to date"
           fi
 
-      - name: Download and calculate SHA256
+      # The release workflow attaches the binaries a few minutes after the
+      # release: before that a download fails, and the next run updates.
+      - name: Download binaries and calculate SHA256
         id: calculate_sha
         if: steps.check_update.outputs.needs_update == 'true'
         run: |
           set -euo pipefail
-          curl -fL -o troupe.mjs "${{ steps.get_release.outputs.url }}"
-          SHA256=$(sha256sum troupe.mjs | awk '{print $1}')
-          echo "sha256=$SHA256" >> $GITHUB_OUTPUT
-          echo "SHA256: $SHA256"
-          rm troupe.mjs
+          BASE_URL="https://github.com/maxgfr/troupe/releases/download/${{ steps.get_release.outputs.version }}"
+          for target in macos-arm64 macos-x64 linux-arm64 linux-x64; do
+            curl -fL -o "troupe-$target" "$BASE_URL/troupe-$target"
+            SHA=$(sha256sum "troupe-$target" | awk '{print $1}')
+            echo "sha_${target/-/_}=$SHA" >> $GITHUB_OUTPUT
+            echo "$target SHA256: $SHA"
+            rm "troupe-$target"
+          done
 
       - name: Update Formula
         if: steps.check_update.outputs.needs_update == 'true'
         run: |
           set -euo pipefail
-          URL="${{ steps.get_release.outputs.url }}"
-          SHA256="${{ steps.calculate_sha.outputs.sha256 }}"
+          VERSION="${{ steps.get_release.outputs.version }}"
 
-          sed -i "s|url \".*\"|url \"$URL\"|g" Formula/troupe.rb
-          sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|g" Formula/troupe.rb
+          sed -i "s|version \".*\"|version \"${{ steps.get_release.outputs.number }}\"|" Formula/troupe.rb
+          sed -i -E "s|releases/download/v[^/]+/troupe-|releases/download/${VERSION}/troupe-|" Formula/troupe.rb
+
+          # Each sha256 follows its binary's url line.
+          awk \
+            -v macos_arm64="${{ steps.calculate_sha.outputs.sha_macos_arm64 }}" \
+            -v macos_x64="${{ steps.calculate_sha.outputs.sha_macos_x64 }}" \
+            -v linux_arm64="${{ steps.calculate_sha.outputs.sha_linux_arm64 }}" \
+            -v linux_x64="${{ steps.calculate_sha.outputs.sha_linux_x64 }}" '
+            /url ".*troupe-macos-arm64"/ { sha = macos_arm64 }
+            /url ".*troupe-macos-x64"/ { sha = macos_x64 }
+            /url ".*troupe-linux-arm64"/ { sha = linux_arm64 }
+            /url ".*troupe-linux-x64"/ { sha = linux_x64 }
+            /sha256 "/ && sha != "" { sub(/sha256 "[^"]*"/, "sha256 \"" sha "\""); sha = "" }
+            { print }
+          ' Formula/troupe.rb > Formula/troupe.rb.tmp
+          mv Formula/troupe.rb.tmp Formula/troupe.rb
 
           echo "Formula updated successfully"
 
@@ -99,5 +113,7 @@ jobs:
           echo "Formula updated to version ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- **Version**: ${{ steps.get_release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **URL**: ${{ steps.get_release.outputs.url }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **SHA256**: ${{ steps.calculate_sha.outputs.sha256 }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **macOS arm64 SHA256**: ${{ steps.calculate_sha.outputs.sha_macos_arm64 }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **macOS x64 SHA256**: ${{ steps.calculate_sha.outputs.sha_macos_x64 }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Linux arm64 SHA256**: ${{ steps.calculate_sha.outputs.sha_linux_arm64 }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Linux x64 SHA256**: ${{ steps.calculate_sha.outputs.sha_linux_x64 }}" >> $GITHUB_STEP_SUMMARY
