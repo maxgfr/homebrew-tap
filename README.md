@@ -253,6 +253,18 @@ swarmdeck add 'magnet:?xt=urn:btih:…' && swarmdeck list
 claude mcp add swarmdeck -- swarmdeck-mcp
 ```
 
+### [troupe](https://github.com/maxgfr/troupe)
+
+Drive a self-hosted Troupe studio (short videos played by AI actors) from a terminal: sign in, add models, create projects, set scripts, chat, render, watch, export and download, and fill the inspiration library, with `--json` on every command. It runs on Homebrew's node.
+
+Note: the studio itself is not installed here. Run it with Docker (see the repo's quick start), then point the CLI at it with `troupe login --url`.
+
+```bash
+brew install maxgfr/tap/troupe
+troupe login --url http://localhost:3100
+troupe doctor && troupe open
+```
+
 ## Uninstalling
 
 ```bash

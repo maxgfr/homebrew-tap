@@ -59,6 +59,11 @@ introduces a new one.
 - Download from npmjs.org registry
 - Require `node` dependency
 
+### Single-file Node bundle formulas (troupe)
+- Download one `.mjs` release asset (not a tarball), `depends_on "node"`
+- Install it into `libexec` and write a `bin/` wrapper that runs it on `formula_opt_bin("node")/"node"`
+- No `version` line: brew reads it from the asset name, the workflow reads the current tag from `url`
+
 ### Formulas depending on another formula of this tap (web-watcher → webindex)
 - Declare it as `depends_on "maxgfr/tap/<name>"` (fully qualified, next to the system deps)
 - The update workflow only rewrites `url`/`sha256` (web-watcher has no `version` line: brew audit flags it as redundant with the URL, and the workflow reads the current tag from `url`), so the `depends_on` line survives bumps
@@ -93,6 +98,7 @@ introduces a new one.
 | 22 | scopelet |
 | 23 | secretgate |
 | 0:30 | swarmdeck |
+| 1:30 | troupe |
 
 All formulas have an update workflow — never leave one manually updated
 (codeindex stayed frozen at v2.6.0 for 7 minor releases because of that).
@@ -133,6 +139,14 @@ no `version` line, and the workflow reads the current tag from `url`. swarmdeck
 releases by semantic-release (a release for every feat or fix on its main, with
 package.json bumped in the tagged commit), so the formula test's `--version` check
 matches the tag.
+
+Note for troupe: the release asset is the CLI in one file,
+`troupe-cli-<bare version>.mjs`, under the `v<version>` tag; the workflow
+builds that URL from the tag. troupe releases by semantic-release (a release
+for every feat or fix on its main, the version injected at build time), so
+the formula test's `--version` check matches the tag. Its other assets (the
+browser edition zip, `SHA256SUMS`) are not Homebrew artifacts. The studio
+itself runs with Docker; the formula's `caveats` say so.
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`
