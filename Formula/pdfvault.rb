@@ -35,6 +35,14 @@ class Pdfvault < Formula
     bin.install binary => "pdfvault"
   end
 
+  def caveats
+    <<~EOS
+      The agent skill (Claude Code, Codex, Cursor, Gemini) ships with the CLI:
+        pdfvault skill --install
+      Rerun it after `brew upgrade pdfvault` to keep it in step.
+    EOS
+  end
+
   test do
     assert_equal version.to_s, shell_output("#{bin}/pdfvault --version").strip
     # Offline: a one-page PDF, rotated, then read back.
@@ -56,5 +64,6 @@ class Pdfvault < Formula
     system bin/"pdfvault", "rotate", testpath/"in.pdf", "--angle", "90", "-o", testpath/"out.pdf", "--quiet"
     info = shell_output("#{bin}/pdfvault info #{testpath}/out.pdf --json")
     assert_match '"rotation": 90', info
+    assert_match "name: pdfvault", shell_output("#{bin}/pdfvault skill")
   end
 end

@@ -283,6 +283,7 @@ Private PDF and image tools from the terminal: compress (lossless, balanced, str
 brew install maxgfr/tap/pdfvault
 pdfvault compress report.pdf --preset strong   # → report-compressed.pdf
 pdfvault ocr scan.pdf && pdfvault to-md scan-searchable.pdf
+pdfvault skill --install                       # the agent skill, for Claude Code, Codex…
 ```
 
 ## Uninstalling

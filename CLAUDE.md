@@ -169,7 +169,9 @@ stamped at build time), so the formula test's `--version` check matches the
 tag. Its release workflow attaches the binaries a few minutes after the
 GitHub Release is published: a run in between fails its download and the next
 run updates. The release's Windows binaries and `SHA256SUMS` are not Homebrew
-artifacts. The formula test writes a one-page PDF and rotates it offline.
+artifacts. The formula test writes a one-page PDF and rotates it offline,
+and checks `pdfvault skill` prints the agent skill; `caveats` point to
+`pdfvault skill --install`, to rerun after each upgrade.
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`
