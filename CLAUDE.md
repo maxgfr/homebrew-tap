@@ -47,7 +47,7 @@ introduces a new one.
 
 ## Patterns
 
-### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil)
+### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil, pdfvault)
 - Download pre-compiled binaries per platform from GitHub Releases
 - Platform detection: `on_macos do / on_arm do`, `on_intel do`, `on_linux do`
 
@@ -95,6 +95,7 @@ introduces a new one.
 | 0:30 | swarmdeck |
 | 1:30 | troupe |
 | 2:30 | veil |
+| 3:30 | pdfvault |
 
 All formulas have an update workflow — never leave one manually updated
 (codeindex stayed frozen at v2.6.0 for 7 minor releases because of that).
@@ -157,6 +158,18 @@ the bare `0.1.0` while the URLs keep the `cli-v0.1.0` tag (`version` = tag for
 URLs, `number` = bare for the formula and the up-to-date check). The release's
 `SHA256SUMS` is not a Homebrew artifact. The formula test runs `veil new`,
 which prints a room link offline.
+
+Note for pdfvault: like troupe its binaries are Bun-compiled (about 95 MB:
+the wasm engine and the 12 MB of OCR models are embedded, no Node or Bun
+needed), the x64 ones on Bun's baseline runtime, the macOS ones re-signed ad
+hoc on a macOS runner. Like troupe it has no `version` line and the workflow
+reads the current tag from the first `url`. pdfvault releases by
+semantic-release (a release for every feat or fix on its main, the version
+stamped at build time), so the formula test's `--version` check matches the
+tag. Its release workflow attaches the binaries a few minutes after the
+GitHub Release is published: a run in between fails its download and the next
+run updates. The release's Windows binaries and `SHA256SUMS` are not Homebrew
+artifacts. The formula test writes a one-page PDF and rotates it offline.
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`

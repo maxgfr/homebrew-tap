@@ -275,6 +275,16 @@ veil send report.pdf                          # prints a room link and a QR code
 veil receive 'https://maxgfr.github.io/veil/#…' --out ~/Downloads
 ```
 
+### [pdfvault](https://github.com/maxgfr/pdfvault)
+
+Private PDF and image tools from the terminal: compress (lossless, balanced, strong, extreme), merge, split, reorder, rotate, watermark, page numbers, AES-256 passwords, OCR to searchable PDF, PDF to Markdown, text or EPUB, and image compression, resizing, conversion and EXIF stripping. Everything runs on your machine, on the same Rust/WebAssembly engine as the [pdfvault web app](https://maxgfr.github.io/pdfvault/); `--json` on every command. A standalone binary with the OCR models built in: no Node.js or Bun needed.
+
+```bash
+brew install maxgfr/tap/pdfvault
+pdfvault compress report.pdf --preset strong   # → report-compressed.pdf
+pdfvault ocr scan.pdf && pdfvault to-md scan-searchable.pdf
+```
+
 ## Uninstalling
 
 ```bash
