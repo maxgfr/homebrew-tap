@@ -1,7 +1,7 @@
 class Sift < Formula
   desc "Will this model fit and run fast on your machine? Answered before you download it"
   homepage "https://github.com/maxgfr/sift"
-  version "v0.7.0"
+  version "v0.7.1"
   license "MIT"
 
   # homebrew/core ships an unrelated `sift`, a grep alternative. Both put a
@@ -11,25 +11,25 @@ class Sift < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/sift/releases/download/v0.7.0/sift-macos-arm64"
-      sha256 "f73b604d2be0238d58e5124648bbaf541848a7aa330750c0238618bd082bc3ea"
+      url "https://github.com/maxgfr/sift/releases/download/v0.7.1/sift-macos-arm64"
+      sha256 "570e1f801893f37ed49019b4db0dd76603bf515bcb73c296d7595982564a9f23"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/sift/releases/download/v0.7.0/sift-macos-x64"
-      sha256 "bd6012cbbb036a360d78be8b0d49706a429bff30bae65ca4c6b984e174c8ea6e"
+      url "https://github.com/maxgfr/sift/releases/download/v0.7.1/sift-macos-x64"
+      sha256 "fea760f4d0a6daaa9ba9e0122a57c7f7d63743c8a6dc9057267ac0e6dd91cb6e"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/sift/releases/download/v0.7.0/sift-linux-arm64"
-      sha256 "6b92c848cf33004a15acbe0bcf83bb749d06f4db84c44805b6d1b821b884663a"
+      url "https://github.com/maxgfr/sift/releases/download/v0.7.1/sift-linux-arm64"
+      sha256 "aedb261756eaacaeb83465b6f4f874f7010a682cadc419f1cb9b18fab152a609"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/sift/releases/download/v0.7.0/sift-linux-x64"
-      sha256 "48891895a1d60926039622ae53c677bd6c6a70140cfd8f37d48d7a8ede50b414"
+      url "https://github.com/maxgfr/sift/releases/download/v0.7.1/sift-linux-x64"
+      sha256 "34b80bd89e4592c49a0b22406f8ed2d8000d40045865384f7a4c66d4316086d4"
     end
   end
 
