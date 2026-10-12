@@ -265,6 +265,16 @@ troupe login --url http://localhost:3100
 troupe doctor && troupe open
 ```
 
+### [veil](https://github.com/maxgfr/veil)
+
+Send and receive files of any size, or chat, peer-to-peer and end-to-end encrypted, in the same rooms as the [Veil web app](https://maxgfr.github.io/veil/). No account and no server in the middle: rooms are a link, files are verified by SHA-256.
+
+```bash
+brew install maxgfr/tap/veil
+veil send report.pdf                          # prints a room link and a QR code
+veil receive 'https://maxgfr.github.io/veil/#…' --out ~/Downloads
+```
+
 ## Uninstalling
 
 ```bash

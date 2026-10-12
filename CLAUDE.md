@@ -47,7 +47,7 @@ introduces a new one.
 
 ## Patterns
 
-### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe)
+### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil)
 - Download pre-compiled binaries per platform from GitHub Releases
 - Platform detection: `on_macos do / on_arm do`, `on_intel do`, `on_linux do`
 
@@ -94,6 +94,7 @@ introduces a new one.
 | 23 | secretgate |
 | 0:30 | swarmdeck |
 | 1:30 | troupe |
+| 2:30 | veil |
 
 All formulas have an update workflow — never leave one manually updated
 (codeindex stayed frozen at v2.6.0 for 7 minor releases because of that).
@@ -147,6 +148,15 @@ its download and the next run updates. The release's other assets
 (`troupe-cli-<version>.mjs`, the browser edition zip, `SHA256SUMS`) are not
 Homebrew artifacts. The studio itself runs with Docker; the formula's
 `caveats` say so.
+
+Note for veil: the maxgfr/veil repo is a web app plus a Rust CLI, and only its
+`cli-v*` tags are CLI releases, so the update workflow picks the newest
+`^cli-v[0-9]` release instead of `releases/latest`. Like scopelet, assets are
+named by Rust target triple (`veil-aarch64-apple-darwin`) and the formula keeps
+the bare `0.1.0` while the URLs keep the `cli-v0.1.0` tag (`version` = tag for
+URLs, `number` = bare for the formula and the up-to-date check). The release's
+`SHA256SUMS` is not a Homebrew artifact. The formula test runs `veil new`,
+which prints a room link offline.
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`
