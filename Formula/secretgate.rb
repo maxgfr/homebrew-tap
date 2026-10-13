@@ -1,30 +1,30 @@
 class Secretgate < Formula
   desc "Local secrets firewall for coding agents (Claude Code, Codex, OpenCode)"
   homepage "https://github.com/maxgfr/secretgate"
-  version "1.6.3"
+  version "1.7.0"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/secretgate/releases/download/v1.6.3/secretgate-macos-arm64"
-      sha256 "61a9beaf79abe208635d5c130b82711c20e3340158ac7c71904ba31fdc46b480"
+      url "https://github.com/maxgfr/secretgate/releases/download/v1.7.0/secretgate-macos-arm64"
+      sha256 "b5292652ddf6f7dcbcd6d8e4f520946d194f15c36c39152bd96fc1abd03cf3c9"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/secretgate/releases/download/v1.6.3/secretgate-macos-x64"
-      sha256 "cadd831dbdbe328971629beff06689844f1f03e4d35922029dbbabb18d27f298"
+      url "https://github.com/maxgfr/secretgate/releases/download/v1.7.0/secretgate-macos-x64"
+      sha256 "b1ec9eb33ced689ea4ab7c2989672a457f81204b7e0492935a13db3921fc7cec"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/secretgate/releases/download/v1.6.3/secretgate-linux-arm64"
-      sha256 "df06fe8d710b7f22ab1eda7ad99586b009b515b0d9b7c9375d3b5d26d86ea7ab"
+      url "https://github.com/maxgfr/secretgate/releases/download/v1.7.0/secretgate-linux-arm64"
+      sha256 "8205f1f929c348db638c32b522927fc244d60abd2794a3e6fcd3c954cbf5281f"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/secretgate/releases/download/v1.6.3/secretgate-linux-x64"
-      sha256 "4f465329c7cd24873169592383eb5adb1a0064e7889fac48a78dc7e5b84e4fb5"
+      url "https://github.com/maxgfr/secretgate/releases/download/v1.7.0/secretgate-linux-x64"
+      sha256 "fcb0cb966d5d7aba37086b61a7b1508f592f63e6bfe94a7b8c2e94ca77021d99"
     end
   end
 
