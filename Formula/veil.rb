@@ -1,30 +1,30 @@
 class Veil < Formula
   desc "Peer-to-peer, end-to-end encrypted file transfer and chat in Veil rooms"
   homepage "https://github.com/maxgfr/veil"
-  version "0.2.0"
+  version "0.3.0"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/veil/releases/download/cli-v0.2.0/veil-aarch64-apple-darwin"
-      sha256 "6f293373e4b57a1fcf81dc871e8373236a0613fb773df68eb0adbec541040653"
+      url "https://github.com/maxgfr/veil/releases/download/cli-v0.3.0/veil-aarch64-apple-darwin"
+      sha256 "e1103219e3bd978262d7ab5e1256bab30c35ef9ae3b9ee76c005a87a36965e7d"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/veil/releases/download/cli-v0.2.0/veil-x86_64-apple-darwin"
-      sha256 "971c7f9c58536b7b659894cf0c9b8728db0c65d4b14e479c71bd718927f98c44"
+      url "https://github.com/maxgfr/veil/releases/download/cli-v0.3.0/veil-x86_64-apple-darwin"
+      sha256 "8e05be7b73df58861efb78f1c6fba2edbe06c43e7e05d5bcb6a0ec7d0185fc92"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/veil/releases/download/cli-v0.2.0/veil-aarch64-unknown-linux-gnu"
-      sha256 "b71e56c220ed8955655ccf05086de764374487db811c43adf1a91eeabdb24332"
+      url "https://github.com/maxgfr/veil/releases/download/cli-v0.3.0/veil-aarch64-unknown-linux-gnu"
+      sha256 "edfc8adba777af7a95781b69c8c2a78e47f9b3f85d099aa914ab612e250a2932"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/veil/releases/download/cli-v0.2.0/veil-x86_64-unknown-linux-gnu"
-      sha256 "47d26769b7f1369351b4b0972e3abbe4e044ce21e62c10f3baf08c2eb62116a4"
+      url "https://github.com/maxgfr/veil/releases/download/cli-v0.3.0/veil-x86_64-unknown-linux-gnu"
+      sha256 "a73d370c4c419e5684e59caa8b4e7a99463880b47d1884ff7ada4c5a6cc86465"
     end
   end
 
