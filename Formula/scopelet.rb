@@ -1,30 +1,30 @@
 class Scopelet < Formula
   desc "Compute before you send: local, recoverable evidence queries for agents"
   homepage "https://github.com/maxgfr/scopelet"
-  version "0.9.1"
+  version "1.0.1"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/scopelet/releases/download/v0.9.1/scopelet-aarch64-apple-darwin"
-      sha256 "d8e5b8aca2750bbc2e49bf8323f09befea9be87a7512535e82cb4638eead9367"
+      url "https://github.com/maxgfr/scopelet/releases/download/v1.0.1/scopelet-aarch64-apple-darwin"
+      sha256 "85a2e8af41e2a18d0198f83a29a25d76244b79e8658233f6507946cab9ef383f"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/scopelet/releases/download/v0.9.1/scopelet-x86_64-apple-darwin"
-      sha256 "a8b165f81a4bf35293162d3dbf5b6308ca097a89445182e3dfc55d4104e4293b"
+      url "https://github.com/maxgfr/scopelet/releases/download/v1.0.1/scopelet-x86_64-apple-darwin"
+      sha256 "39c681499b48f3d36c41226cbe627349740d2fc5178a9a886fcf550ad37ef91d"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/scopelet/releases/download/v0.9.1/scopelet-aarch64-unknown-linux-gnu"
-      sha256 "c6665387653b31a449f88da7f557e343f081dfd9ab22115bf9c7f3e586b6978e"
+      url "https://github.com/maxgfr/scopelet/releases/download/v1.0.1/scopelet-aarch64-unknown-linux-gnu"
+      sha256 "f3e401c2ded5e5270f3a76186c393093467b79749261ef32fa651ec874898926"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/scopelet/releases/download/v0.9.1/scopelet-x86_64-unknown-linux-gnu"
-      sha256 "482f05f481afbaf78aa72dc32ee2703be90c37bb652634d502ea7feb5c92a588"
+      url "https://github.com/maxgfr/scopelet/releases/download/v1.0.1/scopelet-x86_64-unknown-linux-gnu"
+      sha256 "ee32412dd43d5a4bffb216b4630266f4f4f42596ba3a7d2597612a0009c98211"
     end
   end
 
