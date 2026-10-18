@@ -5,25 +5,25 @@ class Aparte < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/aparte/releases/download/v1.2.0/aparte-aarch64-apple-darwin"
-      sha256 "f8cf7485eb00f9f62d8c96a372ed71cd9e00802fcee2decc9507136df1bf715e"
+      url "https://github.com/maxgfr/aparte/releases/download/v1.3.1/aparte-aarch64-apple-darwin"
+      sha256 "12ddda7997a08f896b41d6a89bb4d7028aa6fc7295542e52421eff5c02748e12"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/aparte/releases/download/v1.2.0/aparte-x86_64-apple-darwin"
-      sha256 "50a1944dc2e6b049db61f29df5bab5546fe4012221ada35c5d156417a40297cb"
+      url "https://github.com/maxgfr/aparte/releases/download/v1.3.1/aparte-x86_64-apple-darwin"
+      sha256 "85317fa64f49db4223bc9e63a3b418cd3eeca68bfd09a159687b3adb7b9f3b48"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/aparte/releases/download/v1.2.0/aparte-aarch64-unknown-linux-gnu"
-      sha256 "886316a7ff04427ecd02788cf137a21ce3ee03040cd0d417cf44fc530273e2dc"
+      url "https://github.com/maxgfr/aparte/releases/download/v1.3.1/aparte-aarch64-unknown-linux-gnu"
+      sha256 "34e2ac8fc85df50a3f5313ca202f92262c42fe381655460fe3b38b290915e60c"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/aparte/releases/download/v1.2.0/aparte-x86_64-unknown-linux-gnu"
-      sha256 "34a9c13e94995bdb2d740edca2f5f4f49472a86b13a786482ef2fa989a015038"
+      url "https://github.com/maxgfr/aparte/releases/download/v1.3.1/aparte-x86_64-unknown-linux-gnu"
+      sha256 "caa76b44564a5b466f28c178ac8adf02051e8921dba6a762c05e37ea487e440f"
     end
   end
 
