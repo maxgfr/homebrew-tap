@@ -20,8 +20,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          RELEASE_DATA=$(curl -s -H "Authorization: token $GH_TOKEN" https://api.github.com/repos/maxgfr/llm-models/releases/latest)
-          VERSION=$(echo "$RELEASE_DATA" | jq -r '.tag_name')
+          # NOT releases/latest: the llm-models repo also publishes the
+          # llm-connect library as llm-connect-v* releases, which carry no
+          # llm-models binary.
+          RELEASE_DATA=$(curl -s -H "Authorization: token $GH_TOKEN" https://api.github.com/repos/maxgfr/llm-models/releases)
+          VERSION=$(echo "$RELEASE_DATA" | jq -r '[.[] | select(.tag_name | test("^v[0-9]")) | .tag_name] | first')
+
+          if [ -z "$VERSION" ] || [ "$VERSION" == "null" ]; then
+            echo "No release found"
+            exit 1
+          fi
 
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Latest version: $VERSION"
@@ -33,25 +41,25 @@ jobs:
           BASE_URL="https://github.com/maxgfr/llm-models/releases/download/${VERSION}"
 
           echo "Downloading macOS ARM64 binary..."
-          curl -L -o llm-models-macos-arm64 "${BASE_URL}/llm-models-macos-arm64"
+          curl -fL -o llm-models-macos-arm64 "${BASE_URL}/llm-models-macos-arm64"
           SHA_MACOS_ARM64=$(sha256sum llm-models-macos-arm64 | awk '{print $1}')
           echo "sha_macos_arm64=$SHA_MACOS_ARM64" >> $GITHUB_OUTPUT
           echo "macOS ARM64 SHA256: $SHA_MACOS_ARM64"
 
           echo "Downloading macOS x64 binary..."
-          curl -L -o llm-models-macos-x64 "${BASE_URL}/llm-models-macos-x64"
+          curl -fL -o llm-models-macos-x64 "${BASE_URL}/llm-models-macos-x64"
           SHA_MACOS_X64=$(sha256sum llm-models-macos-x64 | awk '{print $1}')
           echo "sha_macos_x64=$SHA_MACOS_X64" >> $GITHUB_OUTPUT
           echo "macOS x64 SHA256: $SHA_MACOS_X64"
 
           echo "Downloading Linux x64 binary..."
-          curl -L -o llm-models-linux-x64 "${BASE_URL}/llm-models-linux-x64"
+          curl -fL -o llm-models-linux-x64 "${BASE_URL}/llm-models-linux-x64"
           SHA_LINUX_X64=$(sha256sum llm-models-linux-x64 | awk '{print $1}')
           echo "sha_linux_x64=$SHA_LINUX_X64" >> $GITHUB_OUTPUT
           echo "Linux x64 SHA256: $SHA_LINUX_X64"
 
           echo "Downloading Linux ARM64 binary..."
-          curl -L -o llm-models-linux-arm64 "${BASE_URL}/llm-models-linux-arm64"
+          curl -fL -o llm-models-linux-arm64 "${BASE_URL}/llm-models-linux-arm64"
           SHA_LINUX_ARM64=$(sha256sum llm-models-linux-arm64 | awk '{print $1}')
           echo "sha_linux_arm64=$SHA_LINUX_ARM64" >> $GITHUB_OUTPUT
           echo "Linux ARM64 SHA256: $SHA_LINUX_ARM64"
@@ -61,7 +69,8 @@ jobs:
       - name: Check if update is needed
         id: check_update
         run: |
-          CURRENT_VERSION=$(grep 'version "' Formula/llm-models.rb | head -1 | sed -E 's/.*version "([^"]+)".*/\1/')
+          # No version line in the formula (brew reads it from the URLs): the current tag is read from the first URL.
+          CURRENT_VERSION=$(grep -m1 'url "' Formula/llm-models.rb | sed -E 's|.*/releases/download/([^/]+)/.*|\1|')
           NEW_VERSION="${{ steps.get_release.outputs.version }}"
 
           echo "Current version: $CURRENT_VERSION"
@@ -83,9 +92,6 @@ jobs:
           SHA_MACOS_X64="${{ steps.calculate_sha.outputs.sha_macos_x64 }}"
           SHA_LINUX_X64="${{ steps.calculate_sha.outputs.sha_linux_x64 }}"
           SHA_LINUX_ARM64="${{ steps.calculate_sha.outputs.sha_linux_arm64 }}"
-
-          # Update version
-          sed -i "s|version \".*\"|version \"$VERSION\"|" Formula/llm-models.rb
 
           # Update URLs
           sed -i "s|https://github.com/maxgfr/llm-models/releases/download/[^/]*/llm-models-macos-arm64|https://github.com/maxgfr/llm-models/releases/download/${VERSION}/llm-models-macos-arm64|" Formula/llm-models.rb

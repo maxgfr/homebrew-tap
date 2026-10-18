@@ -105,6 +105,16 @@ Note for codeindex: its update workflow must NOT use `releases/latest` — the
 repo also publishes the `embed-model-v1` asset release, which is not an
 engine tag; filter release tags on `^v[0-9]` instead.
 
+Note for llm-models: the maxgfr/llm-models repo also releases its
+`llm-connect` library as `llm-connect-v*` tags, which carry no llm-models
+binary and are often the repo's latest release. The update workflow must NOT
+use `releases/latest`: it picks the newest `^v[0-9]` release, and downloads
+with `curl -f` so a missing asset fails the run instead of checksumming a 404
+page (the formula once shipped `llm-connect-v2.0.0` with the 404's digest on
+every platform). Like aparte, the formula has no `version` line (brew scans
+`1.12.0` from the `v1.12.0` URLs; a `version "v…"` line fails `brew style`), and
+the workflow reads the current tag from the first `url`.
+
 Note for sift: `homebrew/core` ships an unrelated `sift` (a grep alternative),
 so the formula carries `conflicts_with "sift"`. Without it Homebrew fails at
 link time with nothing the user can act on. sift also publishes a Windows
