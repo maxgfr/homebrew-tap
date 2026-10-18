@@ -47,7 +47,7 @@ introduces a new one.
 
 ## Patterns
 
-### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil, pdfvault)
+### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil, pdfvault, aparte, nuee)
 - Download pre-compiled binaries per platform from GitHub Releases
 - Platform detection: `on_macos do / on_arm do`, `on_intel do`, `on_linux do`
 
@@ -96,6 +96,8 @@ introduces a new one.
 | 1:30 | troupe |
 | 2:30 | veil |
 | 3:30 | pdfvault |
+| 4:30 | aparte |
+| 5:30 | nuee |
 
 All formulas have an update workflow — never leave one manually updated
 (codeindex stayed frozen at v2.6.0 for 7 minor releases because of that).
@@ -173,9 +175,21 @@ artifacts. The formula test writes a one-page PDF and rotates it offline,
 and checks `pdfvault skill` prints the agent skill; `caveats` point to
 `pdfvault skill --install`, to rerun after each upgrade.
 
+Note for aparte and nuee: Rust CLIs released like veil, with assets named by
+Rust target triple (`aparte-aarch64-apple-darwin`) and a `SHA256SUMS` that is
+not a Homebrew artifact, but tagged `v*` (`v1.2.0`). brew scans the version
+from those URLs, so like troupe the formulas have no `version` line (brew
+audit flags it as redundant) and the workflows read the current tag from the
+first `url`; they pick the newest `^v[0-9]` release rather than
+`releases/latest`. Both formula tests are offline: `aparte selftest` (plain and
+`--json`), and `nuee selftest` plus `nuee id` run twice against a config dir in
+`testpath`, which must create the identity key once and print the same id. The
+aparte CLI has no vault command yet, so its test has no vault round trip.
+nuee is dual-licensed: `license any_of: ["MIT", "Apache-2.0"]`.
+
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`
 - Formula class names: PascalCase (e.g., `BinanceHistorical`, `LlmModels`)
 - Binary naming: `<name>-<platform>-<arch>` (e.g., `llm-models-macos-arm64`)
 - Commit messages: `chore: update <name> to <version>`
-- All formulas use MIT license
+- All formulas use MIT license (nuee: MIT or Apache-2.0)

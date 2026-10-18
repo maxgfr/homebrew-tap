@@ -286,6 +286,27 @@ pdfvault ocr scan.pdf && pdfvault to-md scan-searchable.pdf
 pdfvault skill --install                       # the agent skill, for Claude Code, Codex…
 ```
 
+### [aparte](https://github.com/maxgfr/aparte)
+
+The command-line companion of [Aparté](https://maxgfr.github.io/aparte/), a private AI chat that runs entirely in the browser, encrypted at rest and synced end-to-end. The CLI reads and writes the same `aparte/1` format as the web app; `--json` prints one JSON object per line.
+
+```bash
+brew install maxgfr/tap/aparte
+aparte selftest                               # offline check of the format and crypto
+aparte doctor                                 # this machine and the directories in use
+```
+
+### [nuee](https://github.com/maxgfr/nuee)
+
+Turn a trusted group's laptops and phones into a private, short-lived cloud from one link: verified compute, GPU tasks, encrypted file sharing, distributed training and hosting. Whoever opens the link, in a browser or with `nuee join` / `nuee get`, joins the swarm.
+
+```bash
+brew install maxgfr/tap/nuee
+nuee share ./photos                           # prints a link, encrypted, until Ctrl-C
+nuee get 'https://maxgfr.github.io/nuee/#…'
+nuee selftest                                 # offline self-check
+```
+
 ## Uninstalling
 
 ```bash

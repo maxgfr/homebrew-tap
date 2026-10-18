@@ -1,0 +1,161 @@
+name: Update nuee Formula
+
+on:
+  schedule:
+    - cron: "30 5 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest release info
+        id: get_release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Releases are tagged `v*`; filter on it rather than trusting `releases/latest`.
+          VERSION=$(curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/maxgfr/nuee/releases?per_page=20" \
+            | jq -r '[.[] | select(.draft == false and .prerelease == false and (.tag_name | test("^v[0-9]")))][0].tag_name')
+
+          if [ -z "$VERSION" ] || [ "$VERSION" == "null" ]; then
+            echo "No release found"
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Latest version: $VERSION"
+
+      - name: Download binaries and calculate SHA256
+        id: calculate_sha
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          BASE_URL="https://github.com/maxgfr/nuee/releases/download/${VERSION}"
+
+          # Binaries are named by Rust target triple. SHA256SUMS is not a Homebrew artifact.
+          for binary in nuee-aarch64-apple-darwin nuee-x86_64-apple-darwin nuee-aarch64-unknown-linux-gnu nuee-x86_64-unknown-linux-gnu; do
+            echo "Downloading ${binary}..."
+            curl -L -f -o "${binary}" "${BASE_URL}/${binary}" || { echo "Failed to download ${binary}"; exit 1; }
+            SHA=$(sha256sum "${binary}" | awk '{print $1}')
+            KEY=$(echo "${binary}" | tr '-' '_')
+            echo "sha_${KEY}=${SHA}" >> "$GITHUB_OUTPUT"
+            echo "${binary} SHA256: ${SHA}"
+          done
+
+          rm -f nuee-*
+
+      - name: Check if update is needed
+        id: check_update
+        run: |
+          # No version line in the formula (brew reads it from the URLs): the current tag is read from the first URL.
+          CURRENT_VERSION=$(grep -m1 'url "' Formula/nuee.rb | sed -E 's|.*/releases/download/([^/]+)/.*|\1|')
+          NEW_VERSION="${{ steps.get_release.outputs.version }}"
+
+          echo "Current version: $CURRENT_VERSION"
+          echo "New version: $NEW_VERSION"
+
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+            echo "needs_update=true" >> "$GITHUB_OUTPUT"
+            echo "Update needed!"
+          else
+            echo "needs_update=false" >> "$GITHUB_OUTPUT"
+            echo "Already up to date"
+          fi
+
+      - name: Update Formula
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          SHA_MACOS_ARM64="${{ steps.calculate_sha.outputs.sha_nuee_aarch64_apple_darwin }}"
+          SHA_MACOS_X64="${{ steps.calculate_sha.outputs.sha_nuee_x86_64_apple_darwin }}"
+          SHA_LINUX_ARM64="${{ steps.calculate_sha.outputs.sha_nuee_aarch64_unknown_linux_gnu }}"
+          SHA_LINUX_X64="${{ steps.calculate_sha.outputs.sha_nuee_x86_64_unknown_linux_gnu }}"
+
+          cat > Formula/nuee.rb << EOF
+          class Nuee < Formula
+            desc "Private, short-lived cloud from one link: verified compute, files and hosting"
+            homepage "https://github.com/maxgfr/nuee"
+            license any_of: ["MIT", "Apache-2.0"]
+
+            on_macos do
+              on_arm do
+                url "https://github.com/maxgfr/nuee/releases/download/${VERSION}/nuee-aarch64-apple-darwin"
+                sha256 "${SHA_MACOS_ARM64}"
+              end
+
+              on_intel do
+                url "https://github.com/maxgfr/nuee/releases/download/${VERSION}/nuee-x86_64-apple-darwin"
+                sha256 "${SHA_MACOS_X64}"
+              end
+            end
+
+            on_linux do
+              on_arm do
+                url "https://github.com/maxgfr/nuee/releases/download/${VERSION}/nuee-aarch64-unknown-linux-gnu"
+                sha256 "${SHA_LINUX_ARM64}"
+              end
+
+              on_intel do
+                url "https://github.com/maxgfr/nuee/releases/download/${VERSION}/nuee-x86_64-unknown-linux-gnu"
+                sha256 "${SHA_LINUX_X64}"
+              end
+            end
+
+            def install
+              binary = Dir["nuee-*"].first
+
+              if binary.nil?
+                opoo "No nuee binary found"
+                return
+              end
+
+              chmod 0755, binary
+              bin.install binary => "nuee"
+            end
+
+            test do
+              assert_match version.to_s, shell_output("#{bin}/nuee --version")
+              # Offline self-check: wasm golden outputs, links, signatures, encryption, an in-memory swarm.
+              assert_match "selftest ok", shell_output("#{bin}/nuee selftest")
+              # The identity key is created once in the config dir and read back on the next run.
+              config = testpath/"config"
+              first = shell_output("#{bin}/nuee --config-dir #{config} id").lines.first.strip
+              assert_match(/\A\h{64}\z/, first)
+              assert_equal first, shell_output("#{bin}/nuee --config-dir #{config} id").lines.first.strip
+              assert_path_exists config/"secret.key"
+            end
+          end
+          EOF
+
+          echo "Formula updated successfully"
+
+      - name: Commit and push changes
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          git add Formula/nuee.rb
+          git commit -m "chore: update nuee to ${{ steps.get_release.outputs.version }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          {
+            echo "✅ Formula updated to version ${{ steps.get_release.outputs.version }}"
+            echo ""
+            echo "- **Version**: ${{ steps.get_release.outputs.version }}"
+            echo "- **macOS ARM64 SHA256**: ${{ steps.calculate_sha.outputs.sha_nuee_aarch64_apple_darwin }}"
+            echo "- **macOS x64 SHA256**: ${{ steps.calculate_sha.outputs.sha_nuee_x86_64_apple_darwin }}"
+            echo "- **Linux ARM64 SHA256**: ${{ steps.calculate_sha.outputs.sha_nuee_aarch64_unknown_linux_gnu }}"
+            echo "- **Linux x64 SHA256**: ${{ steps.calculate_sha.outputs.sha_nuee_x86_64_unknown_linux_gnu }}"
+          } >> "$GITHUB_STEP_SUMMARY"
