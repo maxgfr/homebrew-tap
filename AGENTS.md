@@ -183,7 +183,7 @@ GitHub Release is published: a run in between fails its download and the next
 run updates. The release's Windows binaries and `SHA256SUMS` are not Homebrew
 artifacts. The formula test writes a one-page PDF and rotates it offline,
 and checks `pdfvault skill` prints the agent skill; `caveats` point to
-`pdfvault skill --install`, to rerun after each upgrade.
+`npx skills add maxgfr/pdfvault` (the CLI no longer installs the skill itself).
 
 Note for aparte and nuee: Rust CLIs released like veil, with assets named by
 Rust target triple (`aparte-aarch64-apple-darwin`) and a `SHA256SUMS` that is

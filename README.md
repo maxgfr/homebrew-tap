@@ -250,7 +250,8 @@ Note: the server itself is not installed here. Run it with `npm run local` in a 
 ```bash
 brew install maxgfr/tap/swarmdeck
 swarmdeck add 'magnet:?xt=urn:btih:…' && swarmdeck list
-claude mcp add swarmdeck -- swarmdeck-mcp
+npx skills add maxgfr/swarmdeck                # the agent skill, for any agent
+claude mcp add swarmdeck -- swarmdeck-mcp      # the MCP server (or: codex / opencode mcp add swarmdeck -- swarmdeck-mcp)
 ```
 
 ### [troupe](https://github.com/maxgfr/troupe)
@@ -283,7 +284,7 @@ Private PDF and image tools from the terminal: compress (lossless, balanced, str
 brew install maxgfr/tap/pdfvault
 pdfvault compress report.pdf --preset strong   # → report-compressed.pdf
 pdfvault ocr scan.pdf && pdfvault to-md scan-searchable.pdf
-pdfvault skill --install                       # the agent skill, for Claude Code, Codex…
+npx skills add maxgfr/pdfvault                 # the agent skill, for any agent (Claude Code, Codex, OpenCode…)
 ```
 
 ### [aparte](https://github.com/maxgfr/aparte)
