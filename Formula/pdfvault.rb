@@ -37,9 +37,9 @@ class Pdfvault < Formula
 
   def caveats
     <<~EOS
-      The agent skill (Claude Code, Codex, Cursor, Gemini) ships with the CLI:
-        pdfvault skill --install
-      Rerun it after `brew upgrade pdfvault` to keep it in step.
+      The agent skill installs into any coding agent (Claude Code, Codex, OpenCode, Cursor...):
+        npx skills add maxgfr/pdfvault
+      `pdfvault skill` prints the copy that matches this version.
     EOS
   end
 

@@ -24,8 +24,12 @@ class Swarmdeck < Formula
         SWARMDECK_URL    (default http://127.0.0.1:8080)
         SWARMDECK_TOKEN  its AUTH_TOKEN, when it has one
 
-      The MCP server, for Claude Code:
+      The agent skill installs into any coding agent:
+        npx skills add maxgfr/swarmdeck
+      The MCP server is swarmdeck-mcp; register it with your agent's own command:
         claude mcp add swarmdeck --env SWARMDECK_URL=http://127.0.0.1:8080 -- swarmdeck-mcp
+        codex mcp add swarmdeck --env SWARMDECK_URL=http://127.0.0.1:8080 -- swarmdeck-mcp
+        opencode mcp add swarmdeck --env SWARMDECK_URL=http://127.0.0.1:8080 -- swarmdeck-mcp
     EOS
   end
 
