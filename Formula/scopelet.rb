@@ -1,7 +1,6 @@
 class Scopelet < Formula
   desc "Compute before you send: local, recoverable evidence queries for agents"
   homepage "https://github.com/maxgfr/scopelet"
-  version "1.1.2"
   license "MIT"
 
   on_macos do

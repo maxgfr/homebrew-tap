@@ -14,6 +14,6 @@ class CopyablePdf < Formula
   end
 
   test do
-    system "#{bin}/copyable-pdf", "--help"
+    system bin/"copyable-pdf", "--help"
   end
 end

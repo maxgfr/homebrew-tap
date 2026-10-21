@@ -8,8 +8,8 @@ class Subtool < Formula
   depends_on "curl"
   depends_on "jq"
   depends_on "translate-shell"
-  depends_on "uv" => :recommended
   depends_on "ffmpeg" => :recommended
+  depends_on "uv" => :recommended
 
   def install
     bin.install "subtool.sh" => "subtool"

@@ -1,7 +1,6 @@
 class Secretgate < Formula
   desc "Local secrets firewall for coding agents (Claude Code, Codex, OpenCode)"
   homepage "https://github.com/maxgfr/secretgate"
-  version "1.8.0"
   license "MIT"
 
   on_macos do

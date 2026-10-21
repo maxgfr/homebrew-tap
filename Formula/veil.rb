@@ -1,7 +1,6 @@
 class Veil < Formula
   desc "Peer-to-peer, end-to-end encrypted file transfer and chat in Veil rooms"
   homepage "https://github.com/maxgfr/veil"
-  version "0.3.0"
   license "MIT"
 
   on_macos do
