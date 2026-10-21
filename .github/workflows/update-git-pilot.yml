@@ -41,7 +41,10 @@ jobs:
 
           URL="https://github.com/maxgfr/git-pilot/archive/refs/tags/${VERSION}.tar.gz"
 
+          # Tags are v-prefixed. The formula has no `version`: Homebrew scans it from
+          # the URL, and the update check reads it back from there, without the `v`.
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "number=${VERSION#v}" >> $GITHUB_OUTPUT
           echo "url=$URL" >> $GITHUB_OUTPUT
 
           echo "Latest version: $VERSION"
@@ -65,8 +68,8 @@ jobs:
         run: |
           set -euo pipefail
 
-          CURRENT_VERSION=$(grep 'version "' Formula/git-pilot.rb | sed -E 's/.*version "([^"]+)".*/\1/')
-          NEW_VERSION="${{ steps.get_release.outputs.version }}"
+          CURRENT_VERSION=$(grep -m1 'url "' Formula/git-pilot.rb | sed -E 's#.*/(releases/download|archive/refs/tags)/v?([^/"]+)(/|\.tar\.gz").*#\2#')
+          NEW_VERSION="${{ steps.get_release.outputs.number }}"
 
           echo "Current version: $CURRENT_VERSION"
           echo "New version: $NEW_VERSION"
@@ -89,7 +92,6 @@ jobs:
           SHA256="${{ steps.calculate_sha.outputs.sha256 }}"
 
           sed -i "s|url \".*\"|url \"$URL\"|g" Formula/git-pilot.rb
-          sed -i "s|version \".*\"|version \"$VERSION\"|g" Formula/git-pilot.rb
           sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|g" Formula/git-pilot.rb
 
           echo "Formula updated successfully"

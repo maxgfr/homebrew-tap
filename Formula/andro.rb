@@ -1,7 +1,6 @@
 class Andro < Formula
   desc "Run Android apps from the macOS CLI on a disposable native emulator"
   homepage "https://github.com/maxgfr/andro"
-  version "v1.2.1"
   license "MIT"
 
   depends_on :macos

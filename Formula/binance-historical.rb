@@ -1,7 +1,6 @@
 class BinanceHistorical < Formula
   desc "Download historical klines from Binance API"
   homepage "https://github.com/maxgfr/binance-historical"
-  version "v2.2.0"
   license "MIT"
 
   on_macos do
