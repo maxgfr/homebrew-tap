@@ -1,7 +1,6 @@
 class Sift < Formula
   desc "Will this model fit and run fast on your machine? Answered before you download it"
   homepage "https://github.com/maxgfr/sift"
-  version "v0.7.1"
   license "MIT"
 
   # homebrew/core ships an unrelated `sift`, a grep alternative. Both put a

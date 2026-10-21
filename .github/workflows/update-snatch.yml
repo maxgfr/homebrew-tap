@@ -30,7 +30,10 @@ jobs:
 
           URL="https://github.com/maxgfr/snatch/archive/refs/tags/${VERSION}.tar.gz"
 
+          # Tags are v-prefixed. The formula has no `version`: Homebrew scans it from
+          # the URL, and the update check reads it back from there, without the `v`.
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "number=${VERSION#v}" >> $GITHUB_OUTPUT
           echo "url=$URL" >> $GITHUB_OUTPUT
 
           echo "Latest version: $VERSION"
@@ -48,8 +51,8 @@ jobs:
       - name: Check if update is needed
         id: check_update
         run: |
-          CURRENT_VERSION=$(grep 'version "' Formula/snatch.rb | sed -E 's/.*version "([^"]+)".*/\1/')
-          NEW_VERSION="${{ steps.get_release.outputs.version }}"
+          CURRENT_VERSION=$(grep -m1 'url "' Formula/snatch.rb | sed -E 's#.*/(releases/download|archive/refs/tags)/v?([^/"]+)(/|\.tar\.gz").*#\2#')
+          NEW_VERSION="${{ steps.get_release.outputs.number }}"
 
           echo "Current version: $CURRENT_VERSION"
           echo "New version: $NEW_VERSION"
@@ -70,7 +73,6 @@ jobs:
           SHA256="${{ steps.calculate_sha.outputs.sha256 }}"
 
           sed -i "s|url \".*\"|url \"$URL\"|g" Formula/snatch.rb
-          sed -i "s|version \".*\"|version \"$VERSION\"|g" Formula/snatch.rb
           sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|g" Formula/snatch.rb
 
           echo "Formula updated successfully"

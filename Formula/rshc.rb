@@ -1,7 +1,6 @@
 class Rshc < Formula
   desc "Rust reimplementation of SHC — encrypts shell scripts into compiled binaries"
   homepage "https://github.com/maxgfr/rshc"
-  version "v1.6.2"
   license "GPL-3.0"
 
   on_macos do

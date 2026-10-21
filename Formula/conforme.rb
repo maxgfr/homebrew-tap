@@ -1,7 +1,6 @@
 class Conforme < Formula
-  desc "Universal AI coding agent config synchronization — sync from any tool to all others"
+  desc "Sync AI coding agent configuration from any tool to all others"
   homepage "https://github.com/maxgfr/conforme"
-  version "v5.3.0"
   license "MIT"
 
   on_macos do

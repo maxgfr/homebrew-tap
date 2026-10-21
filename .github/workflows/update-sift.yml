@@ -28,7 +28,10 @@ jobs:
             exit 1
           fi
 
+          # Tags are v-prefixed. The formula has no `version`: Homebrew scans it from
+          # the URL, and the update check reads it back from there, without the `v`.
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "number=${VERSION#v}" >> $GITHUB_OUTPUT
           echo "Latest version: $VERSION"
 
       - name: Download binaries and calculate SHA256
@@ -53,8 +56,8 @@ jobs:
       - name: Check if update is needed
         id: check_update
         run: |
-          CURRENT_VERSION=$(grep 'version "' Formula/sift.rb | head -1 | sed -E 's/.*version "([^"]+)".*/\1/')
-          NEW_VERSION="${{ steps.get_release.outputs.version }}"
+          CURRENT_VERSION=$(grep -m1 'url "' Formula/sift.rb | sed -E 's#.*/(releases/download|archive/refs/tags)/v?([^/"]+)(/|\.tar\.gz").*#\2#')
+          NEW_VERSION="${{ steps.get_release.outputs.number }}"
 
           echo "Current version: $CURRENT_VERSION"
           echo "New version: $NEW_VERSION"
@@ -80,7 +83,6 @@ jobs:
           class Sift < Formula
             desc "Will this model fit and run fast on your machine? Answered before you download it"
             homepage "https://github.com/maxgfr/sift"
-            version "${VERSION}"
             license "MIT"
 
             # homebrew/core ships an unrelated \`sift\`, a grep alternative. Both put a
