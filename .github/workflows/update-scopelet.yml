@@ -28,8 +28,8 @@ jobs:
             exit 1
           fi
 
-          # Tags are v-prefixed but Homebrew rejects a leading `v` in `version`,
-          # so the formula stores the bare number and the URLs keep the tag.
+          # Tags are v-prefixed. The formula has no `version`: Homebrew scans it from
+          # the URL, and the update check reads it back from there, without the `v`.
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "number=${VERSION#v}" >> $GITHUB_OUTPUT
           echo "Latest version: $VERSION"
@@ -58,7 +58,7 @@ jobs:
       - name: Check if update is needed
         id: check_update
         run: |
-          CURRENT_VERSION=$(grep 'version "' Formula/scopelet.rb | head -1 | sed -E 's/.*version "([^"]+)".*/\1/')
+          CURRENT_VERSION=$(grep -m1 'url "' Formula/scopelet.rb | sed -E 's#.*/(releases/download|archive/refs/tags)/v?([^/"]+)(/|\.tar\.gz").*#\2#')
           NEW_VERSION="${{ steps.get_release.outputs.number }}"
 
           echo "Current version: $CURRENT_VERSION"
@@ -76,7 +76,6 @@ jobs:
         if: steps.check_update.outputs.needs_update == 'true'
         run: |
           VERSION="${{ steps.get_release.outputs.version }}"
-          NUMBER="${{ steps.get_release.outputs.number }}"
           SHA_MACOS_ARM64="${{ steps.calculate_sha.outputs.sha_scopelet_aarch64_apple_darwin }}"
           SHA_MACOS_X64="${{ steps.calculate_sha.outputs.sha_scopelet_x86_64_apple_darwin }}"
           SHA_LINUX_ARM64="${{ steps.calculate_sha.outputs.sha_scopelet_aarch64_unknown_linux_gnu }}"
@@ -86,7 +85,6 @@ jobs:
           class Scopelet < Formula
             desc "Compute before you send: local, recoverable evidence queries for agents"
             homepage "https://github.com/maxgfr/scopelet"
-            version "${NUMBER}"
             license "MIT"
 
             on_macos do

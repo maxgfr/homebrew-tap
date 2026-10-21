@@ -43,7 +43,7 @@ jobs:
       - name: Check if update is needed
         id: check_update
         run: |
-          CURRENT_VERSION=$(grep 'version "' Formula/webindex.rb | sed -E 's/.*version "([^"]+)".*/\1/')
+          CURRENT_VERSION=$(grep -m1 'url "' Formula/webindex.rb | sed -E 's#.*/(releases/download|archive/refs/tags)/v?([^/"]+)(/|\.tar\.gz").*#\2#')
           NEW_VERSION="${{ steps.get_release.outputs.version }}"
 
           echo "Current version: $CURRENT_VERSION"
@@ -75,7 +75,6 @@ jobs:
           SHA256="${{ steps.calculate_sha.outputs.sha256 }}"
 
           sed -i "s|url \".*\"|url \"$URL\"|g" Formula/webindex.rb
-          sed -i "s|version \".*\"|version \"$VERSION\"|g" Formula/webindex.rb
           sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|g" Formula/webindex.rb
 
           echo "Formula updated successfully"

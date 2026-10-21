@@ -1,12 +1,7 @@
 class Sift < Formula
-  desc "Will this model fit and run fast on your machine? Answered before you download it"
+  desc "Will this model fit and run fast on your machine? Know before you download it"
   homepage "https://github.com/maxgfr/sift"
   license "MIT"
-
-  # homebrew/core ships an unrelated `sift`, a grep alternative. Both put a
-  # `sift` on PATH, so Homebrew must be told rather than left to fail at link
-  # time with nothing the user can act on.
-  conflicts_with "sift", because: "both install a `sift` binary"
 
   on_macos do
     on_arm do
@@ -31,6 +26,11 @@ class Sift < Formula
       sha256 "34b80bd89e4592c49a0b22406f8ed2d8000d40045865384f7a4c66d4316086d4"
     end
   end
+
+  # homebrew/core ships an unrelated `sift`, a grep alternative. Both put a
+  # `sift` on PATH, so Homebrew must be told rather than left to fail at link
+  # time with nothing the user can act on.
+  conflicts_with "sift", because: "both install a `sift` binary"
 
   def install
     binary = Dir["sift-*"].first

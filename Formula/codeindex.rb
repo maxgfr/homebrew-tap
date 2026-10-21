@@ -3,7 +3,6 @@ class Codeindex < Formula
   homepage "https://github.com/maxgfr/codeindex"
   url "https://github.com/maxgfr/codeindex/archive/refs/tags/v2.31.11.tar.gz"
   sha256 "b41ae504f3a2aa2e5505ffec27298e02dcea6912029a642e7bcb05a9ade4ef45"
-  version "2.31.11"
   license "MIT"
 
   depends_on "node"

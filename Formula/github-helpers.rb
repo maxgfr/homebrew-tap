@@ -13,6 +13,6 @@ class GithubHelpers < Formula
   end
 
   test do
-    system "#{bin}/github-helpers", "--help"
+    system bin/"github-helpers", "--help"
   end
 end
