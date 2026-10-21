@@ -6,19 +6,19 @@ class Rshc < Formula
   on_macos do
     on_arm do
       url "https://github.com/maxgfr/rshc/releases/download/v1.6.2/rshc-macos-arm64"
-      sha256 "484f81b4d3cf2ec714f73ae366ee305f4ef6f2a371f6f99dc360b1114d504c74"
+      sha256 "40d6b0951667d62f233f7583fd6889e7ca61a2da1ec49c39c49d6ff323580d01"
     end
 
     on_intel do
       url "https://github.com/maxgfr/rshc/releases/download/v1.6.2/rshc-macos-x64"
-      sha256 "e2814a5b333e5120f971bb7c09f6ecd87b174bc82ac3c331ffd0aa7495a55954"
+      sha256 "7402a5d334b4ed84000c83f03344acf5fbd1d1e5914af3214ca7a5f7386f8309"
     end
   end
 
   on_linux do
     on_intel do
       url "https://github.com/maxgfr/rshc/releases/download/v1.6.2/rshc-linux-x64"
-      sha256 "9f5c0c5784d8c358287fc220be71432df0dad017128587acb2d90c43f8eca514"
+      sha256 "fc37d9c8f27dac89203e7557f51a34c5269c43c821dfbcd2a28622d989239912"
     end
   end
 
@@ -26,19 +26,19 @@ class Rshc < Formula
     on_macos do
       on_arm do
         url "https://github.com/maxgfr/rshc/releases/download/v1.6.2/rshc-runner-macos-arm64"
-        sha256 "db0d0b072227757f221036674a512693a560fd4aca33b7c620e6c23f3ef8cca4"
+        sha256 "bebc883282a4bc39ac0f61ef86e3a4ffed1c11a2faab3115ae49c2b20a1038d7"
       end
 
       on_intel do
         url "https://github.com/maxgfr/rshc/releases/download/v1.6.2/rshc-runner-macos-x64"
-        sha256 "f98373b2497cc35db8d83558931a24760859bb998842c18519ff6701c3dd0337"
+        sha256 "92a1c2909dcbbf72c0ec5a5b984eef15426e37d06c6535b7e419cab124b4b447"
       end
     end
 
     on_linux do
       on_intel do
         url "https://github.com/maxgfr/rshc/releases/download/v1.6.2/rshc-runner-linux-x64"
-        sha256 "ddf287028b727427b962cfd9df177616f84887d97f854ed74964d357e45a90fc"
+        sha256 "fbeaca38918183902a3fbe723f6373c3abc1331421508bf86dd7bf8f950072ee"
       end
     end
   end

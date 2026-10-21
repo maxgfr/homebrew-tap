@@ -92,32 +92,10 @@ jobs:
           sed -i "s|https://github.com/maxgfr/binance-historical/releases/download/v[^/]*/binance-historical-macos-x64|https://github.com/maxgfr/binance-historical/releases/download/${VERSION}/binance-historical-macos-x64|" Formula/binance-historical.rb
           sed -i "s|https://github.com/maxgfr/binance-historical/releases/download/v[^/]*/binance-historical-linux-x64|https://github.com/maxgfr/binance-historical/releases/download/${VERSION}/binance-historical-linux-x64|" Formula/binance-historical.rb
 
-          # Update SHA256 hashes using awk for more precise replacement
-          awk -v arm64="$SHA_MACOS_ARM64" -v x64="$SHA_MACOS_X64" -v linux="$SHA_LINUX_X64" '
-          {
-            if (/on_arm do/ && !done_arm) { in_arm=1 }
-            if (/on_intel do/ && in_arm && !done_arm) { in_arm=0; in_macos_intel=1 }
-            if (/on_linux do/) { in_arm=0; in_macos_intel=0; in_linux=1 }
-            if (/on_intel do/ && in_linux) { in_linux_intel=1 }
-
-            if (/sha256/ && in_arm && !done_arm) {
-              print "      sha256 \"" arm64 "\""
-              done_arm=1
-              next
-            }
-            if (/sha256/ && in_macos_intel && !done_macos_intel) {
-              print "      sha256 \"" x64 "\""
-              done_macos_intel=1
-              next
-            }
-            if (/sha256/ && in_linux_intel && !done_linux_intel) {
-              print "      sha256 \"" linux "\""
-              done_linux_intel=1
-              next
-            }
-            print
-          }' Formula/binance-historical.rb > Formula/binance-historical.rb.tmp
-          mv Formula/binance-historical.rb.tmp Formula/binance-historical.rb
+          # Each sha256 line sits right under its url line.
+          sed -i "/binance-historical-macos-arm64\"/{n;s/sha256 \"[0-9a-f]*\"/sha256 \"${SHA_MACOS_ARM64}\"/}" Formula/binance-historical.rb
+          sed -i "/binance-historical-macos-x64\"/{n;s/sha256 \"[0-9a-f]*\"/sha256 \"${SHA_MACOS_X64}\"/}" Formula/binance-historical.rb
+          sed -i "/binance-historical-linux-x64\"/{n;s/sha256 \"[0-9a-f]*\"/sha256 \"${SHA_LINUX_X64}\"/}" Formula/binance-historical.rb
 
           echo "Formula updated successfully"
 

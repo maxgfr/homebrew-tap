@@ -11,7 +11,7 @@ class BinanceHistorical < Formula
 
     on_intel do
       url "https://github.com/maxgfr/binance-historical/releases/download/v2.2.0/binance-historical-macos-x64"
-      sha256 "ac3184845502a80fe0bf04918dae1ee103d4749323eefe23ced5475914b25b43"
+      sha256 "0608e4acb90c3cd81916dabdebf5b27f193cdc46f4c776a56409f20edf13e125"
     end
   end
 
