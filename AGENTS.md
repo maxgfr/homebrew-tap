@@ -47,7 +47,7 @@ introduces a new one.
 
 ## Patterns
 
-### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil, pdfvault, aparte, nuee)
+### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil, pdfvault, aparte, nuee, obscura)
 - Download pre-compiled binaries per platform from GitHub Releases
 - Platform detection: `on_macos do / on_arm do`, `on_intel do`, `on_linux do`
 
@@ -98,6 +98,7 @@ introduces a new one.
 | 3:30 | pdfvault |
 | 4:30 | aparte |
 | 5:30 | nuee |
+| 6:30 | obscura |
 
 All formulas have an update workflow — never leave one manually updated
 (codeindex stayed frozen at v2.6.0 for 7 minor releases because of that).
@@ -196,6 +197,18 @@ first `url`; they pick the newest `^v[0-9]` release rather than
 `testpath`, which must create the identity key once and print the same id. The
 aparte CLI has no vault command yet, so its test has no vault round trip.
 nuee is dual-licensed: `license any_of: ["MIT", "Apache-2.0"]`.
+
+Note for obscura: the maxgfr/obscura repo is a web app plus a Rust CLI released
+exactly like veil: only its `cli-v*` tags are CLI releases (the workflow picks
+the newest `^cli-v[0-9]` release), assets are named by Rust target triple
+(`obscura-aarch64-apple-darwin`), `SHA256SUMS` is not a Homebrew artifact, and
+the formula has no `version` line (brew scans it from the `cli-v…` URLs; the
+workflow reads the current one back from the first `url`). Like sift, it
+carries `conflicts_with "obscura"`: homebrew-core ships an unrelated `obscura`
+(a headless browser) with the same binary name, so users install it as
+`maxgfr/tap/obscura`. The formula test is offline: `obscura new` prints a
+studio link (`…/obscura/#s=…`) and `obscura selftest` runs a seal/open round
+trip, a wrong-passphrase refusal and a link round trip.
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`

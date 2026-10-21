@@ -308,6 +308,17 @@ nuee get 'https://maxgfr.github.io/nuee/#…'
 nuee selftest                                 # offline self-check
 ```
 
+### [obscura](https://github.com/maxgfr/obscura)
+
+The companion of [obscura](https://maxgfr.github.io/obscura/), a private recording studio that runs entirely in the browser. It decrypts recordings sealed with a passphrase (Argon2id + AES-256-GCM, the web app's format), checks whether a recording is whole, keeps an interrupted one up to its last complete fragment, and builds studio layout links. Everything runs offline. homebrew-core has an unrelated `obscura` (a headless browser), so install this one by its full name.
+
+```bash
+brew install maxgfr/tap/obscura
+obscura decrypt obscura-20261021-143005.mp4.obscura   # asks for the passphrase (or OBSCURA_PASSPHRASE)
+obscura inspect cut.mp4 && obscura repair cut.mp4     # after a crash or a closed tab
+obscura selftest                                     # offline self-check
+```
+
 ## Uninstalling
 
 ```bash
