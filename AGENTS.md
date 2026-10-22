@@ -47,7 +47,7 @@ introduces a new one.
 
 ## Patterns
 
-### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil, pdfvault, aparte, nuee, obscura)
+### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil, pdfvault, aparte, nuee, obscura, hush)
 - Download pre-compiled binaries per platform from GitHub Releases
 - Platform detection: `on_macos do / on_arm do`, `on_intel do`, `on_linux do`
 
@@ -99,6 +99,7 @@ introduces a new one.
 | 4:30 | aparte |
 | 5:30 | nuee |
 | 6:30 | obscura |
+| 7:30 | hush |
 
 All formulas have an update workflow — never leave one manually updated
 (codeindex stayed frozen at v2.6.0 for 7 minor releases because of that).
@@ -209,6 +210,17 @@ carries `conflicts_with "obscura"`: homebrew-core ships an unrelated `obscura`
 `maxgfr/tap/obscura`. The formula test is offline: `obscura new` prints a
 studio link (`…/obscura/#s=…`) and `obscura selftest` runs a seal/open round
 trip, a wrong-passphrase refusal and a link round trip.
+
+Note for hush: the maxgfr/hush repo is a web app plus a Rust CLI released
+exactly like veil and obscura: only its `cli-v*` tags are CLI releases (the
+workflow picks the newest `^cli-v[0-9]` release), assets are named by Rust
+target triple (`hush-aarch64-apple-darwin`), `SHA256SUMS` is not a Homebrew
+artifact, and the formula has no `version` line (brew scans it from the
+`cli-v…` URLs; the workflow reads the current one back from the first `url`).
+homebrew-cask ships an unrelated `hush` app (a Safari content blocker), with no
+binary in common, so there is no `conflicts_with`; the README tells users to
+install `maxgfr/tap/hush` by its full name. The formula test is offline:
+`hush new` prints a link (`…/hush/#<version>.s.<43 chars>.<expiry>`, version 1 or later).
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`

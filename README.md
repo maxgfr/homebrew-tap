@@ -319,6 +319,18 @@ obscura inspect cut.mp4 && obscura repair cut.mp4     # after a crash or a close
 obscura selftest                                     # offline self-check
 ```
 
+### [hush](https://github.com/maxgfr/hush)
+
+Post-quantum, end-to-end encrypted chat and file transfer from the terminal, in the same conversations as the [hush web app](https://maxgfr.github.io/hush/). Send a link, talk, end it: nothing is left. X-Wing (X25519 + ML-KEM-768) handshake, a ratchet that rekeys with a fresh post-quantum exchange, 5 emojis to verify, files checked by SHA-256. It also reads the web app's encrypted backups. homebrew-cask has an unrelated `hush` app, so install this one by its full name.
+
+```bash
+brew install maxgfr/tap/hush
+hush chat                                     # prints a link and a QR code, then chat (/ok to confirm the emojis)
+hush send report.pdf                          # exits once the file is delivered
+hush receive 'https://maxgfr.github.io/hush/#…' --out ~/Downloads
+hush backup inspect hush-backup.hush
+```
+
 ## Uninstalling
 
 ```bash
