@@ -327,7 +327,7 @@ Post-quantum, end-to-end encrypted chat and file transfer from the terminal, in 
 brew install maxgfr/tap/hush
 hush chat                                     # prints a link and a QR code, then chat (/ok to confirm the emojis)
 hush send report.pdf                          # exits once the file is delivered
-hush receive 'https://maxgfr.github.io/hush/#1.s.…' --out ~/Downloads
+hush receive 'https://maxgfr.github.io/hush/#…' --out ~/Downloads
 hush backup inspect hush-backup.hush
 ```
 

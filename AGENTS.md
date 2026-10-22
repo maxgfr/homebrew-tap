@@ -220,7 +220,7 @@ artifact, and the formula has no `version` line (brew scans it from the
 homebrew-cask ships an unrelated `hush` app (a Safari content blocker), with no
 binary in common, so there is no `conflicts_with`; the README tells users to
 install `maxgfr/tap/hush` by its full name. The formula test is offline:
-`hush new` prints a link (`…/hush/#1.s.<43 chars>.<expiry>`).
+`hush new` prints a link (`…/hush/#<version>.s.<43 chars>.<expiry>`, version 1 or later).
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`

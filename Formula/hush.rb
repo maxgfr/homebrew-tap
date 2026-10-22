@@ -43,6 +43,6 @@ class Hush < Formula
     assert_match version.to_s, shell_output("#{bin}/hush --version")
     # A fresh link, generated offline: the same format the web app opens.
     link = shell_output("#{bin}/hush new").strip
-    assert_match %r{^https://maxgfr\.github\.io/hush/#1\.s\.[A-Za-z0-9_-]{43}\.[0-9a-z]+$}, link
+    assert_match %r{^https://maxgfr\.github\.io/hush/#[1-9]\.s\.[A-Za-z0-9_-]{43}\.[0-9a-z]+$}, link
   end
 end
