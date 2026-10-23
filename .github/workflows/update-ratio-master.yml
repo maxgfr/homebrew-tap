@@ -87,7 +87,6 @@ jobs:
         run: |
           set -euo pipefail
 
-          VERSION="${{ steps.get_release.outputs.version }}"
           URL="${{ steps.get_release.outputs.url }}"
           SHA256="${{ steps.calculate_sha.outputs.sha256 }}"
 
