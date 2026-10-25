@@ -5,25 +5,25 @@ class Veil < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/veil/releases/download/cli-v0.3.0/veil-aarch64-apple-darwin"
-      sha256 "e1103219e3bd978262d7ab5e1256bab30c35ef9ae3b9ee76c005a87a36965e7d"
+      url "https://github.com/maxgfr/veil/releases/download/cli-v0.3.2/veil-aarch64-apple-darwin"
+      sha256 "ed5fa7a13c352d60c3ec00ca6b69d80edbcb47da5acb2349339ffbe8da439bac"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/veil/releases/download/cli-v0.3.0/veil-x86_64-apple-darwin"
-      sha256 "8e05be7b73df58861efb78f1c6fba2edbe06c43e7e05d5bcb6a0ec7d0185fc92"
+      url "https://github.com/maxgfr/veil/releases/download/cli-v0.3.2/veil-x86_64-apple-darwin"
+      sha256 "4f6629de929c0dc98226941f4b2e7a819aaeafab0e82e2871bf93a58b065bd89"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/veil/releases/download/cli-v0.3.0/veil-aarch64-unknown-linux-gnu"
-      sha256 "edfc8adba777af7a95781b69c8c2a78e47f9b3f85d099aa914ab612e250a2932"
+      url "https://github.com/maxgfr/veil/releases/download/cli-v0.3.2/veil-aarch64-unknown-linux-gnu"
+      sha256 "7a9d2571a28330ae8ab47b88e1e5bcfe36989f3ba1d6c9f9443b738d98d6e6c7"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/veil/releases/download/cli-v0.3.0/veil-x86_64-unknown-linux-gnu"
-      sha256 "a73d370c4c419e5684e59caa8b4e7a99463880b47d1884ff7ada4c5a6cc86465"
+      url "https://github.com/maxgfr/veil/releases/download/cli-v0.3.2/veil-x86_64-unknown-linux-gnu"
+      sha256 "dab37aadacf2a4bea80be8b12505cdc9d0cd33b3fd68fa173923572928bd3918"
     end
   end
 
