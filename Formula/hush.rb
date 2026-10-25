@@ -5,25 +5,25 @@ class Hush < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/hush/releases/download/cli-v3.1.1/hush-aarch64-apple-darwin"
-      sha256 "f429efb38e4bba18700d17254f9b793ccc6addf906637efb6306a4116d08b6a6"
+      url "https://github.com/maxgfr/hush/releases/download/cli-v3.3.0/hush-aarch64-apple-darwin"
+      sha256 "ea1c3c40aff35964052f396a03ab9e51ac726b2dbeae010c5cada159003fbbc1"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/hush/releases/download/cli-v3.1.1/hush-x86_64-apple-darwin"
-      sha256 "8ae1f58c4d2a7a21693589f8be2a1ecd43233926b9abe3b50814cf4a5412eb02"
+      url "https://github.com/maxgfr/hush/releases/download/cli-v3.3.0/hush-x86_64-apple-darwin"
+      sha256 "92b30091d3e58da5e17a9bec99f5fcb9c6f3d25a40f0a77625833920ac3a379c"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/hush/releases/download/cli-v3.1.1/hush-aarch64-unknown-linux-gnu"
-      sha256 "7f1a1c190610cdf5fb4b78486fc7c25786093ace5f86045e0d9b518ba9714f7f"
+      url "https://github.com/maxgfr/hush/releases/download/cli-v3.3.0/hush-aarch64-unknown-linux-gnu"
+      sha256 "7977432fa880a9a1f1a5f071bd64bfe4dda3add2cee6c249fe16adbb79875f7d"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/hush/releases/download/cli-v3.1.1/hush-x86_64-unknown-linux-gnu"
-      sha256 "e490cd23105edcf6585e13e0a7b16f6cd286cf35cc0fd4d17434649517aa9865"
+      url "https://github.com/maxgfr/hush/releases/download/cli-v3.3.0/hush-x86_64-unknown-linux-gnu"
+      sha256 "00293650f212175977db93749cee19f04e550ac0306bebfb87253434490b32aa"
     end
   end
 
