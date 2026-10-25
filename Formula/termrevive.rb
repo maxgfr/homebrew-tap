@@ -7,13 +7,13 @@ class Termrevive < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/termrevive/releases/download/v1.2.2/termrevive-aarch64-apple-darwin"
-      sha256 "11fc93168cad275a3ff3e31dd2e28db0862514505296b96e8116c8b843377d88"
+      url "https://github.com/maxgfr/termrevive/releases/download/v1.3.0/termrevive-aarch64-apple-darwin"
+      sha256 "a84345326da983d353e2c469938d8e1e94d528068dae929e8898e42c5d7c635b"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/termrevive/releases/download/v1.2.2/termrevive-x86_64-apple-darwin"
-      sha256 "ec88196279ce02ea236d4bd60b4aef4648415dc1f81fd6e35e9a844a3eab1996"
+      url "https://github.com/maxgfr/termrevive/releases/download/v1.3.0/termrevive-x86_64-apple-darwin"
+      sha256 "66e6e1379db578a5bc28b18ff9a6584f8beb33313f62aafbe13e456cfe5e98d5"
     end
   end
 
@@ -31,7 +31,8 @@ class Termrevive < Formula
 
   def caveats
     <<~EOS
-      termrevive restores Ghostty, iTerm2, kitty and Terminal.app windows. Run
+      termrevive restores Ghostty, iTerm2, kitty and Terminal.app windows, and
+      resumes Claude Code, Codex, Mistral Vibe, opencode and Kilo sessions. Run
         termrevive doctor --fix
       once: terminals then stop reopening their own windows on top of a restore,
       and kitty gets the remote control termrevive drives it with (restart kitty).

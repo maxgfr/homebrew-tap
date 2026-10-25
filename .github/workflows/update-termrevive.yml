@@ -109,7 +109,8 @@ jobs:
 
             def caveats
               <<~EOS
-                termrevive restores Ghostty, iTerm2, kitty and Terminal.app windows. Run
+                termrevive restores Ghostty, iTerm2, kitty and Terminal.app windows, and
+                resumes Claude Code, Codex, Mistral Vibe, opencode and Kilo sessions. Run
                   termrevive doctor --fix
                 once: terminals then stop reopening their own windows on top of a restore,
                 and kitty gets the remote control termrevive drives it with (restart kitty).

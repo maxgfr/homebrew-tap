@@ -233,7 +233,7 @@ artifact, no `version` line (the workflow reads the current tag from the first
 `url`). The formula test is offline: `--version`, and `termrevive list` against
 an empty `XDG_STATE_HOME` in `testpath` prints `no snapshot yet` without touching
 any terminal, and `termrevive skill` prints the bundled agent skill. `caveats`
-point to `termrevive doctor --fix` (the settings Ghostty, iTerm2, kitty and
+name the supported terminals and coding agents and point to `termrevive doctor --fix` (the settings Ghostty, iTerm2, kitty and
 Terminal.app need for a restore) and to `npx skills add maxgfr/termrevive`.
 
 ## Conventions
