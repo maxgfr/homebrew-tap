@@ -333,13 +333,13 @@ hush backup inspect hush-backup.hush
 
 ### [termrevive](https://github.com/maxgfr/termrevive)
 
-Save your terminal sessions and get them back after a reboot: windows, tabs, splits, working directories and the programs running in them. Every Claude Code session resumes its own conversation (`claude --resume`, in the worktree it was in), editors and `ssh` reopen, unknown commands are typed back without being run. Ghostty 1.3+ on macOS; optional LaunchAgents save every 2 minutes and restore at login.
+Save your terminal sessions and get them back after a reboot: windows, tabs, splits, working directories and the programs running in them. Every Claude Code session resumes its own conversation (`claude --resume`, in the worktree it was in), editors and `ssh` reopen, unknown commands are typed back without being run. Ghostty 1.3+, iTerm2, kitty and Terminal.app on macOS, in one snapshot; optional LaunchAgents save every 2 minutes and restore at login.
 
 ```bash
 brew install maxgfr/tap/termrevive
 termrevive save        # snapshot now
 termrevive show        # what a restore would run
-termrevive doctor --fix  # once: window-save-state = never in the Ghostty config
+termrevive doctor --fix  # once: terminal settings restores need
 termrevive restore     # after a reboot, from a fresh Ghostty window
 termrevive install     # optional: auto-save + auto-restore at login
 npx skills add maxgfr/termrevive   # agent skill for Claude Code, Codex…

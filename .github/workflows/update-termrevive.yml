@@ -109,10 +109,11 @@ jobs:
 
             def caveats
               <<~EOS
-                termrevive restores Ghostty (1.3 or later) windows. Run
+                termrevive restores Ghostty, iTerm2, kitty and Terminal.app windows. Run
                   termrevive doctor --fix
-                once: it sets window-save-state = never, so Ghostty does not reopen its own
-                windows on top of a restore. Agent skill: npx skills add maxgfr/termrevive
+                once: terminals then stop reopening their own windows on top of a restore,
+                and kitty gets the remote control termrevive drives it with (restart kitty).
+                Agent skill: npx skills add maxgfr/termrevive
               EOS
             end
 

@@ -7,13 +7,13 @@ class Termrevive < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/termrevive/releases/download/v1.1.0/termrevive-aarch64-apple-darwin"
-      sha256 "8bf150e1f4262c477b3896bf6079dab5c728b0b132ea315ec79b7a0d435721f1"
+      url "https://github.com/maxgfr/termrevive/releases/download/v1.2.0/termrevive-aarch64-apple-darwin"
+      sha256 "f68a18c9b320aafdbe0a932b4067caff8b4d67e62cfaf37127878362f70e02a2"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/termrevive/releases/download/v1.1.0/termrevive-x86_64-apple-darwin"
-      sha256 "a7d330eddeaa348e2a87d4b7d3a9e37c65bb131c1909978246507b75b86b3432"
+      url "https://github.com/maxgfr/termrevive/releases/download/v1.2.0/termrevive-x86_64-apple-darwin"
+      sha256 "44999976009b65082767e20ab0e1bf3ef2f4911d8cfcdffad70b68b2776e33a6"
     end
   end
 
@@ -31,10 +31,11 @@ class Termrevive < Formula
 
   def caveats
     <<~EOS
-      termrevive restores Ghostty (1.3 or later) windows. Run
+      termrevive restores Ghostty, iTerm2, kitty and Terminal.app windows. Run
         termrevive doctor --fix
-      once: it sets window-save-state = never, so Ghostty does not reopen its own
-      windows on top of a restore. Agent skill: npx skills add maxgfr/termrevive
+      once: terminals then stop reopening their own windows on top of a restore,
+      and kitty gets the remote control termrevive drives it with (restart kitty).
+      Agent skill: npx skills add maxgfr/termrevive
     EOS
   end
 
