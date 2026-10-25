@@ -36,6 +36,7 @@ class Termrevive < Formula
       once: terminals then stop reopening their own windows on top of a restore,
       and kitty gets the remote control termrevive drives it with (restart kitty).
       Agent skill: npx skills add maxgfr/termrevive
+      Using its LaunchAgents? Re-run `termrevive install` after each upgrade.
     EOS
   end
 
