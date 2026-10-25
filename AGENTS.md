@@ -47,7 +47,7 @@ introduces a new one.
 
 ## Patterns
 
-### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil, pdfvault, aparte, nuee, obscura, hush)
+### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil, pdfvault, aparte, nuee, obscura, hush, termrevive)
 - Download pre-compiled binaries per platform from GitHub Releases
 - Platform detection: `on_macos do / on_arm do`, `on_intel do`, `on_linux do`
 
@@ -100,6 +100,7 @@ introduces a new one.
 | 5:30 | nuee |
 | 6:30 | obscura |
 | 7:30 | hush |
+| 8:30 | termrevive |
 
 All formulas have an update workflow — never leave one manually updated
 (codeindex stayed frozen at v2.6.0 for 7 minor releases because of that).
@@ -221,6 +222,18 @@ homebrew-cask ships an unrelated `hush` app (a Safari content blocker), with no
 binary in common, so there is no `conflicts_with`; the README tells users to
 install `maxgfr/tap/hush` by its full name. The formula test is offline:
 `hush new` prints a link (`…/hush/#<version>.s.<43 chars>.<expiry>`, version 1 or later).
+
+Note for termrevive: a macOS-only Rust CLI (it drives Ghostty through
+AppleScript and reads the macOS process table), so the formula has
+`depends_on :macos` and only an `on_macos` block, and the workflow checksums the
+two macOS artifacts. Otherwise it is released like aparte: `v*` tags by
+semantic-release, assets named by Rust target triple
+(`termrevive-aarch64-apple-darwin`), a `SHA256SUMS` that is not a Homebrew
+artifact, no `version` line (the workflow reads the current tag from the first
+`url`). The formula test is offline: `--version`, and `termrevive list` against
+an empty `XDG_STATE_HOME` in `testpath` prints `no snapshot yet` without touching
+any terminal. `caveats` point to `window-save-state = never` and
+`termrevive doctor`.
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`
