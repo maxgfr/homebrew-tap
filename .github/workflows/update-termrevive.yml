@@ -109,10 +109,10 @@ jobs:
 
             def caveats
               <<~EOS
-                termrevive restores Ghostty (1.3 or later) windows. Add
-                  window-save-state = never
-                to ~/.config/ghostty/config so Ghostty does not reopen its own windows on top
-                of a restore, then check the setup with \`termrevive doctor\`.
+                termrevive restores Ghostty (1.3 or later) windows. Run
+                  termrevive doctor --fix
+                once: it sets window-save-state = never, so Ghostty does not reopen its own
+                windows on top of a restore. Agent skill: npx skills add maxgfr/termrevive
               EOS
             end
 
@@ -121,6 +121,7 @@ jobs:
               # Offline: an empty state directory has no snapshot, and no terminal is touched.
               ENV["XDG_STATE_HOME"] = testpath/"state"
               assert_equal "no snapshot yet", shell_output("#{bin}/termrevive list").strip
+              assert_match "name: termrevive", shell_output("#{bin}/termrevive skill")
             end
           end
           EOF

@@ -339,8 +339,10 @@ Save your terminal sessions and get them back after a reboot: windows, tabs, spl
 brew install maxgfr/tap/termrevive
 termrevive save        # snapshot now
 termrevive show        # what a restore would run
+termrevive doctor --fix  # once: window-save-state = never in the Ghostty config
 termrevive restore     # after a reboot, from a fresh Ghostty window
 termrevive install     # optional: auto-save + auto-restore at login
+npx skills add maxgfr/termrevive   # agent skill for Claude Code, Codex…
 ```
 
 ## Uninstalling
