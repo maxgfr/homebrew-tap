@@ -7,13 +7,13 @@ class Termrevive < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/termrevive/releases/download/v1.2.0/termrevive-aarch64-apple-darwin"
-      sha256 "f68a18c9b320aafdbe0a932b4067caff8b4d67e62cfaf37127878362f70e02a2"
+      url "https://github.com/maxgfr/termrevive/releases/download/v1.2.1/termrevive-aarch64-apple-darwin"
+      sha256 "e7362680f1cf2bf9302136b99b5b59ff8ec7367a5a6f1c56b3f315ed1070ddb0"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/termrevive/releases/download/v1.2.0/termrevive-x86_64-apple-darwin"
-      sha256 "44999976009b65082767e20ab0e1bf3ef2f4911d8cfcdffad70b68b2776e33a6"
+      url "https://github.com/maxgfr/termrevive/releases/download/v1.2.1/termrevive-x86_64-apple-darwin"
+      sha256 "ff990e8c29564b8fbc82d39d619833b50b87cfba9e9f37f04fba1adee870e95d"
     end
   end
 
