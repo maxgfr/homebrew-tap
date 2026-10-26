@@ -23,10 +23,12 @@ class CopyablePdf < Formula
                                           COPYABLE_PDF_HOME: var/"copyable-pdf"
   end
 
-  def post_install
-    # Install the OCR engine and fetch its models now, so the first run starts
-    # straight away. If this cannot run (no network), the first run does it.
-    system bin/"copyable-pdf", "--install-engine"
+  # Install the OCR engine and fetch its models now, so the first run starts
+  # straight away. If this cannot run (no network), the first run does it.
+  post_install_steps do
+    run "copyable-pdf", base: :bin, args: ["--install-engine"],
+        writable_paths: ["copyable-pdf"], writable_base: :var,
+        network_access: true, must_succeed: false
   end
 
   test do
