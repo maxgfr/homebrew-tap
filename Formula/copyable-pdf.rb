@@ -1,18 +1,14 @@
 class CopyablePdf < Formula
   desc "Convert PDF to images, OCR, and merge back to searchable PDF"
   homepage "https://github.com/maxgfr/copyable-pdf"
-  url "https://github.com/maxgfr/copyable-pdf/archive/refs/tags/v2.0.0.tar.gz"
-  sha256 "a8626f67a6f579ee5ae41222a1e256eb9139fbed460bcf81495bd6bdfa62b668"
+  url "https://github.com/maxgfr/copyable-pdf/archive/refs/tags/v3.0.0.tar.gz"
+  sha256 "77e74eea0485de131be6e7252dde16e5688a323ca7b059b43cd1e8db687f2e04"
   license "MIT"
 
-  # uv: builds the default OCR engine (PaddleOCR's models via RapidOCR).
-  # tesseract, tesseract-lang: --tesseract, in every language. qpdf: --preserve.
-  # imagemagick: --clean. Installing them all means every option works.
-  depends_on "imagemagick"
+  # uv builds the OCR engine (PaddleOCR's models via RapidOCR); qpdf is for
+  # --preserve.
   depends_on "poppler"
   depends_on "qpdf"
-  depends_on "tesseract"
-  depends_on "tesseract-lang"
   depends_on "uv"
 
   def install
