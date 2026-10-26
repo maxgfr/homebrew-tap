@@ -1,14 +1,13 @@
 class CopyablePdf < Formula
   desc "Convert PDF to images, OCR, and merge back to searchable PDF"
   homepage "https://github.com/maxgfr/copyable-pdf"
-  url "https://github.com/maxgfr/copyable-pdf/archive/refs/tags/v1.6.1.tar.gz"
-  sha256 "711c17af642e756e13b8c657c0fdfa80011fca8a43766e46a6c66cbfb6411d05"
+  url "https://github.com/maxgfr/copyable-pdf/archive/refs/tags/v2.0.0.tar.gz"
+  sha256 "a8626f67a6f579ee5ae41222a1e256eb9139fbed460bcf81495bd6bdfa62b668"
   license "MIT"
 
-  # imagemagick: --clean; qpdf: --preserve; tesseract-lang: every -l language
-  # beyond English; uv: --paddle, which builds PaddleOCR's environment on
-  # demand. All optional to the script, but installing them here means
-  # every option and language works out of the box.
+  # uv: builds the default OCR engine (PaddleOCR's models via RapidOCR).
+  # tesseract, tesseract-lang: --tesseract, in every language. qpdf: --preserve.
+  # imagemagick: --clean. Installing them all means every option works.
   depends_on "imagemagick"
   depends_on "poppler"
   depends_on "qpdf"
@@ -17,7 +16,17 @@ class CopyablePdf < Formula
   depends_on "uv"
 
   def install
-    bin.install "script.sh" => "copyable-pdf"
+    libexec.install "script.sh" => "copyable-pdf"
+    # The OCR engine lives in the prefix, not in each user's ~/.cache, so
+    # post_install can put it there and every run finds it.
+    (bin/"copyable-pdf").write_env_script libexec/"copyable-pdf",
+                                          COPYABLE_PDF_HOME: var/"copyable-pdf"
+  end
+
+  def post_install
+    # Install the OCR engine and fetch its models now, so the first run starts
+    # straight away. If this cannot run (no network), the first run does it.
+    system bin/"copyable-pdf", "--install-engine"
   end
 
   test do
