@@ -47,7 +47,7 @@ introduces a new one.
 
 ## Patterns
 
-### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil, pdfvault, aparte, nuee, obscura, hush, termrevive)
+### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil, pdfvault, aparte, nuee, obscura, hush, termrevive, verbatim)
 - Download pre-compiled binaries per platform from GitHub Releases
 - Platform detection: `on_macos do / on_arm do`, `on_intel do`, `on_linux do`
 
@@ -101,6 +101,7 @@ introduces a new one.
 | 6:30 | obscura |
 | 7:30 | hush |
 | 8:30 | termrevive |
+| 9:30 | verbatim |
 
 All formulas have an update workflow — never leave one manually updated
 (codeindex stayed frozen at v2.6.0 for 7 minor releases because of that).
@@ -173,6 +174,24 @@ the bare `0.1.0` while the URLs keep the `cli-v0.1.0` tag (`version` = tag for
 URLs, `number` = bare for the formula and the up-to-date check). The release's
 `SHA256SUMS` is not a Homebrew artifact. The formula test runs `veil new`,
 which prints a room link offline.
+
+Note for verbatim: a Rust binary (about 25 MB, ONNX Runtime linked in) that
+`depends_on "ffmpeg"`, which it calls to decode audio and to cut. There is no
+Intel macOS binary (ONNX Runtime ships no prebuilt library for
+x86_64-apple-darwin): the macOS block holds the arm64 URL only, behind
+`depends_on arch: :arm64`, and the update workflow checksums three artifacts
+(macos-arm64, linux-arm64, linux-x64). Assets are named
+`verbatim-<platform>-<arch>`; like pdfvault there is no `version` line
+and the workflow reads the current tag from the first `url`. Releases come
+from semantic-release, with the version stamped into the Cargo workspace at
+build time, so the formula test's `--version` check matches the tag. The
+binaries are attached a few minutes after the GitHub Release (a run in
+between fails its download; the next one updates). The speech model (~670 MB)
+is never bundled: `verbatim model download` or the first transcription
+fetches it. The test runs offline: it plans a plain-French cut on a generated
+tone and renders it, and checks `verbatim skill`; `caveats` point to
+`npx skills add maxgfr/verbatim`. The release's `SHA256SUMS` is not a Homebrew
+artifact.
 
 Note for pdfvault: like troupe its binaries are Bun-compiled (about 95 MB:
 the wasm engine and the 12 MB of OCR models are embedded, no Node or Bun

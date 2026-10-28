@@ -287,6 +287,17 @@ pdfvault ocr scan.pdf && pdfvault to-md scan-searchable.pdf
 npx skills add maxgfr/pdfvault                 # the agent skill, for any agent (Claude Code, Codex, OpenCode…)
 ```
 
+### [verbatim](https://github.com/maxgfr/verbatim)
+
+Transcribe and edit video and audio on your machine: NVIDIA Parakeet speech to text (25 languages, timed to the word) to TXT, SRT, VTT, Markdown, JSON or CSV, and cuts by time, by words said, hesitations or pauses, or in plain language ("supprime de 15:39 à 15:43 et les 5:42 dernières minutes"), rendered with ffmpeg. The same Rust engine as the [verbatim web app](https://maxgfr.github.io/verbatim/); `--json` and cut lists for scripts.
+
+```bash
+brew install maxgfr/tap/verbatim
+verbatim transcribe talk.mp4 -o talk.srt
+verbatim cut talk.mp4 "supprime de 15:39 à 15:43 et les 5:42 dernières minutes" -o short.mp4 --dry-run
+npx skills add maxgfr/verbatim                 # the agent skill, for any agent (Claude Code, Codex, OpenCode…)
+```
+
 ### [aparte](https://github.com/maxgfr/aparte)
 
 The command-line companion of [Aparté](https://maxgfr.github.io/aparte/), a private AI chat that runs entirely in the browser, encrypted at rest and synced end-to-end. The CLI reads and writes the same `aparte/1` format as the web app; `--json` prints one JSON object per line.
