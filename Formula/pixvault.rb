@@ -5,25 +5,25 @@ class Pixvault < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/pixvault/releases/download/v1.3.1/pixvault-macos-arm64"
-      sha256 "cec6d611f84f62294e6c590e0210e96453936f4470b81abf625d28a6d4469a66"
+      url "https://github.com/maxgfr/pixvault/releases/download/v1.3.2/pixvault-macos-arm64"
+      sha256 "86216166361606248fe3421c298279285926bd06fda16af060f2afe5ca924457"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/pixvault/releases/download/v1.3.1/pixvault-macos-x64"
-      sha256 "8e81940a2cd93b02b6f7784becea59d5824f325436f064e90e8fc110be0ad885"
+      url "https://github.com/maxgfr/pixvault/releases/download/v1.3.2/pixvault-macos-x64"
+      sha256 "fb46554584b0c5e10bdbc08914aa4ed64a10e5ff81c3b86f9fb06152077c2657"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/pixvault/releases/download/v1.3.1/pixvault-linux-arm64"
-      sha256 "46dfae5ec97fd19a3207e0f3a961ab763b98885857c14f5954323ab4124aeb85"
+      url "https://github.com/maxgfr/pixvault/releases/download/v1.3.2/pixvault-linux-arm64"
+      sha256 "cce37d93ff34807851ce226ad67091fb7a64e6fc75cc57a69c7522be24a83179"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/pixvault/releases/download/v1.3.1/pixvault-linux-x64"
-      sha256 "56ce04d234e22f0f0f524e8d33dab52508e4a871d0a5821ad023ef0deeed8c43"
+      url "https://github.com/maxgfr/pixvault/releases/download/v1.3.2/pixvault-linux-x64"
+      sha256 "fef7bcaaaf99b48ee85b444d0685d5e198e2fcad4df05870bd9f20905cdda7c0"
     end
   end
 
