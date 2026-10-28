@@ -298,6 +298,18 @@ verbatim cut talk.mp4 "supprime de 15:39 à 15:43 et les 5:42 dernières minutes
 npx skills add maxgfr/verbatim                 # the agent skill, for any agent (Claude Code, Codex, OpenCode…)
 ```
 
+### [pixvault](https://github.com/maxgfr/pixvault)
+
+Private photo tools from the terminal: compress (quality or target size), convert HEIC, RAW, AVIF, WebP, JPEG XL, TIFF and SVG, resize (social presets), crop, rotate, adjust, LUTs, watermarks, captions, redaction, EXIF/GPS stripping and editing, batch rename, collages, contact sheets, GIFs, PDFs, favicons, palettes and duplicate detection, plus AI tools (background removal, upscaling, face blurring, object eraser, captions and keywords). Everything runs on your machine, on the same engine as the [pixvault web app](https://maxgfr.github.io/pixvault/); folders are processed recursively and `--json` works on every tool. A standalone binary with the codecs built in; AI models download once, verified by SHA-256.
+
+```bash
+brew install maxgfr/tap/pixvault
+pixvault compress --quality 75 --format webp photos/ -o small/
+pixvault convert --to jpeg IMG_0042.HEIC
+pixvault strip --remove gps *.jpg -o shared/
+pixvault remove-bg product.jpg
+```
+
 ### [aparte](https://github.com/maxgfr/aparte)
 
 The command-line companion of [Aparté](https://maxgfr.github.io/aparte/), a private AI chat that runs entirely in the browser, encrypted at rest and synced end-to-end. The CLI reads and writes the same `aparte/1` format as the web app; `--json` prints one JSON object per line.

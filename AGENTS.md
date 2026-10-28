@@ -47,7 +47,7 @@ introduces a new one.
 
 ## Patterns
 
-### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil, pdfvault, aparte, nuee, obscura, hush, termrevive, verbatim)
+### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil, pdfvault, pixvault, aparte, nuee, obscura, hush, termrevive, verbatim)
 - Download pre-compiled binaries per platform from GitHub Releases
 - Platform detection: `on_macos do / on_arm do`, `on_intel do`, `on_linux do`
 
@@ -102,6 +102,7 @@ introduces a new one.
 | 7:30 | hush |
 | 8:30 | termrevive |
 | 9:30 | verbatim |
+| 10:30 | pixvault |
 
 All formulas have an update workflow — never leave one manually updated
 (codeindex stayed frozen at v2.6.0 for 7 minor releases because of that).
@@ -206,6 +207,20 @@ run updates. The release's Windows binaries and `SHA256SUMS` are not Homebrew
 artifacts. The formula test writes a one-page PDF and rotates it offline,
 and checks `pdfvault skill` prints the agent skill; `caveats` point to
 `npx skills add maxgfr/pdfvault` (the CLI no longer installs the skill itself).
+
+Note for pixvault: the photo sibling of pdfvault, released the same way.
+Its binaries are Bun-compiled (about 130 MB: the codecs, ONNX Runtime and
+three fonts are embedded, no Node or Bun needed; the AI models are not, they
+download on first use into the user cache, pinned by revision and SHA-256), the
+x64 ones on Bun's baseline runtime, the macOS ones re-signed ad hoc on a macOS
+runner. No `version` line: the workflow reads the current tag from the first
+`url`. pixvault releases by semantic-release (the version stamped at build
+time), so the formula test's `--version` check matches the tag. Its release
+workflow attaches the binaries a few minutes after the GitHub Release is
+published: a run in between fails its download and the next run updates.
+`SHA256SUMS` is not a Homebrew artifact. The formula test is offline: a 4×3 PNG
+converted to JPEG and read back with `inspect --json`; `caveats` say where the
+AI models go.
 
 Note for aparte and nuee: Rust CLIs released like veil, with assets named by
 Rust target triple (`aparte-aarch64-apple-darwin`) and a `SHA256SUMS` that is
