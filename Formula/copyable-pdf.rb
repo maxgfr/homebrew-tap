@@ -1,8 +1,8 @@
 class CopyablePdf < Formula
   desc "Convert PDF to images, OCR, and merge back to searchable PDF"
   homepage "https://github.com/maxgfr/copyable-pdf"
-  url "https://github.com/maxgfr/copyable-pdf/archive/refs/tags/v3.0.1.tar.gz"
-  sha256 "f71756d9ae890f6b216584fbb4719f6552658741cd22318d51860ac4311c412b"
+  url "https://github.com/maxgfr/copyable-pdf/archive/refs/tags/v3.0.2.tar.gz"
+  sha256 "a741ffd19204f49f7fb0db7bc03fca91576aa1ba92f2d3c2fa951c9347586d95"
   license "MIT"
 
   # uv builds the OCR engine (PaddleOCR's models via RapidOCR); qpdf is for
