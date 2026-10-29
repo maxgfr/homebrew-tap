@@ -5,25 +5,25 @@ class Pdfvault < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/pdfvault/releases/download/v1.13.2/pdfvault-macos-arm64"
-      sha256 "95fb91dec306a067dabe04ac3cc427f652727a8e147681d97e60bf1b1df908fb"
+      url "https://github.com/maxgfr/pdfvault/releases/download/v1.14.0/pdfvault-macos-arm64"
+      sha256 "920a87e202765466ecce80d28ed77b203de33973c4c831f033f0d03f552ca83c"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/pdfvault/releases/download/v1.13.2/pdfvault-macos-x64"
-      sha256 "e6eeb81a8db31229836eacab3d3d72eb1e30ae8da683fce398630bb4ff70c00b"
+      url "https://github.com/maxgfr/pdfvault/releases/download/v1.14.0/pdfvault-macos-x64"
+      sha256 "d76846f9cf6e88a7462ef278d7085bee9391082b3a8125b7cb010379a36a3a6c"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/pdfvault/releases/download/v1.13.2/pdfvault-linux-arm64"
-      sha256 "46093d2e0f967da3ae72eced7b2a6d963fbc89e0abfbd3af3a9e74873aff1885"
+      url "https://github.com/maxgfr/pdfvault/releases/download/v1.14.0/pdfvault-linux-arm64"
+      sha256 "fe5f7eb4313d9a36273a63e7315c8df5558ab71d5186afc7baed7394472dcf1d"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/pdfvault/releases/download/v1.13.2/pdfvault-linux-x64"
-      sha256 "a1a7fdcfc14a4e08e6139e601e1f89ec7e597d8ce524f30ae2320f16f6e7e3ac"
+      url "https://github.com/maxgfr/pdfvault/releases/download/v1.14.0/pdfvault-linux-x64"
+      sha256 "19f9ff875508ad55312c14417aa7acf4752f230e88625739a5e5fa672cc8dbf1"
     end
   end
 
