@@ -10,20 +10,20 @@ class Verbatim < Formula
     depends_on arch: :arm64
 
     on_arm do
-      url "https://github.com/maxgfr/verbatim/releases/download/v1.0.2/verbatim-macos-arm64"
-      sha256 "e1adfdd3684a7c7515dbdfb28c6bff4dfd22fe6978c8aba5ab3fe4e68b1953e3"
+      url "https://github.com/maxgfr/verbatim/releases/download/v1.0.4/verbatim-macos-arm64"
+      sha256 "5dd4aead4aefcdaff4a5865334208da815ee91c047fb38987bbf1d90b65d2cfa"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/verbatim/releases/download/v1.0.2/verbatim-linux-arm64"
-      sha256 "a49dd383640ef7011ff60eb14df83feb11b35173f9f1acfa9e9f203cb6683acd"
+      url "https://github.com/maxgfr/verbatim/releases/download/v1.0.4/verbatim-linux-arm64"
+      sha256 "75b9acd6a8e22fba8804d1aa5882a650aedb70952d53d5dfb2f149b657ef5658"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/verbatim/releases/download/v1.0.2/verbatim-linux-x64"
-      sha256 "2b1ad0d3fa0e47748583ff36a1f8683d27ce801b86c665306f70b3c90cba3924"
+      url "https://github.com/maxgfr/verbatim/releases/download/v1.0.4/verbatim-linux-x64"
+      sha256 "d7a356cca9fa9f7ebdb7feb422b76770b15c851b7a773b9dad6799baa580eeee"
     end
   end
 
