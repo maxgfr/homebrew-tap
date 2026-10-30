@@ -289,12 +289,12 @@ npx skills add maxgfr/pdfvault                 # the agent skill, for any agent 
 
 ### [verbatim](https://github.com/maxgfr/verbatim)
 
-Transcribe and edit video and audio on your machine: NVIDIA Parakeet speech to text (25 languages, timed to the word) to TXT, SRT, VTT, Markdown, JSON or CSV, and cuts by time, by words said, hesitations or pauses, or in plain language ("supprime de 15:39 à 15:43 et les 5:42 dernières minutes"), rendered with ffmpeg. The same Rust engine as the [verbatim web app](https://maxgfr.github.io/verbatim/); `--json` and cut lists for scripts.
+Transcribe and edit video and audio on your machine: NVIDIA Parakeet or Canary speech to text to TXT, SRT, VTT, Markdown, JSON or CSV, and cuts by time, transcript segment, words said, hesitations or pauses, rendered with ffmpeg; the agent skill turns requests in any language into its options. The same Rust engine as the [verbatim web app](https://maxgfr.github.io/verbatim/); `--json` and cut lists for scripts.
 
 ```bash
 brew install maxgfr/tap/verbatim
 verbatim transcribe talk.mp4 -o talk.srt
-verbatim cut talk.mp4 "supprime de 15:39 à 15:43 et les 5:42 dernières minutes" -o short.mp4 --dry-run
+verbatim cut talk.mp4 --delete 15:39-15:43 --delete-last 5:42 -o short.mp4 --dry-run
 npx skills add maxgfr/verbatim                 # the agent skill, for any agent (Claude Code, Codex, OpenCode…)
 ```
 

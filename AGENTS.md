@@ -189,8 +189,9 @@ build time, so the formula test's `--version` check matches the tag. The
 binaries are attached a few minutes after the GitHub Release (a run in
 between fails its download; the next one updates). The speech model (~670 MB)
 is never bundled: `verbatim model download` or the first transcription
-fetches it. The test runs offline: it plans a plain-French cut on a generated
-tone and renders it, and checks `verbatim skill`; `caveats` point to
+fetches it. The test runs offline on a generated tone: `verbatim info`, a plan from
+options (`--delete-last`, `--delete`) and a render, and it checks `verbatim
+skill`. Since v2 the CLI takes options only (the agent skill reads requests); `caveats` point to
 `npx skills add maxgfr/verbatim`. The release's `SHA256SUMS` is not a Homebrew
 artifact.
 

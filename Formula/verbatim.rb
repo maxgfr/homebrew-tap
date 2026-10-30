@@ -1,5 +1,5 @@
 class Verbatim < Formula
-  desc "Transcribe and edit video and audio locally with Parakeet, ffmpeg and AI"
+  desc "Transcribe and edit video and audio locally with Parakeet, Canary and ffmpeg"
   homepage "https://github.com/maxgfr/verbatim"
   license "MIT"
 
@@ -48,11 +48,12 @@ class Verbatim < Formula
   test do
     assert_equal "verbatim #{version}", shell_output("#{bin}/verbatim --version").strip
     assert_match "name: verbatim", shell_output("#{bin}/verbatim skill")
-    # Offline, no model: a 6 s clip, a plain-French cut planned, then rendered with ffmpeg.
+    # Offline, no model: a 6 s tone, cut by options, rendered with ffmpeg.
     system "ffmpeg", "-v", "error", "-f", "lavfi", "-i", "sine=frequency=440:duration=6", testpath/"in.m4a"
-    plan = shell_output("#{bin}/verbatim plan #{testpath}/in.m4a 'supprime les 2 dernières secondes' -q")
+    assert_match "\"duration\"", shell_output("#{bin}/verbatim info #{testpath}/in.m4a")
+    plan = shell_output("#{bin}/verbatim plan #{testpath}/in.m4a --delete-last 2 --delete 0:01-0:02 -q")
     assert_match "\"delete\"", plan
-    system bin/"verbatim", "cut", testpath/"in.m4a", "--delete", "0:01-0:02", "-o", testpath/"out.m4a", "-q"
+    system bin/"verbatim", "cut", testpath/"in.m4a", "--delete-first", "1", "-o", testpath/"out.m4a", "-q"
     assert_path_exists testpath/"out.m4a"
   end
 end
