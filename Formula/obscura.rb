@@ -5,25 +5,25 @@ class Obscura < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/obscura/releases/download/cli-v1.2.0/obscura-aarch64-apple-darwin"
-      sha256 "d434c45f6cfdd2d77cb01facb25ed9be165e1eac51aefa5752b6115919fa7fc4"
+      url "https://github.com/maxgfr/obscura/releases/download/cli-v1.2.1/obscura-aarch64-apple-darwin"
+      sha256 "ba936006df8096c7c948a36d5bc5e2f7283b0c143eeea47a22d8640f66691ddf"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/obscura/releases/download/cli-v1.2.0/obscura-x86_64-apple-darwin"
-      sha256 "220cb72a3cee92e29baa579b86271371d379b0b3177cc66760713929e98bc298"
+      url "https://github.com/maxgfr/obscura/releases/download/cli-v1.2.1/obscura-x86_64-apple-darwin"
+      sha256 "c8b6514933466e9bcfd3c3aad50874289444dbb2a7449ae716691347b826b978"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/obscura/releases/download/cli-v1.2.0/obscura-aarch64-unknown-linux-gnu"
-      sha256 "7013f3c8c1392529e4ddc6997fe39c359dac74dbc6a1abe3a52afefce4ebd715"
+      url "https://github.com/maxgfr/obscura/releases/download/cli-v1.2.1/obscura-aarch64-unknown-linux-gnu"
+      sha256 "0a377e05252828631798bec5a8ef20a5c307bd52f0eb0b917e9b89d7b8eb2c45"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/obscura/releases/download/cli-v1.2.0/obscura-x86_64-unknown-linux-gnu"
-      sha256 "f898d02b084b1f1dd15d49f5b4ab19fdb6dc6abd2d8ed1df58da15237c443305"
+      url "https://github.com/maxgfr/obscura/releases/download/cli-v1.2.1/obscura-x86_64-unknown-linux-gnu"
+      sha256 "1e58b0ac6ba43e5d03d0f8d4d4b997689a75cf08fb84ae31c8362d21b40b4105"
     end
   end
 
