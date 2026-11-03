@@ -5,25 +5,25 @@ class Otpx < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/otpx/releases/download/v0.1.0/otpx-aarch64-apple-darwin"
-      sha256 "6ada3ff79e82b0be99b6135077457017d21c8ae7a6caf1b46d475321d0a14796"
+      url "https://github.com/maxgfr/otpx/releases/download/v0.1.1/otpx-aarch64-apple-darwin"
+      sha256 "825149c83000558a7433ce9fb7dc120a3ec7acceb4b1a8adabc210ab754e1ba1"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/otpx/releases/download/v0.1.0/otpx-x86_64-apple-darwin"
-      sha256 "7a455f06df721450914392af23c9f2462d571dc1aeb01280e29b2e5689a92c54"
+      url "https://github.com/maxgfr/otpx/releases/download/v0.1.1/otpx-x86_64-apple-darwin"
+      sha256 "bb4ceecd58eb5426a61c9c985123e65f5cd21611f6cf636a63fe1ebd33a402b9"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/otpx/releases/download/v0.1.0/otpx-aarch64-unknown-linux-gnu"
-      sha256 "ad09085991da5e7a95679326383ce21cd969958fc151799b66fafd13022546ea"
+      url "https://github.com/maxgfr/otpx/releases/download/v0.1.1/otpx-aarch64-unknown-linux-gnu"
+      sha256 "dc62339e25939811afdc0f8eaed0e2e5004665684703557f4c5e4c3fc5d557e8"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/otpx/releases/download/v0.1.0/otpx-x86_64-unknown-linux-gnu"
-      sha256 "2a6187bd124dce6064a20552ec87e9e60ca867e90fea36bfe3417b1a0161a764"
+      url "https://github.com/maxgfr/otpx/releases/download/v0.1.1/otpx-x86_64-unknown-linux-gnu"
+      sha256 "c1c87981d2b677aaa552ee484d71b278fae539e81404871e1a9f31a8130ba3f6"
     end
   end
 
