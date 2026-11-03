@@ -47,7 +47,7 @@ introduces a new one.
 
 ## Patterns
 
-### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil, pdfvault, pixvault, aparte, nuee, obscura, hush, termrevive, verbatim)
+### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil, pdfvault, pixvault, aparte, nuee, obscura, hush, termrevive, verbatim, otpx)
 - Download pre-compiled binaries per platform from GitHub Releases
 - Platform detection: `on_macos do / on_arm do`, `on_intel do`, `on_linux do`
 
@@ -103,6 +103,7 @@ introduces a new one.
 | 8:30 | termrevive |
 | 9:30 | verbatim |
 | 10:30 | pixvault |
+| 11:30 | otpx |
 
 All formulas have an update workflow — never leave one manually updated
 (codeindex stayed frozen at v2.6.0 for 7 minor releases because of that).

@@ -1,0 +1,167 @@
+name: Update otpx Formula
+
+on:
+  schedule:
+    - cron: "30 11 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest release info
+        id: get_release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Releases are tagged `v*`; filter on it rather than trusting `releases/latest`.
+          VERSION=$(curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/maxgfr/otpx/releases?per_page=20" \
+            | jq -r '[.[] | select(.draft == false and .prerelease == false and (.tag_name | test("^v[0-9]")))][0].tag_name')
+
+          if [ -z "$VERSION" ] || [ "$VERSION" == "null" ]; then
+            echo "No release found"
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Latest version: $VERSION"
+
+      - name: Download binaries and calculate SHA256
+        id: calculate_sha
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          BASE_URL="https://github.com/maxgfr/otpx/releases/download/${VERSION}"
+
+          # Binaries are named by Rust target triple. SHA256SUMS is not a Homebrew artifact.
+          for binary in otpx-aarch64-apple-darwin otpx-x86_64-apple-darwin otpx-aarch64-unknown-linux-gnu otpx-x86_64-unknown-linux-gnu; do
+            echo "Downloading ${binary}..."
+            curl -L -f -o "${binary}" "${BASE_URL}/${binary}" || { echo "Failed to download ${binary}"; exit 1; }
+            SHA=$(sha256sum "${binary}" | awk '{print $1}')
+            KEY=$(echo "${binary}" | tr '-' '_')
+            echo "sha_${KEY}=${SHA}" >> "$GITHUB_OUTPUT"
+            echo "${binary} SHA256: ${SHA}"
+          done
+
+          rm -f otpx-*
+
+      - name: Check if update is needed
+        id: check_update
+        run: |
+          # No version line in the formula (brew reads it from the URLs): the current tag is read from the first URL.
+          CURRENT_VERSION=$(grep -m1 'url "' Formula/otpx.rb | sed -E 's|.*/releases/download/([^/]+)/.*|\1|')
+          NEW_VERSION="${{ steps.get_release.outputs.version }}"
+
+          echo "Current version: $CURRENT_VERSION"
+          echo "New version: $NEW_VERSION"
+
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+            echo "needs_update=true" >> "$GITHUB_OUTPUT"
+            echo "Update needed!"
+          else
+            echo "needs_update=false" >> "$GITHUB_OUTPUT"
+            echo "Already up to date"
+          fi
+
+      - name: Update Formula
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          VERSION="${{ steps.get_release.outputs.version }}"
+          SHA_MACOS_ARM64="${{ steps.calculate_sha.outputs.sha_otpx_aarch64_apple_darwin }}"
+          SHA_MACOS_X64="${{ steps.calculate_sha.outputs.sha_otpx_x86_64_apple_darwin }}"
+          SHA_LINUX_ARM64="${{ steps.calculate_sha.outputs.sha_otpx_aarch64_unknown_linux_gnu }}"
+          SHA_LINUX_X64="${{ steps.calculate_sha.outputs.sha_otpx_x86_64_unknown_linux_gnu }}"
+
+          cat > Formula/otpx.rb << EOF
+          class Otpx < Formula
+            desc "2FA codes in the terminal and the browser, from one encrypted synced vault"
+            homepage "https://github.com/maxgfr/otpx"
+            license any_of: ["MIT", "Apache-2.0"]
+
+            on_macos do
+              on_arm do
+                url "https://github.com/maxgfr/otpx/releases/download/${VERSION}/otpx-aarch64-apple-darwin"
+                sha256 "${SHA_MACOS_ARM64}"
+              end
+
+              on_intel do
+                url "https://github.com/maxgfr/otpx/releases/download/${VERSION}/otpx-x86_64-apple-darwin"
+                sha256 "${SHA_MACOS_X64}"
+              end
+            end
+
+            on_linux do
+              on_arm do
+                url "https://github.com/maxgfr/otpx/releases/download/${VERSION}/otpx-aarch64-unknown-linux-gnu"
+                sha256 "${SHA_LINUX_ARM64}"
+              end
+
+              on_intel do
+                url "https://github.com/maxgfr/otpx/releases/download/${VERSION}/otpx-x86_64-unknown-linux-gnu"
+                sha256 "${SHA_LINUX_X64}"
+              end
+            end
+
+            def install
+              binary = Dir["otpx-*"].first
+
+              if binary.nil?
+                opoo "No otpx binary found"
+                return
+              end
+
+              chmod 0755, binary
+              bin.install binary => "otpx"
+              generate_completions_from_executable(bin/"otpx", "completions")
+            end
+
+            test do
+              assert_match version.to_s, shell_output("#{bin}/otpx --version")
+              # Offline self-check: RFC vectors, vault encryption, every format, share links, QR codes.
+              assert_match "selftest ok", shell_output("#{bin}/otpx selftest")
+              # A throwaway vault (keys in a file, not the keychain) gives the RFC 6238 code at T=59.
+              ENV["OTPX_CONFIG_DIR"] = (testpath/"config").to_s
+              ENV["OTPX_DATA_DIR"] = (testpath/"data").to_s
+              ENV["OTPX_KEYCHAIN"] = "0"
+              ENV["OTPX_NO_INPUT"] = "1"
+              pipe_output("#{bin}/otpx init --password-stdin", "brew test passphrase\\n", 0)
+              ENV["OTPX_PASSWORD"] = "brew test passphrase"
+              system bin/"otpx", "--offline", "add",
+                     "otpauth://totp/Test:rfc?secret=GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ&digits=8&issuer=Test"
+              ENV["OTPX_NOW"] = "59"
+              assert_equal "94287082", shell_output("#{bin}/otpx code test").strip
+            end
+          end
+          EOF
+
+          echo "Formula updated successfully"
+
+      - name: Commit and push changes
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          git add Formula/otpx.rb
+          git commit -m "chore: update otpx to ${{ steps.get_release.outputs.version }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          {
+            echo "✅ Formula updated to version ${{ steps.get_release.outputs.version }}"
+            echo ""
+            echo "- **Version**: ${{ steps.get_release.outputs.version }}"
+            echo "- **macOS ARM64 SHA256**: ${{ steps.calculate_sha.outputs.sha_otpx_aarch64_apple_darwin }}"
+            echo "- **macOS x64 SHA256**: ${{ steps.calculate_sha.outputs.sha_otpx_x86_64_apple_darwin }}"
+            echo "- **Linux ARM64 SHA256**: ${{ steps.calculate_sha.outputs.sha_otpx_aarch64_unknown_linux_gnu }}"
+            echo "- **Linux x64 SHA256**: ${{ steps.calculate_sha.outputs.sha_otpx_x86_64_unknown_linux_gnu }}"
+          } >> "$GITHUB_STEP_SUMMARY"

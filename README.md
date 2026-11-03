@@ -368,6 +368,19 @@ termrevive install     # optional: auto-save + auto-restore at login
 npx skills add maxgfr/termrevive   # agent skill for Claude Code, Codex…
 ```
 
+### [otpx](https://github.com/maxgfr/otpx)
+
+Your 2FA codes in the terminal and the browser, from one encrypted vault you keep where you choose: import from Google Authenticator, Microsoft Authenticator, Aegis, 2FAS and more, sync through a private GitHub repository, a gist or a folder, unlock with Touch ID, share accounts with encrypted links. The same vault opens at https://maxgfr.github.io/otpx/.
+
+```bash
+brew install maxgfr/tap/otpx
+otpx init                                    # master password + recovery code
+otpx import google-export.png                # Google Authenticator transfer QR codes
+otpx sync setup github --repo you/otpx-vault
+otpx code github --copy                      # copied, cleared after 20 s
+otpx                                         # interactive view
+```
+
 ## Uninstalling
 
 ```bash
