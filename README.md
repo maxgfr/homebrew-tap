@@ -381,6 +381,18 @@ otpx code github --copy                      # copied, cleared after 20 s
 otpx                                         # interactive view
 ```
 
+### [crible](https://github.com/maxgfr/crible)
+
+Self-hosted fundamental stock screener over a worldwide universe (about 150k listings, Europe in depth), keyless by design: a filter DSL, peer-group statistics, a REST API and an MCP server for agents. The published dataset downloads in about a minute, no crawl needed. The first install builds its Python environment from the release's locked dependencies (a few minutes, once per version).
+
+```bash
+brew install maxgfr/tap/crible
+crible --data-dir ~/crible bootstrap                                   # the published dataset
+crible --data-dir ~/crible screen "piotroski_f >= 7 AND region = 'europe'"
+crible --data-dir ~/crible stats --symbol MC.PA roic gross_margin      # where it sits among its peers
+crible --data-dir ~/crible mcp                                         # MCP server over stdio
+```
+
 ## Uninstalling
 
 ```bash
