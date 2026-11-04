@@ -1,0 +1,104 @@
+name: Update crible Formula
+
+on:
+  schedule:
+    # crible releases by semantic-release, often several times a day, and
+    # ultrastock pins its tags: check every 2 hours (at :45, off every other
+    # formula's slot) so the formula follows each release within hours.
+    - cron: "45 */2 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest release info
+        id: get_release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # NOT releases/latest: the crible repo also publishes the rolling
+          # data-latest release (its dataset), which is not a CLI tag.
+          RELEASE_DATA=$(curl -s -H "Authorization: token $GH_TOKEN" https://api.github.com/repos/maxgfr/crible/releases)
+          TAG=$(echo "$RELEASE_DATA" | jq -r '[.[] | select(.tag_name | test("^v[0-9]")) | .tag_name] | first')
+
+          if [ -z "$TAG" ] || [ "$TAG" == "null" ]; then
+            echo "No release found"
+            exit 1
+          fi
+
+          VERSION="${TAG#v}"
+          URL="https://github.com/maxgfr/crible/archive/refs/tags/${TAG}.tar.gz"
+
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+
+          echo "Latest tag: $TAG (version $VERSION)"
+          echo "Tarball URL: $URL"
+
+      - name: Check if update is needed
+        id: check_update
+        run: |
+          CURRENT_VERSION=$(grep -m1 'url "' Formula/crible.rb | sed -E 's#.*/(releases/download|archive/refs/tags)/v?([^/"]+)(/|\.tar\.gz").*#\2#')
+          NEW_VERSION="${{ steps.get_release.outputs.version }}"
+
+          echo "Current version: $CURRENT_VERSION"
+          echo "New version: $NEW_VERSION"
+
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+            echo "needs_update=true" >> "$GITHUB_OUTPUT"
+            echo "Update needed!"
+          else
+            echo "needs_update=false" >> "$GITHUB_OUTPUT"
+            echo "Already up to date"
+          fi
+
+      - name: Download and calculate SHA256
+        id: calculate_sha
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          # -f: a missing tarball fails the run instead of checksumming a 404 page.
+          curl -fsSL -o package.tar.gz "${{ steps.get_release.outputs.url }}"
+          SHA256=$(sha256sum package.tar.gz | awk '{print $1}')
+          echo "sha256=$SHA256" >> "$GITHUB_OUTPUT"
+          echo "SHA256: $SHA256"
+          rm package.tar.gz
+
+      - name: Update Formula
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          URL="${{ steps.get_release.outputs.url }}"
+          SHA256="${{ steps.calculate_sha.outputs.sha256 }}"
+
+          sed -i "s|url \".*\"|url \"$URL\"|g" Formula/crible.rb
+          sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|g" Formula/crible.rb
+
+          echo "Formula updated successfully"
+
+      - name: Commit and push changes
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          git add Formula/crible.rb
+          git commit -m "chore: update crible to ${{ steps.get_release.outputs.tag }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: steps.check_update.outputs.needs_update == 'true'
+        run: |
+          echo "Formula updated to version ${{ steps.get_release.outputs.version }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Version**: ${{ steps.get_release.outputs.version }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **URL**: ${{ steps.get_release.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **SHA256**: ${{ steps.calculate_sha.outputs.sha256 }}" >> "$GITHUB_STEP_SUMMARY"

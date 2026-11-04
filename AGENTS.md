@@ -55,6 +55,14 @@ introduces a new one.
 - Download source tarball from GitHub Releases
 - Install scripts directly with `bin.install`
 
+### uv-environment formulas (copyable-pdf, crible)
+- Download the source tarball and `depends_on "uv"`; uv builds the Python
+  environment under `var/<name>` (not each user's cache), in `post_install_steps`
+  with `network_access: true`, and the command builds it on first run if that
+  could not happen
+- No `resource` blocks: wheels of the scientific stack (DuckDB, pyarrow, numpy)
+  are not built from source by Homebrew
+
 ### NPM package formulas (db-schema-toolkit)
 - Download from npmjs.org registry
 - Require `node` dependency
@@ -104,6 +112,7 @@ introduces a new one.
 | 9:30 | verbatim |
 | 10:30 | pixvault |
 | 11:30 | otpx |
+| every 2 h at :45 | crible |
 
 All formulas have an update workflow — never leave one manually updated
 (codeindex stayed frozen at v2.6.0 for 7 minor releases because of that).
@@ -271,6 +280,25 @@ an empty `XDG_STATE_HOME` in `testpath` prints `no snapshot yet` without touchin
 any terminal, and `termrevive skill` prints the bundled agent skill. `caveats`
 name the supported terminals and coding agents and point to `termrevive doctor --fix` (the settings Ghostty, iTerm2, kitty and
 Terminal.app need for a restore) and to `npx skills add maxgfr/termrevive`.
+
+Note for crible: a Python CLI (DuckDB, pyarrow, pandas) installed like
+copyable-pdf: the tag's source tarball, whose `uv.lock` pins every dependency,
+goes to `libexec` and `bin/crible` is a wrapper that runs
+`$(brew --prefix)/var/crible/venv/bin/crible`. The wrapper builds that venv with
+`uv sync --frozen --no-dev --no-editable --compile-bytecode` on a uv-managed
+Python 3.12 (in `var/crible/python`) when its `.crible-<version>` stamp is
+missing, under a `mkdir` lock because agents start several crible processes at
+once; `post_install_steps` runs `crible --version` to build it at install time
+(about 3 minutes the first time, less on upgrades thanks to `var/crible/uv-cache`).
+Homebrew moves `README.md` to the prefix, so the formula copies it into
+`libexec` itself: the package build reads it. The repo also publishes the
+rolling `data-latest` release (the dataset), so the update workflow picks the
+newest `^v[0-9]` release, not `releases/latest`. crible releases by
+semantic-release, often several times a day, and ultrastock pins its tags, so
+the workflow runs every 2 hours (at :45, off the other slots) instead of once a
+day. No `version` line: brew scans it from the `v…` URL and the workflow reads
+it back from there. The formula test checks `--version` against the formula's
+version, and `--help`.
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`
