@@ -47,7 +47,7 @@ introduces a new one.
 
 ## Patterns
 
-### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil, pdfvault, pixvault, aparte, nuee, obscura, hush, termrevive, verbatim, otpx)
+### Binary formulas (binance-historical, rshc, llm-models, codexify, scopelet, secretgate, troupe, veil, pdfvault, pixvault, aparte, nuee, obscura, hush, termrevive, verbatim, otpx, nubes)
 - Download pre-compiled binaries per platform from GitHub Releases
 - Platform detection: `on_macos do / on_arm do`, `on_intel do`, `on_linux do`
 
@@ -112,6 +112,7 @@ introduces a new one.
 | 9:30 | verbatim |
 | 10:30 | pixvault |
 | 11:30 | otpx |
+| 12:30 | nubes |
 | every 2 h at :45 | crible |
 
 All formulas have an update workflow — never leave one manually updated
@@ -256,6 +257,16 @@ carries `conflicts_with "obscura"`: homebrew-core ships an unrelated `obscura`
 `maxgfr/tap/obscura`. The formula test is offline: `obscura new` prints a
 studio link (`…/obscura/#s=…`) and `obscura selftest` runs a seal/open round
 trip, a wrong-passphrase refusal and a link round trip.
+
+Note for nubes: the maxgfr/nubes repo is a web app plus a Rust CLI released
+exactly like obscura and hush: only its `cli-v*` tags are CLI releases (the
+workflow picks the newest `^cli-v[0-9]` release), assets are named by Rust
+target triple (`nubes-aarch64-apple-darwin`), `SHA256SUMS` is not a Homebrew
+artifact, and the formula has no `version` line (brew scans it from the
+`cli-v…` URLs; the workflow reads the current one back from the first `url`).
+No homebrew-core formula or cask is named `nubes`, so there is no
+`conflicts_with`. The formula test is offline: `nubes selftest` replays the
+sync engine's test vectors and `nubes skill` prints the agent skill.
 
 Note for hush: the maxgfr/hush repo is a web app plus a Rust CLI released
 exactly like veil and obscura: only its `cli-v*` tags are CLI releases (the

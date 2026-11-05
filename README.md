@@ -381,6 +381,18 @@ otpx code github --copy                      # copied, cleared after 20 s
 otpx                                         # interactive view
 ```
 
+### [nubes](https://github.com/maxgfr/nubes)
+
+The CLI of [nubes](https://maxgfr.github.io/nubes/): your files in a GitHub repository you own. It keeps a folder in two-way sync with the repository (one commit per sync, conflicts kept as copies, every version in the history), alongside the web app you use from an iPad or any browser. It talks to the GitHub API with a fine-grained token; there is no nubes server.
+
+```bash
+brew install maxgfr/tap/nubes
+nubes login                          # fine-grained token: Contents read/write on the repo
+cd ~/Documents/cloud && nubes init you/nubes-files
+nubes sync                           # or: nubes watch, to keep syncing
+nubes log notes.md && nubes restore notes.md --at <commit>
+```
+
 ### [crible](https://github.com/maxgfr/crible)
 
 Self-hosted fundamental stock screener over a worldwide universe (about 150k listings, Europe in depth), keyless by design: a filter DSL, peer-group statistics, a REST API and an MCP server for agents. The published dataset downloads in about a minute, no crawl needed. The first install builds its Python environment from the release's locked dependencies (a few minutes, once per version).
