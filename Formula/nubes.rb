@@ -5,25 +5,25 @@ class Nubes < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/nubes/releases/download/cli-v1.0.0/nubes-aarch64-apple-darwin"
-      sha256 "1c0507b65b70759262ae153572bad12642066cf21643920bfb208b4d26b71a2c"
+      url "https://github.com/maxgfr/nubes/releases/download/cli-v1.2.0/nubes-aarch64-apple-darwin"
+      sha256 "b699f1e4c59cfa7c513272a65804874c810c4203630ad6bba73fe5aac4a4917b"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/nubes/releases/download/cli-v1.0.0/nubes-x86_64-apple-darwin"
-      sha256 "f0218fd2d8bfb94e5cf959a07f111b071b91f8f84dfbab22694736a9d4e8ccb7"
+      url "https://github.com/maxgfr/nubes/releases/download/cli-v1.2.0/nubes-x86_64-apple-darwin"
+      sha256 "8f9cb3964315309dae6eb22fb628a5a29c5433d8f931cc42601cf4be15c7a029"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/nubes/releases/download/cli-v1.0.0/nubes-aarch64-unknown-linux-gnu"
-      sha256 "76874dd06de58c51e530dbe2c49676176cf234e8931917e6239e12d0d3091172"
+      url "https://github.com/maxgfr/nubes/releases/download/cli-v1.2.0/nubes-aarch64-unknown-linux-gnu"
+      sha256 "e3e87c5bf387843db0ab43aef06b63441b85d77ae6c86f011eec10b07a378030"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/nubes/releases/download/cli-v1.0.0/nubes-x86_64-unknown-linux-gnu"
-      sha256 "dbbc0b78e3656e6ddea548b477b606957babc320901c6f1586a946e4d6433aad"
+      url "https://github.com/maxgfr/nubes/releases/download/cli-v1.2.0/nubes-x86_64-unknown-linux-gnu"
+      sha256 "08bc04f635d34fcdc17d050a83c789a0bc01cd356401e692ed7ef121f0526206"
     end
   end
 
