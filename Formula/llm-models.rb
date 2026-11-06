@@ -5,25 +5,25 @@ class LlmModels < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/llm-models/releases/download/v1.14.1/llm-models-macos-arm64"
-      sha256 "88506362582fdef5e14512a5ff4bc6ad4339a61b35a0386cb92e20d7afb5dbce"
+      url "https://github.com/maxgfr/llm-models/releases/download/v1.16.0/llm-models-macos-arm64"
+      sha256 "d62cf80cd8f24c3f946e2fecdc3293922d362193768283bc32f02ad408427b35"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/llm-models/releases/download/v1.14.1/llm-models-macos-x64"
-      sha256 "af656f9939016b772c7b62f59b59d21ac6c87f926825e5e7bc12ad9bbe5eb935"
+      url "https://github.com/maxgfr/llm-models/releases/download/v1.16.0/llm-models-macos-x64"
+      sha256 "ccc6ab9793e9f61581b444c2ce8f290c2c74a6562bba75f9f056180e0fa9816f"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/llm-models/releases/download/v1.14.1/llm-models-linux-arm64"
-      sha256 "7dd560675350f1f1c30ea7b1421794a645b982426f8f7c4ec7f8964236378173"
+      url "https://github.com/maxgfr/llm-models/releases/download/v1.16.0/llm-models-linux-arm64"
+      sha256 "435d4d22895c7ad7f2f4d6df756ce05324b79eef529b45776585ed35973f580f"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/llm-models/releases/download/v1.14.1/llm-models-linux-x64"
-      sha256 "7157c31076dad414e494814837a24185d6c84d5780c474bf13eb51eb64dca8b6"
+      url "https://github.com/maxgfr/llm-models/releases/download/v1.16.0/llm-models-linux-x64"
+      sha256 "73a91e7f24181b3eceb19256bd5f57c9cbbd31f93eb6e11b99a9d35a205168c2"
     end
   end
 
