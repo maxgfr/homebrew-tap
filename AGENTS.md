@@ -8,11 +8,35 @@ binaries or shell scripts from their respective GitHub repos.
 
 Every formula change (add, rename, remove, or new pattern) MUST update, in the
 same commit:
-- `README.md` — the formula's entry (link, description, install + usage example)
+- `README.md` — the formula's entry (link, description, notes, install + usage example)
 - this `AGENTS.md` — the cron table and, if relevant, the Patterns section
 
 No exceptions. `codeindex` was added (v2.0.1) without its README entry and
 without updating this file — that gap is exactly what this rule prevents.
+
+## RULE: one description, one format
+
+Each formula has exactly one description, and it is the same string everywhere:
+- `desc` in `Formula/<name>.rb`
+- the `desc` of the formula heredoc in `.github/workflows/update-<name>.yml`, when
+  the workflow regenerates the formula (otherwise the next release reverts it)
+- the line under the formula's heading in `README.md`
+
+Format:
+- Start with a capitalized verb in the imperative (`Download`, `Sync`, `Drive`),
+  never with an article, the formula name, or `CLI`/`Tool`
+- 80 characters at most (Homebrew's limit), one clause, no trailing period
+- Say what the tool does: no slogans, questions or claims (`instantly`, `universal`)
+- Plain punctuation: commas only as separators, no `—`, ` - `, `:` or `&`; no
+  serial comma; parentheses only for a short qualifier
+
+The README entry is, in this order: heading linking to the source repo, the
+description, optional `**Web app:**` and `**Note:**` lines, then one `bash` block
+with `brew install` and usage. A note holds only what the user needs at install
+time (name conflict, separate server, step to re-run after upgrading, platform
+limit); feature lists belong in the source repo's README.
+
+Run `brew style Formula/<name>.rb` after any description change.
 
 ## How to add a new formula
 
@@ -36,10 +60,9 @@ Create `Formula/<name>.rb` with:
 
 ### 3. Update README.md and AGENTS.md (mandatory, same commit)
 
-Add the new formula entry to README.md in alphabetical or logical order with:
-- Link to source repo
-- One-line description
-- `brew install` and usage example
+Add the new formula entry to README.md under its category, in alphabetical
+order, following the format in "RULE: one description, one format". If no
+category fits, add one and list it in the README's Contents.
 
 Then update this AGENTS.md: add the formula to the cron table (or to the
 "manually updated" list if it has no workflow) and to Patterns if it

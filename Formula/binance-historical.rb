@@ -1,5 +1,5 @@
 class BinanceHistorical < Formula
-  desc "Download historical klines from Binance API"
+  desc "Download historical klines from the Binance API as JSON or CSV"
   homepage "https://github.com/maxgfr/binance-historical"
   license "MIT"
 

@@ -1,5 +1,5 @@
 class Pixvault < Formula
-  desc "Private photo tools: compress, convert HEIC/RAW/AVIF, resize, strip GPS, AI"
+  desc "Compress, convert, resize and strip GPS from photos locally, with AI tools"
   homepage "https://github.com/maxgfr/pixvault"
   license "MIT"
 

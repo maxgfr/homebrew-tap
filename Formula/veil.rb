@@ -1,5 +1,5 @@
 class Veil < Formula
-  desc "Peer-to-peer, end-to-end encrypted file transfer and chat in Veil rooms"
+  desc "Transfer files and chat peer-to-peer with end-to-end encryption in Veil rooms"
   homepage "https://github.com/maxgfr/veil"
   license "MIT"
 

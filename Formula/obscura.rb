@@ -1,5 +1,5 @@
 class Obscura < Formula
-  desc "Open, check and repair recordings from the obscura web studio"
+  desc "Decrypt, check and repair recordings from the obscura web studio"
   homepage "https://github.com/maxgfr/obscura"
   license "MIT"
 

@@ -81,7 +81,7 @@ jobs:
 
           cat > Formula/sift.rb << EOF
           class Sift < Formula
-            desc "Will this model fit and run fast on your machine? Know before you download it"
+            desc "Check whether an LLM fits and runs fast on your machine before downloading it"
             homepage "https://github.com/maxgfr/sift"
             license "MIT"
 

@@ -1,5 +1,5 @@
 class Codexify < Formula
-  desc "Codex toolbelt for profiles, notifications, backup, and keep-awake"
+  desc "Manage Codex profiles, notifications, config backups and keep-awake sessions"
   homepage "https://github.com/maxgfr/codexify"
   license "MIT"
 

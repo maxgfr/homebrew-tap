@@ -1,5 +1,5 @@
 class Troupe < Formula
-  desc "Drive a self-hosted Troupe studio (AI actor videos) from the terminal"
+  desc "Drive a self-hosted Troupe studio for AI actor videos from the terminal"
   homepage "https://github.com/maxgfr/troupe"
   license "MIT"
 

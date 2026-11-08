@@ -1,5 +1,5 @@
 class ClaudeCodeSwitch < Formula
-  desc "Minimal provider switching for Claude Code"
+  desc "Switch Claude Code between Anthropic, OpenRouter and other API providers"
   homepage "https://github.com/maxgfr/claude-code-switch"
   url "https://github.com/maxgfr/claude-code-switch/archive/refs/tags/v1.14.0.tar.gz"
   sha256 "57c78b8504ec66730cc144107790f04b2e398443aa13f60b09d31823e9b66818"
