@@ -1,5 +1,5 @@
 class Codeindex < Formula
-  desc "Zero-dependency repo-indexing engine: link-graph, symbols, callers, MCP server"
+  desc "Index the symbols, imports, callers and link graph of a repo, with MCP server"
   homepage "https://github.com/maxgfr/codeindex"
   url "https://github.com/maxgfr/codeindex/archive/refs/tags/v2.31.14.tar.gz"
   sha256 "07e58768f93b37516b20a4f4f047e17506425317c7f14e01119f8031ba13df87"

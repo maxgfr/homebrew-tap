@@ -1,5 +1,5 @@
 class Crible < Formula
-  desc "Self-hosted fundamental stock screener with a CLI, an API and an MCP server"
+  desc "Screen stocks on fundamentals with a self-hosted CLI, API and MCP server"
   homepage "https://github.com/maxgfr/crible"
   url "https://github.com/maxgfr/crible/archive/refs/tags/v0.17.0.tar.gz"
   sha256 "19115a2570bbc7ce618c6de6e96effe66ada72988e7d2ac7712004587502f7fe"

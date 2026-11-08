@@ -1,5 +1,5 @@
 class Scopelet < Formula
-  desc "Compute before you send: local, recoverable evidence queries for agents"
+  desc "Replace oversized agent command output with local, recoverable bounded views"
   homepage "https://github.com/maxgfr/scopelet"
   license "MIT"
 

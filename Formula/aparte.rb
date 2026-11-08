@@ -1,5 +1,5 @@
 class Aparte < Formula
-  desc "Command-line companion of the Aparté private, end-to-end encrypted AI chat"
+  desc "Read and write the encrypted Aparté AI chat format from the terminal"
   homepage "https://github.com/maxgfr/aparte"
   license "MIT"
 

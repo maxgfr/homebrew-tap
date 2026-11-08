@@ -1,5 +1,5 @@
 class Otpx < Formula
-  desc "2FA codes in the terminal and the browser, from one encrypted synced vault"
+  desc "Generate 2FA codes in the terminal and browser from one encrypted synced vault"
   homepage "https://github.com/maxgfr/otpx"
   license any_of: ["MIT", "Apache-2.0"]
 

@@ -1,5 +1,5 @@
 class Secretgate < Formula
-  desc "Local secrets firewall for coding agents (Claude Code, Codex, OpenCode)"
+  desc "Redact secrets locally before they reach Claude Code, Codex or OpenCode"
   homepage "https://github.com/maxgfr/secretgate"
   license "MIT"
 

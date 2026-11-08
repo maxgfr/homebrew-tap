@@ -1,5 +1,5 @@
 class DbSchemaToolkit < Formula
-  desc "Parse, export, and analyze database schemas from the CLI"
+  desc "Parse, export and analyze database schemas from the terminal"
   homepage "https://github.com/maxgfr/db-schema-viewer"
   url "https://registry.npmjs.org/db-schema-toolkit/-/db-schema-toolkit-3.0.1.tgz"
   sha256 "b1a973d4856397d9c2bbbc5ce10f7f87011815a6616bd9be6b06b6c81c66a802"

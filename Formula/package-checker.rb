@@ -1,5 +1,5 @@
 class PackageChecker < Formula
-  desc "Flexible, lightweight shell script to detect vulnerable npm packages"
+  desc "Detect vulnerable npm packages with a lightweight shell script"
   homepage "https://github.com/maxgfr/package-checker.sh"
   url "https://github.com/maxgfr/package-checker.sh/archive/refs/tags/v1.15.22.tar.gz"
   sha256 "b1ba7079ca4b84abf71ca52faf37f46b2e985bd9eabae3e862b84402c52e092f"

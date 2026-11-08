@@ -1,5 +1,5 @@
 class Pdfvault < Formula
-  desc "Private PDF and image tools: compress, merge, split, OCR, protect, convert"
+  desc "Compress, merge, split, OCR, protect and convert PDFs and images locally"
   homepage "https://github.com/maxgfr/pdfvault"
   license "MIT"
 

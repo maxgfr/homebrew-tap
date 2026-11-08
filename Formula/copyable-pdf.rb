@@ -1,5 +1,5 @@
 class CopyablePdf < Formula
-  desc "Convert PDF to images, OCR, and merge back to searchable PDF"
+  desc "Make PDF text copyable by adding a Tesseract OCR layer"
   homepage "https://github.com/maxgfr/copyable-pdf"
   url "https://github.com/maxgfr/copyable-pdf/archive/refs/tags/v4.0.0.tar.gz"
   sha256 "8d7ced17382af4a6959cb395c93218e57036bd967cdde233117961b64b1fff5b"

@@ -1,5 +1,5 @@
 class Webindex < Formula
-  desc "Web-retrieval engine: URL to clean text (HTML, PDF, office), MCP server"
+  desc "Extract clean text from URLs, PDFs and office files, with an MCP server"
   homepage "https://github.com/maxgfr/webindex"
   url "https://github.com/maxgfr/webindex/archive/refs/tags/v1.37.0.tar.gz"
   sha256 "e9eda44f70f40076b29435cac1c40ae61b7ea56773124465797009bef44d5a0a"

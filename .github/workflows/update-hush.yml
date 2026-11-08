@@ -81,7 +81,7 @@ jobs:
 
           cat > Formula/hush.rb << EOF
           class Hush < Formula
-            desc "Post-quantum, end-to-end encrypted chat and file transfer"
+            desc "Chat and transfer files with post-quantum end-to-end encryption"
             homepage "https://github.com/maxgfr/hush"
             license "MIT"
 

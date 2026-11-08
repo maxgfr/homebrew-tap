@@ -1,5 +1,5 @@
 class Nuee < Formula
-  desc "Private, short-lived cloud from one link: verified compute, files and hosting"
+  desc "Share compute, files and hosting over a private short-lived cloud from one link"
   homepage "https://github.com/maxgfr/nuee"
   license any_of: ["MIT", "Apache-2.0"]
 

@@ -1,5 +1,5 @@
 class LlmModels < Formula
-  desc "Fetch latest LLM models from OpenRouter and models.dev APIs"
+  desc "Find, compare and price LLM models from OpenRouter and models.dev"
   homepage "https://github.com/maxgfr/llm-models"
   license "MIT"
 
