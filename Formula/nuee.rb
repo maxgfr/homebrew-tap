@@ -5,25 +5,25 @@ class Nuee < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/nuee/releases/download/v0.3.1/nuee-aarch64-apple-darwin"
-      sha256 "f7796618de3b575d7c4d7742c9bf3e02bce79385d9f14f2a20059e4f9127539e"
+      url "https://github.com/maxgfr/nuee/releases/download/v0.8.0/nuee-aarch64-apple-darwin"
+      sha256 "0b003009baf48650d4b9fbf2e486fa59d9b7a477883a3f2e69782f7b902c7ac4"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/nuee/releases/download/v0.3.1/nuee-x86_64-apple-darwin"
-      sha256 "6161ce7fa5c2421552f8fbb99545adf6c9d7dfcebd79b01c6daec475b25a6b1f"
+      url "https://github.com/maxgfr/nuee/releases/download/v0.8.0/nuee-x86_64-apple-darwin"
+      sha256 "d8eba6125b946b6aa4f3469eb01350705fe1fd55da7faff5a070d82749f90e63"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/nuee/releases/download/v0.3.1/nuee-aarch64-unknown-linux-gnu"
-      sha256 "05010ce313b9a09062b3007c1f1bfea83b2037dbc05ae15801570575c18b317c"
+      url "https://github.com/maxgfr/nuee/releases/download/v0.8.0/nuee-aarch64-unknown-linux-gnu"
+      sha256 "ad66279a0237c108c5d9b0293669eb7af2a2b3db1266bf316d8c0ddd9799ee04"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/nuee/releases/download/v0.3.1/nuee-x86_64-unknown-linux-gnu"
-      sha256 "8316ddeff49c743ee78b52813313165148cfee45642f6e2db95796f82c659024"
+      url "https://github.com/maxgfr/nuee/releases/download/v0.8.0/nuee-x86_64-unknown-linux-gnu"
+      sha256 "b39fc4d08935d0b4799baca5d36a59f6c58b418a088efedca87ad4c99c63cb80"
     end
   end
 
