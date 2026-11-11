@@ -1,8 +1,8 @@
 class GitRecap < Formula
   desc "Generate monthly commit recaps with AI summaries and bullet points"
   homepage "https://github.com/maxgfr/git-recap"
-  url "https://github.com/maxgfr/git-recap/archive/refs/tags/v1.7.0.tar.gz"
-  sha256 "417532ac5ff1eb37f0a2b50be2fa3311f900576457f7882e71fc69349f621b0c"
+  url "https://github.com/maxgfr/git-recap/archive/refs/tags/v2.0.3.tar.gz"
+  sha256 "0c3ae7baf3a7c65008c5b1b6c02c3c89a91bd277ea88e17eaac1e719a0c17160"
   license "MIT"
 
   depends_on "gh"
