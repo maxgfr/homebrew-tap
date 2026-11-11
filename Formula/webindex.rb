@@ -1,8 +1,8 @@
 class Webindex < Formula
   desc "Extract clean text from URLs, PDFs and office files, with an MCP server"
   homepage "https://github.com/maxgfr/webindex"
-  url "https://github.com/maxgfr/webindex/archive/refs/tags/v1.37.1.tar.gz"
-  sha256 "c68bd84910fad51d7acaf0ab95ab3c99d31a93e6742c063596fc53719beaf4df"
+  url "https://github.com/maxgfr/webindex/archive/refs/tags/v1.37.2.tar.gz"
+  sha256 "e377d5792b8e0e45ebc6e1586d216ae65ee752b39e487809c354c83bbc25199f"
   license "MIT"
 
   depends_on "node"
