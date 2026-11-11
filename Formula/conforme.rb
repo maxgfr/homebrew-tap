@@ -5,25 +5,25 @@ class Conforme < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/conforme/releases/download/v5.3.3/conforme-macos-arm64"
-      sha256 "e9c157358e37c05f509713a382d0a69dcf9091eaa0ab90a4698b7c188ae6b4a2"
+      url "https://github.com/maxgfr/conforme/releases/download/v5.3.5/conforme-macos-arm64"
+      sha256 "19d619e1dac9ee313f7dc72123d60e9ed9df21666389c62da4b9cac7d1778730"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/conforme/releases/download/v5.3.3/conforme-macos-x64"
-      sha256 "52d663f9ec2944e98582056e3d0d068b00e090d48c503fd98fb19f22ee351bd6"
+      url "https://github.com/maxgfr/conforme/releases/download/v5.3.5/conforme-macos-x64"
+      sha256 "1948038a8d87072b7ecb678fc667f07ba761ebc1041ecb5b109f2c557642d181"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/conforme/releases/download/v5.3.3/conforme-linux-arm64"
-      sha256 "bfd7dc5d0e3e412efcbd32241e5952e54e359c4b985024fd7fcb658e548be956"
+      url "https://github.com/maxgfr/conforme/releases/download/v5.3.5/conforme-linux-arm64"
+      sha256 "172d73fa719f7102b310ec47a88a31e0a8f18d9a6b5258c96cd82670ad3e906a"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/conforme/releases/download/v5.3.3/conforme-linux-x64"
-      sha256 "2348c13b41a683d09318c29dcc712224530869cc80aa47caf0097c189152ca3b"
+      url "https://github.com/maxgfr/conforme/releases/download/v5.3.5/conforme-linux-x64"
+      sha256 "526020c7a52ccf7bbdaeef0b08328535ba4a7ed03b83edb3c59c41b43639509c"
     end
   end
 
