@@ -1,8 +1,8 @@
 class Codeindex < Formula
   desc "Index the symbols, imports, callers and link graph of a repo, with MCP server"
   homepage "https://github.com/maxgfr/codeindex"
-  url "https://github.com/maxgfr/codeindex/archive/refs/tags/v2.31.17.tar.gz"
-  sha256 "0095c63fb3a1267cdb2a0842866362a90ea3ea64fb3b73cbcc519355c8a1ad1a"
+  url "https://github.com/maxgfr/codeindex/archive/refs/tags/v2.31.20.tar.gz"
+  sha256 "a4d662e2e017e344629a0af75e99ab041766e7b4f4362379f16e813c1c761630"
   license "MIT"
 
   depends_on "node"
