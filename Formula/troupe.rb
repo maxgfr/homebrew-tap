@@ -5,25 +5,25 @@ class Troupe < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/troupe/releases/download/v0.8.0/troupe-macos-arm64"
-      sha256 "fa2adb1a77cf11ac821480d2f34705a26ba6491063bd36bd0310e38425dd8ac6"
+      url "https://github.com/maxgfr/troupe/releases/download/v0.9.0/troupe-macos-arm64"
+      sha256 "0a73ef68ada2a41f34d5eaa920494196732144f9c7c184fbd1beb809043ff5ec"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/troupe/releases/download/v0.8.0/troupe-macos-x64"
-      sha256 "b5cf5d23768985dcbe84bbe50b811833c99b03085c2b7979fee6dde2dccb1197"
+      url "https://github.com/maxgfr/troupe/releases/download/v0.9.0/troupe-macos-x64"
+      sha256 "406474ef27c906bd9241a1cd4f5c2be072e2b1986d09f9ec5e5feb6c6259ee7a"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/troupe/releases/download/v0.8.0/troupe-linux-arm64"
-      sha256 "3d089d5fbdb53b559b77fec152e0c0d6baef06f4cb3ef0dd20bd1a2371ef5559"
+      url "https://github.com/maxgfr/troupe/releases/download/v0.9.0/troupe-linux-arm64"
+      sha256 "0b436f7b88bdf84193c69e0adb9bfe21f55a78d4f01a4ae7bcbd3586c9db2329"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/troupe/releases/download/v0.8.0/troupe-linux-x64"
-      sha256 "389e9a9e22dff1ef29a38cd8c3b703a4ff0b6461740912f7d9ac4bf8173d2e59"
+      url "https://github.com/maxgfr/troupe/releases/download/v0.9.0/troupe-linux-x64"
+      sha256 "42d6535d153bcf23d082181a9060e12bb2630eb5108468bc36f4cc24e2fb5c3c"
     end
   end
 
