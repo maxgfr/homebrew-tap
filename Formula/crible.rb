@@ -1,8 +1,8 @@
 class Crible < Formula
   desc "Screen stocks on fundamentals with a self-hosted CLI, API and MCP server"
   homepage "https://github.com/maxgfr/crible"
-  url "https://github.com/maxgfr/crible/archive/refs/tags/v0.18.0.tar.gz"
-  sha256 "722dfdcd1ffd222a9198c99829b49ded223828271881300056d66a56c31546ed"
+  url "https://github.com/maxgfr/crible/archive/refs/tags/v0.18.1.tar.gz"
+  sha256 "2a424df74686eddc9252305d12b2b1e9d8fd4fa5840a6e0ac110d23e62570f36"
   license "MIT"
 
   # crible is Python (DuckDB, pyarrow, pandas): uv builds its environment from
