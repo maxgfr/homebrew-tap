@@ -5,25 +5,25 @@ class Scopelet < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/scopelet/releases/download/v1.2.6/scopelet-aarch64-apple-darwin"
-      sha256 "ad1fe0a9c7fbf119e74873fb18a21972db938c598fbe69cdc575da3fccbd1f00"
+      url "https://github.com/maxgfr/scopelet/releases/download/v1.2.12/scopelet-aarch64-apple-darwin"
+      sha256 "a06e0fc21b460ad022643e07701700d04d1e33fc3553990d50806c021b989a78"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/scopelet/releases/download/v1.2.6/scopelet-x86_64-apple-darwin"
-      sha256 "ff68d375ab0ba3f76ea914adb8c9f5f90825b3f6420333f0f3dc6452f5dd599c"
+      url "https://github.com/maxgfr/scopelet/releases/download/v1.2.12/scopelet-x86_64-apple-darwin"
+      sha256 "5c3b099424cb3649c664c79d3e3ad81291a28c7048f673aaadc312c533b0032e"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/scopelet/releases/download/v1.2.6/scopelet-aarch64-unknown-linux-gnu"
-      sha256 "374a362c427d4a1d810e381bb8579b99e8a02c11b3d3bf2b8d6cce62a41b174b"
+      url "https://github.com/maxgfr/scopelet/releases/download/v1.2.12/scopelet-aarch64-unknown-linux-gnu"
+      sha256 "5c7af159cd4389c0a43c5e99f0297daedce87c5887f3867d9478947c625117b4"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/scopelet/releases/download/v1.2.6/scopelet-x86_64-unknown-linux-gnu"
-      sha256 "b71b44a6e9dab72b0317b046e3da7dbd860cadc8950b36f2b1077751e2dcd216"
+      url "https://github.com/maxgfr/scopelet/releases/download/v1.2.12/scopelet-x86_64-unknown-linux-gnu"
+      sha256 "4e927fb7626e0ebaab1e54522a809977c939d2da5e2ebdcb351b77f26cbfa649"
     end
   end
 
