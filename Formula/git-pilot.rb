@@ -1,8 +1,8 @@
 class GitPilot < Formula
   desc "Automate git with AI-written commits, conflict resolution and auto-rebase"
   homepage "https://github.com/maxgfr/git-pilot"
-  url "https://github.com/maxgfr/git-pilot/archive/refs/tags/v2.1.0.tar.gz"
-  sha256 "de40933f62f6bf96494a2c5559f0f72d6ce9f2aa8f0dadb0d093a160bd08210d"
+  url "https://github.com/maxgfr/git-pilot/archive/refs/tags/v2.2.0.tar.gz"
+  sha256 "2d49216ebc130d114ef955be1f9634eddca0730e87401824c5140cfbffff08bd"
   license "MIT"
 
   depends_on "curl"
