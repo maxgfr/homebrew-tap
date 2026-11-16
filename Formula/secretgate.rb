@@ -5,25 +5,25 @@ class Secretgate < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/maxgfr/secretgate/releases/download/v1.8.1/secretgate-macos-arm64"
-      sha256 "828b2cedf1e837841abb42f9a4b13aa295b1cd5979dd1574e663951489aed732"
+      url "https://github.com/maxgfr/secretgate/releases/download/v1.9.0/secretgate-macos-arm64"
+      sha256 "be78c57c98db7df8d19cc92d22eca38310f5e34811423821f3e3ae155d4a846d"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/secretgate/releases/download/v1.8.1/secretgate-macos-x64"
-      sha256 "b8e581fd233df3da03a6093524aff6b37bb57a2de17d2baeb8381001a674ea1d"
+      url "https://github.com/maxgfr/secretgate/releases/download/v1.9.0/secretgate-macos-x64"
+      sha256 "547b27c1ca0685262e84b6acb6e33a9911cefc7162f30b1499b25c8ca3a0e5d2"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/maxgfr/secretgate/releases/download/v1.8.1/secretgate-linux-arm64"
-      sha256 "272d9bd55ed33885c1a16c05bd5254f19b3c3d51b4c1205ebba585abcaa5c986"
+      url "https://github.com/maxgfr/secretgate/releases/download/v1.9.0/secretgate-linux-arm64"
+      sha256 "0695d4114210df5681d7b6276323969c2998e0998650e287353530e2310a0276"
     end
 
     on_intel do
-      url "https://github.com/maxgfr/secretgate/releases/download/v1.8.1/secretgate-linux-x64"
-      sha256 "8e93094438f2416b3785f17d0316ba745f718149f701fd49f3c5a387aa54c9bc"
+      url "https://github.com/maxgfr/secretgate/releases/download/v1.9.0/secretgate-linux-x64"
+      sha256 "1a3ae7d7acdad5860e6bfd5091e8f3f51d34e042f6d2f135b2bb2d659fa00721"
     end
   end
 
