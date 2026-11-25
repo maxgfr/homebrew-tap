@@ -13,6 +13,7 @@ Personal Homebrew tap for [@maxgfr](https://github.com/maxgfr)'s projects.
   - [Torrents](#torrents)
   - [Developer tools](#developer-tools)
   - [Data and monitoring](#data-and-monitoring)
+  - [Marketplaces](#marketplaces)
 - [Uninstalling](#uninstalling)
 
 ## Installation
@@ -468,6 +469,22 @@ brew install maxgfr/tap/web-watcher
 web-watcher --help
 # Watch a page, ignoring the lines that always move
 web-watcher --once -m website --ignore 'ago|points' --baseline-file /tmp/hn.txt https://news.ycombinator.com/
+```
+
+### Marketplaces
+
+#### [leboncoin-cdp](https://github.com/maxgfr/leboncoin-cdp)
+
+Manage Leboncoin listings from markdown and publish them via your browser
+
+**Note:** the scraper and the CDP commands need a Chromium-based browser (Chrome or Brave); the agent skill installs with `npx skills add maxgfr/leboncoin-cdp`.
+
+```bash
+brew install maxgfr/tap/leboncoin-cdp
+leboncoin doctor                          # read-only check against the live site
+leboncoin new my-bike --title "City bike" --price 120
+leboncoin validate my-bike
+leboncoin publish my-bike                 # stops on the final review, you submit
 ```
 
 ## Uninstalling

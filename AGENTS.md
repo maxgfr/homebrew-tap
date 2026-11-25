@@ -74,7 +74,7 @@ introduces a new one.
 - Download pre-compiled binaries per platform from GitHub Releases
 - Platform detection: `on_macos do / on_arm do`, `on_intel do`, `on_linux do`
 
-### Source/script formulas (git-recap, snatch, subtool, swarmdeck, etc.)
+### Source/script formulas (git-recap, snatch, subtool, swarmdeck, leboncoin-cdp, etc.)
 - Download source tarball from GitHub Releases
 - Install scripts directly with `bin.install`
 
@@ -136,6 +136,7 @@ introduces a new one.
 | 10:30 | pixvault |
 | 11:30 | otpx |
 | 12:30 | nubes |
+| 13:30 | leboncoin-cdp |
 | every 2 h at :45 | crible |
 
 All formulas have an update workflow — never leave one manually updated
@@ -333,6 +334,18 @@ the workflow runs every 2 hours (at :45, off the other slots) instead of once a
 day. No `version` line: brew scans it from the `v…` URL and the workflow reads
 it back from there. The formula test checks `--version` against the formula's
 version, and `--help`.
+
+Note for leboncoin-cdp: a source formula like snatch, but with no npm step:
+`scripts/leboncoin.mjs` is a zero-dependency Node ESM bundle (node >= 18).
+`scripts`, `assets`, `references` and `SKILL.md` go to `libexec` with their
+relative layout kept, because the bundle resolves its example annonce as
+`../assets/example-annonce` from `import.meta.url` (`doctor` without a slug
+walks the deposit wizard with it). `bin/leboncoin` is a `write_env_script`
+wrapper that runs the bundle on Homebrew's node. Like swarmdeck it has no `version` line, and the
+workflow reads the current tag from `url`. The formula test is offline:
+`--version` against the tag, `--help`, and `validate` on the bundled example
+annonce. `caveats` name the Chromium-based browser (Chrome or Brave) the
+scraper and CDP commands drive, and point to `npx skills add maxgfr/leboncoin-cdp`.
 
 ## Conventions
 - Workflow files: `update-<formula-name>.yml`
