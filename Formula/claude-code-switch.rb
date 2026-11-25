@@ -1,8 +1,8 @@
 class ClaudeCodeSwitch < Formula
   desc "Switch Claude Code between Anthropic, OpenRouter and other API providers"
   homepage "https://github.com/maxgfr/claude-code-switch"
-  url "https://github.com/maxgfr/claude-code-switch/archive/refs/tags/v1.14.0.tar.gz"
-  sha256 "57c78b8504ec66730cc144107790f04b2e398443aa13f60b09d31823e9b66818"
+  url "https://github.com/maxgfr/claude-code-switch/archive/refs/tags/v1.14.2.tar.gz"
+  sha256 "af18e541db0e6da1d59ae5909d3225552b819a5a26668cc73980672877ba68f3"
   license "MIT"
 
   # Needed by `ccs notify` (desktop notifications)
